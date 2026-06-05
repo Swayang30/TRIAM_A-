@@ -1,0 +1,1762 @@
+:root {
+--accent: #e48915 !important;
+--primary: #191919 !important;
+--dark-blue-color:  !important;
+--secondary: #555 !important;
+--primary-font: Encode Sans Condensed, sans-serif;
+--secondary-font: Roboto, sans-serif;
+}
+
+.cs_header_topbar {
+  
+  padding: 6px 0;
+  font-size: 14px;
+  backgroud:orange;
+  background: #f7f7f7;
+}
+
+.midle-banner .cs_height_140 {
+    height: 614px;
+}
+
+.uc-left h2{ color:#fff;}
+
+
+#hero-1768992959584{ margin-top: 133px;}
+
+.cs_header_topbar_in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cs_header_topbar_right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.cs_header_topbar_item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cs_header_topbar_item:hover {
+  opacity: 0.8;
+}
+
+/* Mobile hide (optional) */
+@media (max-width: 991px) {
+  .cs_header_topbar {
+    display: none;
+  }
+}
+
+
+/* ===== RESET (SCOPED) ===== */
+.sv-section *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== SECTION WITH TOP BG ===== */
+.sv-section{
+  position:relative;
+  padding:90px 0;
+  background:#fff;
+  overflow:hidden;
+}
+
+/* TOP BACKGROUND IMAGE */
+.sv-section::before{
+  content:&quot;&quot;;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:260px;
+  background:
+    url(&quot;https://images.unsplash.com/photo-1520607162513-77705c0f0d4a&quot;)
+    center/cover no-repeat;
+  opacity:0.08;
+  z-index:1;
+}
+
+/* INNER WRAP */
+.sv-wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:0 15px;
+  position:relative;
+  z-index:2;
+}
+
+/* ===== HEADER ===== */
+.sv-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:60px;
+}
+
+.sv-subtitle{
+  color:#ff5a00;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:1px;
+}
+
+.sv-title{
+  font-size:42px;
+  color:#0b2c3d;
+  margin-top:10px;
+}
+
+.sv-btn{
+  background:#ff5a00;
+  color:#fff;
+  text-decoration:none;
+  padding:14px 28px;
+  font-size:14px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* ===== MAIN GRID ===== */
+.sv-grid{
+  display:grid;
+  grid-template-columns:260px 1fr 1fr;
+  gap:40px;
+  align-items:start;
+}
+
+/* ===== LEFT LIST ===== */
+.sv-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.sv-item{
+  padding:16px 18px;
+  border:1px solid #e5e5e5;
+  font-size:15px;
+  background:#fff;
+}
+
+.sv-item.active{
+  background:#ff5a00;
+  color:#fff;
+  border-color:#ff5a00;
+}
+
+/* ===== IMAGE ===== */
+.sv-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ===== RIGHT CONTENT ===== */
+.sv-content h3{
+  font-size:30px;
+  color:#0b2c3d;
+  margin-bottom:20px;
+}
+
+.sv-content p{
+  color:#555;
+  line-height:1.7;
+  margin-bottom:25px;
+}
+
+.sv-checklist{
+  list-style:none;
+  margin-bottom:25px;
+}
+
+.sv-checklist li{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  font-size:15px;
+}
+
+.sv-check{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:2px solid #0b6b6f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:#0b6b6f;
+}
+
+.sv-read{
+  color:#000;
+  font-weight:600;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:992px){
+  .sv-header{
+    flex-direction:column;
+    gap:25px;
+  }
+
+  .sv-grid{
+    grid-template-columns:1fr;
+  }
+
+  .sv-section::before{
+    height:180px;
+  }
+}
+
+
+
+
+.wp-section *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== SECTION SPLIT BG ===== */
+.wp-section{
+  position:relative;
+  display:flex;
+  min-height:800px;
+}
+
+#contactwithformbuilder-1772200113725::before {
+    content: &quot;&quot;;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/1PjLwZ99ZySgB5BpSiOl7Q58Gdp0V7GWKckfG4eS.jpg);
+    background-repeat: no-repeat;
+}
+
+#contactwithformbuilder-1772200113725{ position: relative !important;}
+
+#contactwithformbuilder-1772200113725::after{
+  content:&quot;&quot;;
+  position:absolute;
+  right:0;
+  top:0;
+  width:50%;
+  height:100%;
+  background:url(&quot;https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/hBt7ktJdF2QJ2p2g9NkaCSafnVctJxL9T9UsQgiE.jpg&quot;) center/cover no-repeat;
+}
+
+
+#contactwithformbuilder-1772200113725 .cs_pl_75 {
+    padding-left: 75px;
+    position: relative;
+    z-index: 44;
+    background: #fff;
+    padding: 45px;
+    border-top: 5px solid #ff5a00;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 88%;
+    margin-left: 44px;
+    margin-top: 51px;
+    margin-bottom: 44px;
+}
+
+.cs_contact_form input, .cs_contact_form textarea {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd !important;
+    border-radius: 6px;
+}
+
+/* OVERLAY */
+.wp-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.92);
+  z-index:1;
+}
+
+/* ===== INNER WRAP ===== */
+.wp-wrap{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:80px 15px;
+}
+
+.wp-flex{
+  display:flex;
+  gap:70px;
+}
+
+/* ===== LEFT CONTENT ===== */
+.wp-left{
+  flex:1;
+}
+
+.wp-subtitle{
+  color:#ff5a00;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:1px;
+}
+
+.wp-title{
+  font-size:38px;
+  margin:15px 0 50px;
+  color:#0b2c3d;
+}
+
+/* TIMELINE */
+.wp-timeline{
+  position:relative;
+}
+
+.wp-timeline::before{
+  content:&quot;&quot;;
+  position:absolute;
+  left:28px;
+  top:0;
+  bottom:0;
+  border-left:2px dotted #aaa;
+}
+
+.wp-item{
+  display:flex;
+  gap:40px;
+  margin-bottom:45px;
+}
+
+.wp-step{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #ff5a00;
+  color:#ff5a00;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  z-index:2;
+}
+
+.wp-content h4{
+  font-size:20px;
+  margin-bottom:8px;
+  color:#0b2c3d;
+}
+
+.wp-content p{
+  font-size:15px;
+  color:#555;
+  line-height:1.6;
+}
+
+/* ===== RIGHT CONTENT ===== */
+.wp-right{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+}
+
+/* FORM CARD */
+.wp-form{
+  background:#fff;
+  padding:45px;
+  border-top:5px solid #ff5a00;
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  width:100%;
+  max-width:460px;
+}
+
+.wp-form h3{
+  font-size:26px;
+  margin-bottom:25px;
+  color:#0b2c3d;
+}
+
+.wp-form input,
+.wp-form textarea{
+  width:100%;
+  padding:13px;
+  margin-bottom:15px;
+  border:1px solid #ddd;
+}
+
+.wp-form textarea{
+  height:120px;
+  resize:none;
+}
+
+.wp-form button{
+  background:#ff5a00;
+  color:#fff;
+  border:none;
+  padding:14px 34px;
+  cursor:pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:992px){
+  .wp-section{
+    flex-direction:column;
+  }
+
+  .wp-section::before,
+  .wp-section::after{
+    width:100%;
+    height:50%;
+  }
+
+  .wp-flex{
+    flex-direction:column;
+  }
+
+  .wp-right{
+    justify-content:center;
+    margin-top:40px;
+  }
+}
+
+
+#cta-1768991983223 .cs_bg_filed {    
+    background-size: contain !important;
+}
+
+#hero-1769518644323 .cs_bg_filed {    
+    background-size: cover !important;
+}
+/* ======================================================
+   MEGA MENU – BASE &amp; FULL WIDTH FIX
+====================================================== */
+
+.has-mega {
+  position: static; /* allows true full-width dropdown */
+}
+
+/* Main white panel */
+.mega-menu.full-width {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 100vw;
+  background: #ffffff;      /* pure white */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+  padding: 30px 0;
+  z-index: 999;
+  display: none;
+}
+
+/* show on hover */
+.has-mega:hover .mega-menu {
+  display: block;
+}
+
+/* keep inner content centered like your site */
+.mega-menu .container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* ======================================================
+   GRID LAYOUT – 4 COLUMNS (SRMB STYLE)
+   Left list | Center content | Image | Essential panel
+====================================================== */
+
+.mega-4col {
+  display: grid;
+  grid-template-columns: 400px 420px 320px;
+  gap: 30px;
+  align-items: start;
+}
+
+/* ======================================================
+   LEFT VERTICAL TABS
+====================================================== */
+
+.mega-left-list {
+  border-right: 1px solid #e5e7eb;
+  padding-right: 20px;
+}
+
+/* each row */
+.mega-item {
+  padding: 12px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* row layout with icon */
+.mega-item-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+/* icon box (like SRMB) */
+.mega-icon {
+  width: 28px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* title */
+.mega-item h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #223358;
+}
+
+/* description */
+.mega-item p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #555;
+}
+
+/* active tab highlight (exact SRMB feel) */
+.mega-item.active {
+  background: #f2f4f8;
+}
+
+/* ======================================================
+   CENTER AREA – IMAGE + TEXT (DYNAMIC PREVIEW)
+====================================================== */
+
+.mega-center {
+  padding-right: 10px;
+}
+
+.mega-main-banner {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+.mega-center h2 {
+  font-size: 26px;
+  color: #223358;
+  margin: 12px 0 6px;
+}
+
+.mega-center p {
+  font-size: 15px;
+  color: #444;
+  max-width: 450px;
+}
+
+/* ======================================================
+   RIGHT PRODUCT IMAGE COLUMN
+====================================================== */
+
+.mega-right-banner img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+#cta-1768991983223{ background-position: 50% 0 !important;}
+
+/* ======================================================
+   FAR RIGHT “ESSENTIAL” PANEL (DIFFERENT COLOR)
+====================================================== */
+
+.mega-right-panel {
+  background: #f4f7fb;   /* light grey like your screenshot */
+  border-radius: 12px;
+  padding: 18px;
+  font-size: 14px;
+}
+
+/* title + underline */
+.essential-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #223358;
+}
+
+.essential-line {
+  width: 50px;
+  height: 2px;
+  background: #223358;
+  margin: 8px 0 15px;
+}
+
+/* each row */
+.essential-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* icon box */
+.essential-icon {
+  width: 28px;
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* social section */
+.essential-social {
+  margin-top: 15px;
+}
+
+.essential-icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* footer text */
+.essential-footer {
+  margin-top: 18px;
+  font-size: 12px;
+  color: #555;
+}
+
+#contactwithformbuilder-1760876499218 .col-lg-6 img{ width:100%;}
+
+.cs_hero.cs_style_3 {
+    height: inherit;
+    max-height: inherit !important;
+    min-height: 510px !important;
+    padding: 0;
+    position: relative;
+}
+
+
+@media (max-width: 1600px) {
+.cs_hero.cs_style_3 {
+min-height: 407px !important;
+
+}
+.midle-banner .cs_height_140{ height:457px;}
+
+
+}
+
+@media (max-width: 960px) {
+    .cs_hero.cs_style_3 {
+        min-height: 102px !important;
+    }
+    
+   #about-1760613191546 .cs_pl_75 .cs_height_lg_50 { height:0; }
+   .rs-services-area.section-space { padding-bottom:0;}
+   
+   .cs_footer.cs_style_1 {
+    margin-top: 53px;
+    padding-top: 1px;
+}
+    
+  .midle-banner .cs_height_140 {
+    height: 109px;
+    margin-top: 25px;
+}  
+
+.wp-section::after{ background:none; display:none;}
+.cs_site_branding img{    
+   width: 69%;}  
+    
+}
+
+#cta-1768991983223 .cs_bg_filed {
+    background-size: contain !important;
+    background-position: 0 0;
+}
+
+#customhtml-1770966358878 .section-space {
+    padding-top: 110px;
+    padding-bottom: 0;
+}
+
+.cs_footer_text_widget img+p {
+    margin-top: 35px;
+    color: #fff;
+}
+
+.cs_copyright{ color:#fff;}
+
+.rs-services-details-wrapper .rs-list-item ul{ display:block !important;}
+
+#strength {
+    background: transparent;
+    padding: 0;
+    position: relative;
+}
+
+.dekstop {
+    display: block;
+}
+
+.mobile {
+    display: none;
+}
+
+#strength h2 {
+    background: url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/YiAZlyArRbzebGmwaLa86OgJRAt7qniJqYECVyXx.webp) no-repeat scroll top;
+    padding: 20px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 19px;
+    color: #fff;
+    font-weight: 600;
+}
+
+@media only screen and (max-width: 600px) {
+    .dekstop {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .mobile {
+        display: block;
+    }
+}
+
+
+
+
+.triam-hero-section {
+    background: #0f2c59;
+    color: #fff;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.triam-hero-section h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.triam-hero-section p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.triam-box {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-bottom: 50px;
+}
+
+.triam-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #111;
+}
+
+.triam-list {
+    list-style: none;
+    padding: 0;
+}
+
+.triam-list li {
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.triam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.triam-feature-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.triam-feature-card h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.triam-cta-section {
+    background: #e63946;
+    color: #fff;
+    text-align: center;
+    padding: 60px 20px;
+    border-radius: 12px;
+}
+
+.triam-cta-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 30px;
+    background: #fff;
+    color: #e63946;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.triam-hero-section p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.triam-hero-section h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.triam-cta-section {
+    background: #f27026;
+    color: #fff;
+    text-align: center;
+    padding: 60px 20px;
+    border-radius: 12px;
+}
+
+.triam-cta-section h2{   color: #fff;}
+
+.triam-cta-section p{ color:#fff;}
+
+.triam-price-wrapper {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    padding: 60px 0;
+    color: #333;
+}
+
+.triam-price-inner {
+    width: 92%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Hero */
+.triam-price-hero {
+    background: #0e2a4a;
+    color: #fff;
+    padding: 70px 30px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 50px;
+}
+
+.triam-price-hero h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.triam-price-hero p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Section Box */
+.triam-price-box {
+    background: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.05);
+    margin-bottom: 50px;
+}
+
+.triam-price-title {
+    font-size: 24px;
+    color: #0f294a;
+    margin-bottom: 25px;
+}
+
+/* Table */
+.triam-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.triam-price-table th {
+    background: #0f294a;
+    color: #fff;
+    padding: 14px;
+    font-size: 15px;
+}
+
+.triam-price-table td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+.triam-price-table tr:hover {
+    background: #f9f9f9;
+}
+
+/* Notes */
+.triam-price-note {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* List */
+.triam-price-list {
+    padding-left: 20px;
+}
+
+.triam-price-list li {
+    margin-bottom: 12px;
+}
+
+/* CTA */
+.triam-price-cta {
+    background: #f27026;
+    color: #fff;
+    text-align: center;
+    padding: 60px 20px;
+    border-radius: 12px;
+}
+
+.triam-price-cta a {
+    display: inline-block;
+    margin: 10px 15px;
+    padding: 12px 25px;
+    background: #fff;
+    color: #f27026;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.triam-price-hero p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.triam-price-hero h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.triam-price-cta h2, .triam-price-cta p{ color:#fff;}
+
+#funfact-1760614651429 .cs_fs_70 {
+    font-size: 59px;
+    line-height: 1.28em;
+}
+
+/* Hero */
+.triam-career-hero {
+    background: #0f294a;
+    color: #fff;
+    padding: 70px 30px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 50px;
+}
+
+.triam-career-hero h1 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+/* Section Box */
+.triam-career-box {
+    background: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.05);
+    margin-bottom: 50px;
+}
+
+.triam-career-title {
+    font-size: 24px;
+    color: #0f294a;
+    margin-bottom: 20px;
+}
+
+.triam-career-list {
+    padding-left: 20px;
+}
+
+.triam-career-list li {
+    margin-bottom: 12px;
+}
+
+/* Grid */
+.triam-career-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.triam-career-card {
+    background: #f9fbff;
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 4px solid #f27026;
+}
+
+/* CTA */
+.triam-career-cta {
+    background: #f27026;
+    color: #fff;
+    text-align: center;
+    padding: 60px 20px;
+    border-radius: 12px;
+}
+
+.triam-career-cta a {
+    display: inline-block;
+    margin: 10px 15px;
+    padding: 12px 25px;
+    background: #fff;
+    color: #f27026;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.triam-career-wrapper {
+  
+    background: #f4f7fb;
+    padding: 60px 0;
+    color: #333;
+}
+
+.triam-career-inner {
+    width: 92%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.triam-career-cta h2, .triam-career-cta p{ color:#fff;}
+.triam-career-hero h1{ color:#fff;}
+.triam-career-hero p{ color:#fff;}
+
+
+
+.cs_iconbox.cs_style_6 .cs_iconbox_icon{ background-color: #fff;}
+
+.custom-select-wrapper {
+    position: relative;
+}
+
+.custom-select {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 15px;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Custom Arrow */
+.custom-select-wrapper::after {
+    content: &quot;▼&quot;;
+    font-size: 12px;
+    color: #ff6600;   /* তোমার theme orange */
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Hover Effect */
+.custom-select:hover {
+    border-color: #ff6600;
+}
+
+/* Focus Effect */
+.custom-select:focus {
+    outline: none;
+    border-color: #ff6600;
+    box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.15);
+}
+
+
+.uc-wrap{
+    font-family:&#039;Poppins&#039;,sans-serif;
+    padding:80px 20px;
+    background:#f5f6fa;
+}
+
+.uc-container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.uc-flex{
+    display:flex;
+    flex-wrap:wrap;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,0.08);
+}
+
+/* LEFT SIDE BLACK */
+.uc-left{
+    flex:1 1 40%;
+    background:#111;
+    color:#fff;
+    padding:50px 40px;
+}
+
+.uc-left h2{
+    font-size:26px;
+    margin-bottom:10px;
+}
+
+.uc-left p{
+    color:#bbb;
+    margin-bottom:30px;
+}
+
+.uc-info{
+    margin-bottom:25px;
+}
+
+.uc-info span{
+    display:block;
+    color:#ff6600;
+    font-weight:500;
+    margin-bottom:6px;
+}
+
+/* Location Button */
+.uc-location-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:14px 28px;
+    background:#ff6600;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.uc-location-btn:hover{
+    background:#e05500;
+}
+
+/* RIGHT SIDE FORM */
+.uc-right{
+    flex:1 1 60%;
+    background:#fff;
+    padding:50px 40px;
+}
+
+.uc-right h2{
+    margin-bottom:25px;
+}
+
+.uc-group{
+    margin-bottom:20px;
+}
+
+.uc-input,
+.uc-textarea,
+.uc-select{
+    width:100%;
+    padding:14px 16px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.uc-input:focus,
+.uc-textarea:focus,
+.uc-select:focus{
+    outline:none;
+    border-color:#ff6600;
+    box-shadow:0 0 0 3px rgba(255,102,0,0.15);
+}
+
+/* Custom Select */
+.uc-select-wrap{
+    position:relative;
+}
+
+.uc-select{
+    appearance:auto;
+    -webkit-appearance:auto;
+    -moz-appearance:auto;
+    padding-right:45px;
+    cursor:pointer;
+    background-image: inherit;
+}
+
+.uc-select-wrap::after{
+    content:&quot;▼&quot;;
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:12px;
+    color:#ff6600;
+    pointer-events:none;
+}
+
+/* Submit Button */
+.uc-submit{
+    background:#ff6600;
+    color:#fff;
+    padding:14px 28px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.uc-submit:hover{
+    background:#e05500;
+}
+
+/* MAP */
+.uc-map{
+    margin-top:60px;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .uc-flex{
+        flex-direction:column;
+    }
+}
+
+
+#contactwithformbuilder-1772200113725{ background-color: #fff !important; }
+
+#contactwithformbuilder-1772200113725::after{
+  content:&quot;&quot;;
+  position:absolute;
+  right:0;
+  top:0;
+  width:50%;
+  height:100%;
+  background:url(&quot;https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/hBt7ktJdF2QJ2p2g9NkaCSafnVctJxL9T9UsQgiE.jpg&quot;) center/cover no-repeat;
+}
+
+#contactwithformbuilder-1772200113725::before {
+    content: &quot;&quot;;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/1PjLwZ99ZySgB5BpSiOl7Q58Gdp0V7GWKckfG4eS.jpg);
+    background-repeat: no-repeat;
+}
+
+.wp-section *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+
+}
+
+/* ===== SECTION SPLIT BG ===== */
+.wp-section{
+  position:relative;
+  display:flex;
+  min-height:800px;
+}
+
+#contactwithformbuilder-1772200113725::before {
+    content: &quot;&quot;;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/1PjLwZ99ZySgB5BpSiOl7Q58Gdp0V7GWKckfG4eS.jpg);
+    background-repeat: no-repeat;
+}
+
+#contactwithformbuilder-1772200113725::after{
+  content:&quot;&quot;;
+  position:absolute;
+  right:0;
+  top:0;
+  width:50%;
+  height:100%;
+  background:url(&quot;https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/hBt7ktJdF2QJ2p2g9NkaCSafnVctJxL9T9UsQgiE.jpg&quot;) center/cover no-repeat;
+}
+
+/* OVERLAY */
+.wp-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.92);
+  z-index:1;
+}
+
+/* ===== INNER WRAP ===== */
+.wp-wrap{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:80px 15px;
+}
+
+.wp-flex{
+  display:flex;
+  gap:70px;
+}
+
+/* ===== LEFT CONTENT ===== */
+.wp-left{
+  flex:1;
+}
+
+.wp-subtitle{
+  color:#ff5a00;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:1px;
+}
+
+.wp-title{
+  font-size:38px;
+  margin:15px 0 50px;
+  color:#0b2c3d;
+}
+
+/* TIMELINE */
+.wp-timeline{
+  position:relative;
+}
+
+.wp-timeline::before{
+  content:&quot;&quot;;
+  position:absolute;
+  left:28px;
+  top:0;
+  bottom:0;
+  border-left:2px dotted #aaa;
+}
+
+.wp-item{
+  display:flex;
+  gap:40px;
+  margin-bottom:45px;
+}
+
+.wp-step{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #ff5a00;
+  color:#ff5a00;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  z-index:2;
+}
+
+.wp-content h4{
+  font-size:20px;
+  margin-bottom:8px;
+  color:#0b2c3d;
+}
+
+.wp-content p{
+  font-size:15px;
+  color:#555;
+  line-height:1.6;
+}
+
+/* ===== RIGHT CONTENT ===== */
+.wp-right{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+}
+
+/* FORM CARD */
+.wp-form{
+  background:#fff;
+  padding:45px;
+  border-top:5px solid #ff5a00;
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  width:100%;
+  max-width:460px;
+}
+
+.wp-form h3{
+  font-size:26px;
+  margin-bottom:25px;
+  color:#0b2c3d;
+}
+
+.wp-form input,
+.wp-form textarea{
+  width:100%;
+  padding:13px;
+  margin-bottom:15px;
+  border:1px solid #ddd;
+}
+
+.wp-form textarea{
+  height:120px;
+  resize:none;
+}
+
+.wp-form button{
+  background:#ff5a00;
+  color:#fff;
+  border:none;
+  padding:14px 34px;
+  cursor:pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:992px){
+  .wp-section{
+    flex-direction:column;
+  }
+
+  .wp-section::before,
+  .wp-section::after{
+    width:100%;
+    height:50%;
+  }
+
+  .wp-flex{
+    flex-direction:column;
+  }
+
+  .wp-right{
+    justify-content:center;
+    margin-top:40px;
+  }
+}
+
+#testimonial-1772434614797 .cs_shadow_1{box-shadow:inherit; background-color:inherit !important;}
+
+#testimonial-1772434614797 .cs_testimonial_avatar img {
+    height: 200px;
+    width: 200px;
+}
+
+.cs_pagination.cs_style_2 button{ background-color: #f27026 ;}
+
+.triam-rate-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 70px 20px 80px;
+        background: linear-gradient(135deg, #11284e, #1f3b73, #f07128);
+    min-height: 520px;
+}
+
+.triam-rate-hero-bg-pattern {
+    position: absolute;
+    top: 60px;
+    left: 42%;
+    width: 520px;
+    height: 260px;
+    
+    background-size: 8px 8px;
+    opacity: 0.35;
+    transform: translateX(-50%);
+    border-radius: 40%;
+    z-index: 1;
+}
+
+.triam-rate-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.triam-rate-left {
+    width: 55%;
+    color: #fff;
+}
+.triam-rate-badge {
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+}
+
+.triam-rate-left h1 {
+    font-size: 54px;
+    line-height: 1.08;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 14px;
+}
+
+.triam-rate-subtitle {
+    font-size: 24px;
+    line-height: 1.5;
+    color: #f5f5f5;
+    margin: 0 0 40px;
+}
+
+.triam-rate-right {
+    width: 38%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.triam-price-card {
+    width: 100%;
+    max-width: 430px;
+    background: rgba(235, 241, 247, 0.92);
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    border-radius: 14px;
+    padding: 28px 24px 24px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(6px);
+}
+
+.triam-rate-actions {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.triam-btn-yellow:hover {
+    background: #ef7326;
+    border-color: #ef7326;
+    color: #fff;
+}
+
+.triam-btn-outline:hover {
+    background: #000;
+    color: #ffffff;
+}
+
+.triam-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    height: 54px;
+    padding: 0 26px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.triam-btn-yellow {
+    background: #ef7326;
+    color: #fff;
+    border: 2px solid #ef7326;
+}
+
+.triam-btn-outline {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid #ef7326;
+}
+
+.triam-price-card .formcontrol {
+    width: 100%;
+    height: 43px;
+    border: 1px solid #aeb7c2;
+    border-radius: 6px;
+    background: #ffffff;
+    padding: 0 16px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333333;
+    outline: none;
+    box-sizing: border-box;
+}
+.triam-price-card h3 {
+    margin: 0 0 8px;
+    text-align: center;
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 800;
+    color: #1d2951;
+}
+
+.triam-price-card button {
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 6px;
+    background: #ef7128;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.triam_feature_card {
+  border: 1px solid #eee;
+  padding: 20px;
+  width: 170px;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.triam_feature_card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.triam_icon {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.triam_eligibility_card {
+  border: 1px solid #eee;
+  padding: 20px;
+  width: 220px;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.triam_eligibility_card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.triam_eligibility_card img {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.triam_eligibility h2{ margin-bottom:30px;}
+
+.cs_footer_row .cs_footer_col:nth-child(3){ display:none;}
+
+.triam_btn_yellow{ color:#fff !important;}
+
+
+
+.cs_team.cs_style_2:hover .cs_team_social_links{background:none; }
+
+.cs_team.cs_style_2 .cs_team_social_links{ transition: inherit;}
+
+#faq-1775454385708 .cs_half_screen_right{ width:auto;}
+
+.cs_accordians.cs_style_1 .cs_accordian_head:hover .cs_accordian_title {
+    color: #000;
+}
+
+#customhtml-1775454757323 section.triam-rate-hero, #customhtml-1770817494178 section.triam-rate-hero {
+    background: url(https://wheat-termite-712594.hostingersite.com/storage/media/FkczBWl5E0wLuFJzgObD16K9WJmZbsGgnoJhooNs.jpg) no-repeat;
+    background-size: cover;
+}
+
+.cs_footer_widget img{ background-color: #fff;
+    padding: 20px;}
+    
+    .cs_footer.cs_style_1 {
+  
+    background-image: none !important;
+}
+
+.cs_footer_text_widget p{ display:none;}
+
+@media (max-width: 576px) {
+  .button-row {
+    display: block !important;
+    padding: 0 20px;
+}
+
+.button-row a{ display:block; margin-bottom:20px; text-align:center;
+}
+.btn-enquire{ font-size: 12px !important; padding: 12px 16px;}
+
+.btn-view {
+    
+    padding: 12px 10px !important;
+    font-size: 12px !important;
+}
+
+#contactwithformbuilder-1772200113725::after{ background:none !important;}
+
+}
