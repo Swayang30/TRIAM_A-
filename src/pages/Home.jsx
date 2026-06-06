@@ -97,8 +97,10 @@ function TypeWriter({ lines, speed = 38 }) {
 
 export default function Home() {
   const [hoveredIdx, setHoveredIdx] = React.useState(null);
-  const [certIdx, setCertIdx] = React.useState(0);
+  const [certGroupIdx, setCertGroupIdx] = React.useState(0);
+  const [certFading, setCertFading] = React.useState(false);
   const certTimerRef = React.useRef(null);
+  const CERT_GROUPS = 3;
 
   const certifications = [
     'https://wheat-termite-712594.hostingersite.com/storage/media/KlZZTDdsjummMCRDBG8TXUVJaJJtDqEl5ejEVbRX.jpg',
@@ -114,18 +116,19 @@ export default function Home() {
   const startCertTimer = React.useCallback(() => {
     clearInterval(certTimerRef.current);
     certTimerRef.current = setInterval(() => {
-      setCertIdx(prev => (prev + 1) % certifications.length);
-    }, 3800);
-  }, [certifications.length]);
+      setCertFading(true);
+      setTimeout(() => { setCertGroupIdx(prev => (prev + 1) % CERT_GROUPS); setCertFading(false); }, 380);
+    }, 4200);
+  }, [CERT_GROUPS]);
 
   React.useEffect(() => {
     startCertTimer();
     return () => clearInterval(certTimerRef.current);
   }, [startCertTimer]);
 
-  const goToCert = (idx) => { setCertIdx(idx); startCertTimer(); };
-  const prevCert = () => { setCertIdx(prev => (prev - 1 + certifications.length) % certifications.length); startCertTimer(); };
-  const nextCert = () => { setCertIdx(prev => (prev + 1) % certifications.length); startCertTimer(); };
+  const goToCert = (idx) => { setCertFading(true); setTimeout(() => { setCertGroupIdx(idx); setCertFading(false); }, 380); startCertTimer(); };
+  const prevCert = () => { setCertFading(true); setTimeout(() => { setCertGroupIdx(prev => (prev - 1 + CERT_GROUPS) % CERT_GROUPS); setCertFading(false); }, 380); startCertTimer(); };
+  const nextCert = () => { setCertFading(true); setTimeout(() => { setCertGroupIdx(prev => (prev + 1) % CERT_GROUPS); setCertFading(false); }, 380); startCertTimer(); };
 
   const popularProducts = [
     {
@@ -430,7 +433,6 @@ export default function Home() {
 
       {/* ── Action Strip — after Products, before Strength Banner ── */}
       <div className="button-row">
-        <Link to="/contact" className="btn1">Purchase Online Now</Link>
         <Link to="/contact" className="btn2">Request a Call Back</Link>
         <Link to="/contact" className="btn3">Become a Channel Partner</Link>
       </div>
@@ -443,17 +445,22 @@ export default function Home() {
 
         {/* Text content */}
         <div className="strength-banner-content container">
-          <div className="tmt-eyebrow strength-banner-eyebrow">Quality Engineering</div>
-          <h2 className="strength-banner-headline">
-            High Strength<br />
-            <span className="strength-banner-highlight">Deformed Bars</span>
-            <br />with Latest Technology
-          </h2>
-          <div className="strength-banner-rule" />
-          <div className="strength-banner-tags">
-            {['Fe 550D Grade', 'BIS Certified', 'NABL Tested', 'German Thermex Process', 'SAIL Authorised'].map((tag, i) => (
-              <span key={i} className="strength-tag">{tag}</span>
-            ))}
+          <div className="strength-banner-inner">
+            <div className="strength-banner-left">
+              <div className="tmt-eyebrow strength-banner-eyebrow">Quality Engineering</div>
+              <h2 className="strength-banner-headline">
+                High Strength<br />
+                <span className="strength-banner-highlight">Deformed Bars</span>
+                <br />with Latest Technology
+              </h2>
+              <div className="strength-banner-rule" />
+            </div>
+            <div className="strength-banner-divider" aria-hidden="true" />
+            <div className="strength-banner-tags-col">
+              {['Fe 550D Grade', 'BIS Certified', 'NABL Tested', 'German Thermex Process', 'SAIL Authorised'].map((tag, i) => (
+                <span key={i} className="strength-tag">{tag}</span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -503,12 +510,14 @@ export default function Home() {
       <section className="why-choose-section">
         <div className="why-choose-bg-grid" aria-hidden="true" />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="text-center" style={{ marginBottom: '64px' }}>
+          <div className="wc-section-header">
             <div className="tmt-eyebrow why-choose-eyebrow" style={{ justifyContent: 'center' }}>Why Choose Triam A+</div>
-            <h2 className="section-title" style={{ color: '#ffffff', marginBottom: '16px' }}>
-              Five Reasons Builders<br />Trust Us
+            <h2 className="wc-section-title">
+              Five Reasons Builders<br />
+              <span className="wc-title-accent">Trust Us</span>
             </h2>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.42)', maxWidth: '540px', margin: '0 auto', lineHeight: '1.8' }}>
+            <div className="wc-header-divider" />
+            <p className="wc-section-subtitle">
               Every bar we produce is built on a foundation of verified standards — from billet to building.
             </p>
           </div>
@@ -632,7 +641,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Certifications — Single Slider ── */}
+      {/* ── Certifications — 3-Up Card Slider ── */}
       <section className="cert-section">
         <div className="cert-section-bg" aria-hidden="true" />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -644,37 +653,39 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="cert-slider-wrap">
-            <button className="cert-arrow cert-prev" onClick={prevCert} aria-label="Previous certificate">
+          <div className="cert-multi-nav">
+            <button className="cert-arrow cert-prev" onClick={prevCert} aria-label="Previous certificates">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
 
-            <div className="cert-stage">
-              <div className="cert-counter">
-                {certIdx + 1} / {certifications.length}
-              </div>
-              {certifications.map((cert, idx) => (
-                <img
-                  key={idx}
-                  src={cert}
-                  alt={`Certificate ${idx + 1}`}
-                  className={`cert-image ${idx === certIdx ? 'cert-active' : ''}`}
-                />
-              ))}
+            <div className={`cert-multi-grid${certFading ? ' cert-fading' : ''}`}>
+              {[0, 1, 2].map(offset => {
+                const idx = (certGroupIdx * 3 + offset) % certifications.length;
+                return (
+                  <div key={`${certGroupIdx}-${offset}`} className="cert-card">
+                    <div className="cert-card-badge">{idx + 1}</div>
+                    <img src={certifications[idx]} alt={`Certificate ${idx + 1}`} className="cert-card-img" />
+                  </div>
+                );
+              })}
             </div>
 
-            <button className="cert-arrow cert-next" onClick={nextCert} aria-label="Next certificate">
+            <button className="cert-arrow cert-next" onClick={nextCert} aria-label="Next certificates">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
 
+          <div className="cert-group-label">
+            Set {certGroupIdx + 1} of {CERT_GROUPS}
+          </div>
+
           <div className="cert-dots">
-            {certifications.map((_, idx) => (
+            {Array.from({ length: CERT_GROUPS }).map((_, idx) => (
               <button
                 key={idx}
-                className={`cert-dot ${idx === certIdx ? 'cert-dot-active' : ''}`}
+                className={`cert-dot ${idx === certGroupIdx ? 'cert-dot-active' : ''}`}
                 onClick={() => goToCert(idx)}
-                aria-label={`Go to certificate ${idx + 1}`}
+                aria-label={`Go to certificate group ${idx + 1}`}
               />
             ))}
           </div>
