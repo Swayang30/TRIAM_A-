@@ -1,280 +1,839 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Quality() {
-  const certifications = [
-    "https://wheat-termite-712594.hostingersite.com/storage/media/KlZZTDdsjummMCRDBG8TXUVJaJJtDqEl5ejEVbRX.jpg",
-    "https://wheat-termite-712594.hostingersite.com/storage/media/jsEYi4HQoIZU2d6LKFIX5K4nAzkPSQ4EJPcpOK8U.jpg",
-    "https://wheat-termite-712594.hostingersite.com/storage/media/QpBCUGQj0QvFYinGerJLpIVxsk6wpatWfFAN2Jqe.jpg",
-    "https://wheat-termite-712594.hostingersite.com/storage/media/XRCjFFwOAWf7QhMIKut3LezllcGyfB65wOfgcfbG.jpg",
-    "https://wheat-termite-712594.hostingersite.com/storage/media/5VBFXqisljIRMhrzfbMez9JqQtAKNghzZObcVbig.jpg",
-    "https://wheat-termite-712594.hostingersite.com/storage/media/qvcm6uHwnczqVdUxXtXvZRF3v6sQWiJBUWtauX7E.jpg",
-    "https://wheat-termite-712594.hostingersite.com/storage/media/NDYqNSH3oOT6BJA5LFd4AInjX371uqqf37NhDezy.jpg",
-    "https://wheat-termite-712594.hostingersite.com/storage/media/0GgyB0Du1tT4477aaY5rivHNEBRu6wOOOWNufG75.jpg"
-  ];
+/* ── tiny intersection hook for scroll-reveal ── */
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return [ref, visible];
+}
+
+/* ── TextType — ReactBits-compatible local implementation (no gsap) ─────────
+   Props mirror the ReactBits TextType API:
+   text, typingSpeed, deletingSpeed, pauseDuration, loop,
+   showCursor, cursorCharacter, cursorClassName, className, style          */
+function TextType({
+  text,
+  typingSpeed      = 50,
+  deletingSpeed    = 30,
+  pauseDuration    = 2000,
+  loop             = true,
+  showCursor       = true,
+  cursorCharacter  = '|',
+  cursorClassName  = '',
+  className        = '',
+  style            = {},
+}) {
+  const texts                       = Array.isArray(text) ? text : [text];
+  const [displayed, setDisplayed]   = useState('');
+  const [charIdx,   setCharIdx]     = useState(0);
+  const [textIdx,   setTextIdx]     = useState(0);
+  const [deleting,  setDeleting]    = useState(false);
+
+  useEffect(() => {
+    const current = texts[textIdx];
+    let t;
+    if (!deleting) {
+      if (charIdx < current.length) {
+        t = setTimeout(() => {
+          setDisplayed(p => p + current[charIdx]);
+          setCharIdx(p => p + 1);
+        }, typingSpeed);
+      } else {
+        t = setTimeout(() => setDeleting(true), pauseDuration);
+      }
+    } else {
+      if (displayed.length > 0) {
+        t = setTimeout(() => setDisplayed(p => p.slice(0, -1)), deletingSpeed);
+      } else {
+        setDeleting(false);
+        if (loop) setTextIdx(p => (p + 1) % texts.length);
+        setCharIdx(0);
+      }
+    }
+    return () => clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayed, charIdx, textIdx, deleting]);
 
   return (
-    <main>
-      {/* Breadcrumb banner */}
-      <section className="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-        <div className="rs-breadcrumb-bg" style={{ backgroundImage: "url(https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png)" }}></div>
+    <span className={className} style={style}>
+      <span className="text-type__content">{displayed}</span>
+      {showCursor && (
+        <span className={`text-type__cursor ${cursorClassName}`}
+          style={{ animation: 'tt-cursor-blink 0.65s step-end infinite', color: 'inherit' }}>
+          {cursorCharacter}
+        </span>
+      )}
+    </span>
+  );
+}
+
+/* ── QualityTypePanel — terminal card that cycles the 4 quality features ── */
+function QualityTypePanel({ features }) {
+  const [titleText, setTitleText]   = useState('');
+  const [charIdx,   setCharIdx]     = useState(0);
+  const [featIdx,   setFeatIdx]     = useState(0);
+  const [phase,     setPhase]       = useState('typing'); // 'typing' | 'holding' | 'fading' | 'deleting'
+  const [subOn,     setSubOn]       = useState(false);
+
+  const SPEED_TYPE = 42;
+  const SPEED_DEL  = 20;
+  const HOLD_MS    = 2600;
+  const FADE_MS    = 320;
+
+  const current = features[featIdx];
+
+  useEffect(() => {
+    let t;
+    if (phase === 'typing') {
+      if (charIdx < current.label.length) {
+        t = setTimeout(() => {
+          setTitleText(p => p + current.label[charIdx]);
+          setCharIdx(p => p + 1);
+        }, SPEED_TYPE);
+      } else {
+        setSubOn(true);
+        t = setTimeout(() => setPhase('fading'), HOLD_MS);
+      }
+    } else if (phase === 'fading') {
+      setSubOn(false);
+      t = setTimeout(() => setPhase('deleting'), FADE_MS);
+    } else if (phase === 'deleting') {
+      if (titleText.length > 0) {
+        t = setTimeout(() => setTitleText(p => p.slice(0, -1)), SPEED_DEL);
+      } else {
+        setCharIdx(0);
+        setFeatIdx(p => (p + 1) % features.length);
+        setPhase('typing');
+      }
+    }
+    return () => clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [titleText, charIdx, phase, featIdx]);
+
+  const iconMap = ['fa-flask-vial', 'fa-bolt', 'fa-shield-halved', 'fa-chart-line'];
+  const amber   = '#e48915';
+  const ink     = '#1b2a3a';
+
+  return (
+    <div style={{ borderRadius: '18px', overflow: 'hidden', boxShadow: '0 24px 64px rgba(27,42,58,0.18), 0 0 0 1px rgba(255,255,255,0.04)' }}>
+      {/* ── Terminal chrome bar ── */}
+      <div style={{ background: '#0a1520', padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ display: 'flex', gap: '6px' }}>
+          {['#ff5f57','#ffbe2e','#28c840'].map((c, i) => (
+            <div key={i} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c, opacity: 0.85 }} />
+          ))}
+        </div>
+        <div style={{ flex: 1, textAlign: 'center', fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)' }}>
+          quality.system — live
+        </div>
+        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#28c840', boxShadow: '0 0 6px #28c840' }} />
+      </div>
+
+      {/* ── Main typing area ── */}
+      <div style={{ background: '#0d1621', padding: '32px 32px 28px', minHeight: '220px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+
+        {/* Status label */}
+        <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: amber, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: amber, display: 'inline-block', animation: 'tt-pulse 2s ease-in-out infinite' }} />
+          A+ Quality Standard
+        </div>
+
+        {/* Typed title */}
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 900, color: '#fff', textTransform: 'uppercase', lineHeight: 1.05, letterSpacing: '-0.3px', minHeight: '80px' }}>
+          {titleText}
+          <span style={{ animation: 'tt-cursor-blink 0.65s step-end infinite', color: amber, fontWeight: 300 }}>|</span>
+        </div>
+
+        {/* Subtitle (fades in after title complete) */}
+        <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, minHeight: '44px', marginTop: '10px', opacity: subOn ? 1 : 0, transform: subOn ? 'translateY(0)' : 'translateY(6px)', transition: `opacity ${FADE_MS}ms ease, transform ${FADE_MS}ms ease` }}>
+          {current.sub}
+        </div>
+
+        {/* Index indicator + progress bar */}
+        <div style={{ marginTop: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              {features.map((_, i) => (
+                <div key={i} style={{ width: i === featIdx ? '24px' : '6px', height: '3px', borderRadius: '2px', background: i === featIdx ? amber : 'rgba(255,255,255,0.12)', transition: 'all 0.4s ease' }} />
+              ))}
+            </div>
+            <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.25)', letterSpacing: '1px' }}>
+              {String(featIdx + 1).padStart(2,'0')} / {String(features.length).padStart(2,'0')}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Feature reference pills ── */}
+      <div style={{ background: '#111d2b', padding: '16px 24px', display: 'flex', flexWrap: 'wrap', gap: '8px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        {features.map((f, i) => (
+          <div key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: i === featIdx ? 'rgba(228,137,21,0.14)' : 'rgba(255,255,255,0.04)', border: `1px solid ${i === featIdx ? 'rgba(228,137,21,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: '50px', padding: '5px 12px', transition: 'all 0.4s ease' }}>
+            <i className={`fa-solid ${iconMap[i]}`} style={{ fontSize: '10px', color: i === featIdx ? amber : 'rgba(255,255,255,0.25)' }} />
+            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.3px', color: i === featIdx ? amber : 'rgba(255,255,255,0.25)', whiteSpace: 'nowrap' }}>{f.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Animated counter ── */
+function Counter({ target, suffix = '', duration = 1400 }) {
+  const [ref, visible] = useInView(0.3);
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!visible) return;
+    let start = null;
+    const num = parseFloat(target);
+    const step = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      setVal(Number.isInteger(num) ? Math.floor(e * num) : +(e * num).toFixed(1));
+      if (p < 1) requestAnimationFrame(step);
+      else setVal(num);
+    };
+    requestAnimationFrame(step);
+  }, [visible, target, duration]);
+  return <span ref={ref}>{val}{suffix}</span>;
+}
+
+export default function Quality() {
+  const [heroIn, setHeroIn] = useState(false);
+  const [certHover, setCertHover] = useState(null);
+  const [stepHover, setStepHover] = useState(null);
+  const [advantageHover, setAdvantageHover] = useState(null);
+
+  useEffect(() => { const t = setTimeout(() => setHeroIn(true), 80); return () => clearTimeout(t); }, []);
+
+  const certifications = [
+    'https://wheat-termite-712594.hostingersite.com/storage/media/KlZZTDdsjummMCRDBG8TXUVJaJJtDqEl5ejEVbRX.jpg',
+    'https://wheat-termite-712594.hostingersite.com/storage/media/jsEYi4HQoIZU2d6LKFIX5K4nAzkPSQ4EJPcpOK8U.jpg',
+    'https://wheat-termite-712594.hostingersite.com/storage/media/QpBCUGQj0QvFYinGerJLpIVxsk6wpatWfFAN2Jqe.jpg',
+    'https://wheat-termite-712594.hostingersite.com/storage/media/XRCjFFwOAWf7QhMIKut3LezllcGyfB65wOfgcfbG.jpg',
+    'https://wheat-termite-712594.hostingersite.com/storage/media/5VBFXqisljIRMhrzfbMez9JqQtAKNghzZObcVbig.jpg',
+    'https://wheat-termite-712594.hostingersite.com/storage/media/qvcm6uHwnczqVdUxXtXvZRF3v6sQWiJBUWtauX7E.jpg',
+    'https://wheat-termite-712594.hostingersite.com/storage/media/NDYqNSH3oOT6BJA5LFd4AInjX371uqqf37NhDezy.jpg',
+    'https://wheat-termite-712594.hostingersite.com/storage/media/0GgyB0Du1tT4477aaY5rivHNEBRu6wOOOWNufG75.jpg',
+  ];
+
+  const processSteps = [
+    { num: '01', icon: 'fa-boxes-stacked',  title: 'Raw Material',    desc: 'Spectrometer testing cross-checked with wet chemical methods — defects caught before the line.' },
+    { num: '02', icon: 'fa-flask-vial',      title: 'Blending',        desc: 'Tight control over blending ensures uniform composition and consistent quality heat to heat.' },
+    { num: '03', icon: 'fa-fire-burner',     title: 'Steel Refining',  desc: 'Advanced refining strips impurities and locks in superior chemical and physical properties.' },
+    { num: '04', icon: 'fa-arrows-spin',     title: 'Billet Casting',  desc: 'Continuous casting delivers defect-free billets meeting the highest quality benchmarks.' },
+    { num: '05', icon: 'fa-microscope',      title: 'Lab Testing',     desc: 'NABL-accredited lab verifies chemical and mechanical properties of every heat in real time.' },
+  ];
+
+  const advantages = [
+    { truth: '100% tested billets',                                        benefit: 'Controlled chemical composition of the TMT' },
+    { truth: 'Controlled sulphur & phosphorus usage',                      benefit: 'Better corrosion control across the service life' },
+    { truth: 'Conversion agent of SAIL',                                   benefit: 'Proof of premium quality at source' },
+    { truth: 'Flexibility higher than standard elongation (IS:1786)',      benefit: 'Safeguards structures from seismic events & calamities' },
+    { truth: 'Greater AR (Area of Rib) value',                             benefit: 'Stronger bond between steel and concrete' },
+    { truth: 'Easy bending and re-bending',                                benefit: 'Enhanced productivity and reduced site waste' },
+  ];
+
+  const tests = [
+    { icon: 'fa-wrench',       title: 'Mechanical Testing',  desc: '0.2% Proof Stress, Tensile Strength, and Total Elongation — measured on advanced UTM systems against IS 1786:2008.' },
+    { icon: 'fa-circle-check', title: 'Structural Testing',  desc: 'Bending and re-bending checks confirm exceptional flexibility and durability across every rebar in every lot.' },
+    { icon: 'fa-microscope',   title: 'UTM Lab Equipment',   desc: 'Universal Testing Machine with extensometer provides verified mechanical data that surpasses BIS minimum standards.' },
+  ];
+
+  const stats = [
+    { value: '100', suffix: '%', label: 'Billets Tested' },
+    { value: '3',   suffix: '+', label: 'ISO Certifications' },
+    { value: '20',  suffix: '+', label: 'Years of Precision' },
+    { value: '0',   suffix: '',  label: 'Compromise on Quality' },
+  ];
+
+  /* ── shared style tokens ── */
+  const ink   = '#1b2a3a';
+  const amber = '#e48915';
+  const accent = '#c8401a';
+  const smoke = '#f4f3ee';
+  const cream = '#fff';
+  const muted = '#5a6a7a';
+
+  const eyebrow = {
+    display: 'inline-flex', alignItems: 'center', gap: '10px',
+    fontSize: '10px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase',
+    color: amber, marginBottom: '14px', fontFamily: "'DM Sans', sans-serif",
+  };
+  const eyebrowLine = { width: '22px', height: '2px', background: amber, flexShrink: 0, borderRadius: '1px' };
+  const displayH = (size = 'clamp(38px,5vw,56px)') => ({
+    fontFamily: "'Barlow Condensed', sans-serif",
+    fontSize: size, fontWeight: 900, color: ink,
+    textTransform: 'uppercase', lineHeight: 0.95, letterSpacing: '-0.5px',
+    marginBottom: '0',
+  });
+
+  return (
+    <main style={{ backgroundColor: smoke }}>
+      <style>{`
+        @keyframes tt-cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @keyframes tt-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+      `}</style>
+
+      {/* ══════════════════════════════════
+          HERO BANNER
+      ══════════════════════════════════ */}
+      <section style={{
+        position: 'relative',
+        background: 'transparent',
+        overflow: 'hidden',
+        paddingTop: '90px',
+        paddingBottom: '0',
+        minHeight: '420px',
+      }}>
+        {/* Hero BG image — full opacity, no overlays */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: "url(/Quality.png)",
+          backgroundSize: 'cover', backgroundPosition: 'center',
+        }} />
+        {/* Diagonal cut */}
+        <div style={{ position: 'absolute', bottom: -2, left: 0, right: 0, height: '80px', background: smoke, clipPath: 'polygon(0 100%, 100% 100%, 100% 0)', zIndex: 4 }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 3 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap', paddingBottom: '80px' }}>
+
+            {/* Left: heading */}
+            <div style={{
+              flex: 1, minWidth: '280px',
+              opacity: heroIn ? 1 : 0, transform: heroIn ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'opacity 0.7s ease, transform 0.7s ease',
+            }}>
+              <div style={{ ...eyebrow, color: amber, marginBottom: '18px' }}>
+                <span style={eyebrowLine} />
+                Triam A+ Excellence
+              </div>
+              <h1 style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 'clamp(64px, 11vw, 120px)',
+                fontWeight: 900, color: cream,
+                textTransform: 'uppercase',
+                lineHeight: 0.88, letterSpacing: '-3px',
+                marginBottom: '20px',
+              }}>
+                Quality
+              </h1>
+              <div style={{ width: '56px', height: '4px', background: `linear-gradient(90deg, ${accent}, ${amber})`, borderRadius: '2px', marginBottom: '22px' }} />
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: 1.85, maxWidth: '480px', marginBottom: '28px' }}>
+                Built in at every stage — not inspected in at the end. From raw material to dispatch, every heat earns the A+ name.
+              </p>
+              <nav>
+                <ol style={{ display: 'flex', gap: '8px', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
+                  <li><Link to="/" style={{ color: 'rgba(255,255,255,0.35)', fontSize: '12px', fontWeight: 600, textDecoration: 'none' }}>Home</Link></li>
+                  <li style={{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', padding: '0 2px' }}>/</li>
+                  <li style={{ color: amber, fontSize: '12px', fontWeight: 700 }}>Quality</li>
+                </ol>
+              </nav>
+            </div>
+
+            {/* Right: stat tiles */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px',
+              flexShrink: 0,
+              opacity: heroIn ? 1 : 0, transform: heroIn ? 'translateX(0)' : 'translateX(24px)',
+              transition: 'opacity 0.8s 0.2s ease, transform 0.8s 0.2s ease',
+            }}>
+              {stats.map((s, i) => (
+                <div key={i} style={{
+                  background: 'rgba(255,255,255,0.045)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '14px', padding: '20px 22px',
+                  backdropFilter: 'blur(12px)',
+                  minWidth: '130px',
+                }}>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '40px', fontWeight: 900, color: amber, lineHeight: 1 }}>
+                    <Counter target={s.value} suffix={s.suffix} />
+                  </div>
+                  <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginTop: '6px' }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          INTRO — NABL statement
+      ══════════════════════════════════ */}
+      <section style={{ padding: '88px 0', background: cream }}>
         <div className="container">
-          <div className="row">
-            <div className="col-xxl-6 col-xl-8 col-lg-8">
-              <div className="rs-breadcrumb-content-wrapper">
-                <div className="rs-breadcrumb-title-wrapper">
-                  <h1 className="rs-breadcrumb-title" style={{ fontWeight: 800 }}>Quality</h1>
-                </div>
-                <div className="rs-breadcrumb-menu">
-                  <nav>
-                    <ul>
-                      <li><span><Link to="/">Home</Link></span></li>
-                      <li><span>Quality</span></li>
-                    </ul>
-                  </nav>
-                </div>
-              </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+
+            {/* Quote block */}
+            <div>
+              <div style={eyebrow}><span style={eyebrowLine} />The A+ Standard</div>
+              <h2 style={{ ...displayH(), marginBottom: '24px' }}>
+                Built in,<br />
+                <span style={{ color: amber }}>Not inspected</span><br />
+                At the end.
+              </h2>
+              <p style={{ color: muted, fontSize: '15px', lineHeight: 1.85, marginBottom: '20px' }}>
+                Through steelmaking and rolling, sample after sample moves to our <strong style={{ color: ink }}>NABL-accredited in-house laboratory</strong>, where spectrometers, Universal Testing Machines, and a team of metallurgical specialists verify the chemical and mechanical properties of every heat.
+              </p>
+              <p style={{ color: muted, fontSize: '15px', lineHeight: 1.85 }}>
+                Results flow back to the plant in real time — so composition is corrected before it becomes a problem. In the rare event a concern does surface, root cause analysis is immediate and uncompromising. Every issue sharpens our processes for the next heat, the next batch, the next builder who counts on us.
+              </p>
             </div>
+
+            {/* TextType feature panel */}
+            <QualityTypePanel features={[
+              { label: 'NABL-Accredited Laboratory',        sub: 'Every heat verified by certified specialists' },
+              { label: 'Real-Time Feedback to Plant',        sub: 'Composition corrected before it becomes a problem' },
+              { label: 'Zero-Compromise Dispatch Protocol',  sub: 'QAP check at the yard — nothing leaves without A+' },
+              { label: 'Continuous Process Improvement',     sub: 'Every issue becomes a catalyst for sharper output' },
+            ]} />
           </div>
         </div>
       </section>
 
-      {/* Quality Details Content */}
-      <section className="tri-quality-wrapper py-5" style={{ backgroundColor: '#f9fafb' }}>
-        <div className="container" style={{ maxWidth: '1000px', margin: 'auto' }}>
-          {/* Intro Section */}
-          <div className="text-center mb-5">
-            <h1 className="tri-quality-title" style={{ fontSize: '38px', fontWeight: 800, color: '#191919' }}>A+ Quality Checks</h1>
-            <p className="tri-quality-subtitle mt-3" style={{ fontSize: '16px', color: '#555', lineHeight: '1.8' }}>
-              Quality is built in at every stage, not inspected in at the end. Through steelmaking and rolling, sample after sample moves to our <b>NABL-accredited in-house laboratory</b>, where spectrometers, Universal Testing Machines, and a team of metallurgical specialists verify the chemical and mechanical properties of every heat. Results flow back to the plant in real time, so composition is corrected before it ever becomes a problem — and a final check in the dispatch yard ensures nothing leaves us until it has earned the A+ name.
+      {/* ══════════════════════════════════
+          PROCESS FLOW — dark section
+      ══════════════════════════════════ */}
+      <section style={{ background: ink, padding: '90px 0', position: 'relative', overflow: 'hidden' }}>
+        {/* Ambient glow */}
+        <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '500px', height: '500px', background: `radial-gradient(circle, rgba(228,137,21,0.06) 0%, transparent 65%)`, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-10%', right: '-5%', width: '400px', height: '400px', background: `radial-gradient(circle, rgba(200,64,26,0.05) 0%, transparent 65%)`, pointerEvents: 'none' }} />
+        {/* Dot grid */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <div style={{ ...eyebrow, color: amber, justifyContent: 'center' }}><span style={eyebrowLine} />End-to-End Control<span style={eyebrowLine} /></div>
+            <h2 style={{ ...displayH('clamp(36px,5vw,60px)'), color: cream, marginBottom: '12px' }}>Manufacturing Quality Flow</h2>
+            <p style={{ color: 'rgba(255,255,255,0.42)', fontSize: '14px', maxWidth: '480px', margin: '0 auto' }}>
+              Five rigorous stages — every one monitored, every one documented.
             </p>
-            <p className="tri-quality-subtitle mt-3" style={{ fontSize: '16px', color: '#555', lineHeight: '1.8' }}>
-              In the rare event that a quality concern does surface, root cause analysis is immediate and uncompromising. Every issue becomes a catalyst for improvement, sharpening our processes for the next heat, the next batch, the next builder who counts on us.
+          </div>
+
+          {/* Steps row */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0', position: 'relative' }}>
+            {/* Connector line */}
+            <div style={{ position: 'absolute', top: '36px', left: '10%', right: '10%', height: '2px', background: 'rgba(228,137,21,0.18)', zIndex: 0 }} />
+
+            {processSteps.map((s, i) => (
+              <div
+                key={i}
+                style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 8px', cursor: 'default' }}
+                onMouseEnter={() => setStepHover(i)}
+                onMouseLeave={() => setStepHover(null)}
+              >
+                {/* Icon circle */}
+                <div style={{
+                  width: '72px', height: '72px', borderRadius: '50%', marginBottom: '24px',
+                  background: stepHover === i ? amber : 'rgba(228,137,21,0.12)',
+                  border: `2px solid ${stepHover === i ? amber : 'rgba(228,137,21,0.3)'}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '26px', color: stepHover === i ? cream : amber,
+                  transition: 'all 0.3s ease',
+                  boxShadow: stepHover === i ? `0 8px 28px rgba(228,137,21,0.3)` : 'none',
+                }}>
+                  <i className={`fa-solid ${s.icon}`} />
+                </div>
+                {/* Step number */}
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', fontWeight: 800, letterSpacing: '2px', color: stepHover === i ? amber : 'rgba(255,255,255,0.22)', marginBottom: '8px' }}>
+                  STEP {s.num}
+                </div>
+                {/* Title */}
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', fontWeight: 800, color: cream, textTransform: 'uppercase', textAlign: 'center', marginBottom: '10px', letterSpacing: '0.3px' }}>
+                  {s.title}
+                </div>
+                {/* Desc */}
+                <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, textAlign: 'center', margin: 0, transition: 'color 0.3s', ...(stepHover === i ? { color: 'rgba(255,255,255,0.65)' } : {}) }}>
+                  {s.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* TQM banner */}
+          <div style={{
+            marginTop: '60px', padding: '24px 36px',
+            background: 'rgba(228,137,21,0.08)', border: '1px solid rgba(228,137,21,0.2)',
+            borderRadius: '14px', display: 'flex', gap: '18px', alignItems: 'center',
+          }}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(228,137,21,0.15)', border: '1px solid rgba(228,137,21,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', color: amber, flexShrink: 0 }}>
+              <i className="fa-solid fa-bolt" />
+            </div>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.6)', fontSize: '14px', lineHeight: 1.75 }}>
+              <strong style={{ color: amber }}>Powered by TQM —</strong> every stage is monitored for uniform chemical, physical, and metallographic properties through electronics and Total Quality Management principles. No variance. No compromise.
             </p>
-          </div>
-
-          {/* Advantages Section */}
-          <div className="mb-5">
-            <h2 className="tri-quality-section-title" style={{ fontSize: '24px', fontWeight: 700, borderLeft: '3px solid #e48915', paddingLeft: '15px', marginBottom: '20px' }}>
-              A+ Advantages at a Glance
-            </h2>
-            <p style={{ fontSize: '15px', color: '#555' }}>
-              When you choose TRIAM A+ Fe 550D, every box that defines a premium new-age rebar is already ticked.
-            </p>
-
-            <div className="product-truths-benefits-section my-4" style={{ border: '1px solid #eee', borderRadius: '12px', overflow: 'hidden' }}>
-              <div className="ptb-header d-flex" style={{ backgroundColor: '#191919', color: '#fff', fontWeight: 700 }}>
-                <div className="ptb-col p-3 flex-fill text-center" style={{ borderRight: '1px solid #333' }}>PRODUCT TRUTHS</div>
-                <div className="ptb-col p-3 flex-fill text-center">BENEFITS</div>
-              </div>
-
-              <div className="ptb-rows" style={{ backgroundColor: '#fff', padding: '10px 0' }}>
-                <div className="ptb-row d-flex px-3 py-2 gap-3">
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915', fontWeight: 600 }}>100% tested billets</div>
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915' }}>Resulting in controlled chemical composition of the TMT</div>
-                </div>
-
-                <div className="ptb-row d-flex px-3 py-2 gap-3">
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915', fontWeight: 600 }}>Controlled sulphur & phosphorus usage</div>
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915' }}>Leads to a better corrosion control</div>
-                </div>
-
-                <div className="ptb-row d-flex px-3 py-2 gap-3">
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915', fontWeight: 600 }}>Conversion agent of SAIL</div>
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915' }}>Proof of premium quality of the product</div>
-                </div>
-
-                <div className="ptb-row d-flex px-3 py-2 gap-3">
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915', fontWeight: 600 }}>Flexibility is higher than normal elongation (IS:1786)</div>
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915' }}>Safeguards from earthquakes and natural calamities</div>
-                </div>
-
-                <div className="ptb-row d-flex px-3 py-2 gap-3">
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915', fontWeight: 600 }}>Greater AR (Area of Rib) Value</div>
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915' }}>Resulting in a good bonding between steel and concrete</div>
-                </div>
-
-                <div className="ptb-row d-flex px-3 py-2 gap-3">
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915', fontWeight: 600 }}>Easy bending and re-bending</div>
-                  <div className="ptb-box flex-fill p-3" style={{ backgroundColor: '#f7f5f2', borderRadius: '8px', borderLeft: '3px solid #e48915' }}>Resulting in enhanced productivity of the masons</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Manufacturing Process section */}
-          <div className="tri-quality-section mb-5">
-            <h2 className="tri-quality-section-title" style={{ fontSize: '24px', fontWeight: 700, borderLeft: '3px solid #e48915', paddingLeft: '15px', marginBottom: '20px' }}>
-              Manufacturing Process Quality
-            </h2>
-
-            <div className="row g-4">
-              <div className="col-md-6 col-lg-3">
-                <div className="tri-quality-card h-100 p-4" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px' }}>
-                  <h4 style={{ fontWeight: 700, fontSize: '18px', color: '#e48915', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <i className="fa-solid fa-boxes-stacked"></i> Raw Material
-                  </h4>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>Spectrometer testing cross-checked with wet chemical methods at receipt — defects caught before they ever reach the line.</p>
-                </div>
-              </div>
-
-              <div className="col-md-6 col-lg-3">
-                <div className="tri-quality-card h-100 p-4" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px' }}>
-                  <h4 style={{ fontWeight: 700, fontSize: '18px', color: '#e48915', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <i className="fa-solid fa-flask-vial"></i> Blending
-                  </h4>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>Tight control over blending ensures uniform composition and consistent quality from heat to heat.</p>
-                </div>
-              </div>
-
-              <div className="col-md-6 col-lg-3">
-                <div className="tri-quality-card h-100 p-4" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px' }}>
-                  <h4 style={{ fontWeight: 700, fontSize: '18px', color: '#e48915', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <i className="fa-solid fa-fire-burner"></i> Steel Refining
-                  </h4>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>Advanced refining strips impurities and locks in superior chemical and physical properties.</p>
-                </div>
-              </div>
-
-              <div className="col-md-6 col-lg-3">
-                <div className="tri-quality-card h-100 p-4" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px' }}>
-                  <h4 style={{ fontWeight: 700, fontSize: '18px', color: '#e48915', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <i className="fa-solid fa-arrows-spin"></i> Billet Casting
-                  </h4>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>Continuous casting delivers defect-free billets that meet the highest quality benchmarks.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Monitoring Callout */}
-          <div className="tri-quality-section mb-5">
-            <h2 className="tri-quality-section-title" style={{ fontSize: '24px', fontWeight: 700, borderLeft: '3px solid #e48915', paddingLeft: '15px', marginBottom: '20px' }}>
-              Advanced Quality Monitoring
-            </h2>
-            <div className="tri-quality-highlight p-4" style={{ backgroundColor: '#fff', borderLeft: '4px solid #191919', borderRadius: '6px', fontSize: '15px', color: '#555', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-              Powered by electronics and Total Quality Management (TQM) principles, every stage is monitored for uniform chemical, physical, and metallographic properties — no variance, no compromise.
-            </div>
-          </div>
-
-          {/* Testing Cards */}
-          <div className="tri-quality-section mb-5">
-            <h2 className="tri-quality-section-title" style={{ fontSize: '24px', fontWeight: 700, borderLeft: '3px solid #e48915', paddingLeft: '15px', marginBottom: '20px' }}>
-              Final Product Testing
-            </h2>
-
-            <div className="row g-4">
-              <div className="col-md-4">
-                <div className="tri-quality-card h-100 p-4" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px' }}>
-                  <h4 style={{ fontWeight: 700, fontSize: '18px', color: '#e48915', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <i className="fa-solid fa-wrench"></i> Mechanical
-                  </h4>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>0.2% Proof Stress, Tensile Strength, and Total Elongation — measured on advanced systems.</p>
-                </div>
-              </div>
-
-              <div className="col-md-4">
-                <div className="tri-quality-card h-100 p-4" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px' }}>
-                  <h4 style={{ fontWeight: 700, fontSize: '18px', color: '#e48915', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <i className="fa-solid fa-circle-check"></i> Structural
-                  </h4>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>Bending and re-bending checks confirm flexibility and durability on every rebar.</p>
-                </div>
-              </div>
-
-              <div className="col-md-4">
-                <div className="tri-quality-card h-100 p-4" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px' }}>
-                  <h4 style={{ fontWeight: 700, fontSize: '18px', color: '#e48915', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <i className="fa-solid fa-microscope"></i> UTM Equipment
-                  </h4>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>Universal Testing Machine (UTM) with extensometer verifies mechanical properties beyond BIS standards.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="tri-quality-highlight p-3 mt-4 text-center" style={{ backgroundColor: '#191919', color: '#fff', borderRadius: '6px', fontSize: '15px', fontWeight: 600 }}>
-              Every TRIAM A+ bar is tested to exceed Indian standards — and out-perform competitors.
-            </div>
-          </div>
-
-          {/* Metallurgical / Dispatch sections */}
-          <div className="row g-4 mb-5">
-            <div className="col-md-6">
-              <h2 className="tri-quality-section-title" style={{ fontSize: '20px', fontWeight: 700, borderLeft: '3px solid #e48915', paddingLeft: '15px', marginBottom: '15px' }}>
-                Laboratory & Metallurgical Analysis
-              </h2>
-              <div className="tri-quality-highlight p-4 h-100" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '6px', fontSize: '14px', color: '#555' }}>
-                Advanced microscopy examines crystal grain boundaries and surfaces microscopic defects — ensuring optimal composition and structural integrity in every rebar.
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <h2 className="tri-quality-section-title" style={{ fontSize: '20px', fontWeight: 700, borderLeft: '3px solid #e48915', paddingLeft: '15px', marginBottom: '15px' }}>
-                Final Dispatch Quality Check
-              </h2>
-              <div className="tri-quality-highlight p-4 h-100" style={{ backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '6px', fontSize: '14px', color: '#555' }}>
-                A final re-check at the dispatch yard per our Quality Assurance Plan (QAP) — nothing leaves until it has earned the A+ name.
-              </div>
-            </div>
-          </div>
-
-          {/* Footer Card */}
-          <div className="tri-quality-footer text-center p-4" style={{ backgroundColor: '#f7f5f2', border: '1px solid #e0dbc5', borderRadius: '8px', color: '#191919', fontSize: '15px', fontWeight: 700 }}>
-            Delivering defect-free, high-performance TMT bars that exceed BIS standards and ensure long-term reliability.
           </div>
         </div>
       </section>
 
-      {/* Certifications Banner */}
-      <section className="tri-cert-wrapper py-5" style={{ backgroundColor: '#e48915', color: '#fff' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: 'auto' }}>
-          {/* Download Button */}
-          <div className="tri-cert-top text-center mb-5">
-            <a 
-              href="https://wheat-termite-712594.hostingersite.com/storage/media/8sT6sPSzvxQiPuDnR6eLJWpr4pFz1P0E0PghDSz5.pdf" 
-              download 
-              className="tri-cert-btn" 
-              style={{
-                display: 'inline-block',
-                backgroundColor: '#fff',
-                color: '#e48915',
-                padding: '12px 28px',
-                fontSize: '15px',
-                fontWeight: 700,
-                borderRadius: '8px',
-                textDecoration: 'none',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-              }}
-            >
-              <i className="fa-solid fa-download" style={{ marginRight: '8px' }}></i> Download Brochure
-            </a>
+      {/* ══════════════════════════════════
+          ADVANTAGES — full-width paired rows
+      ══════════════════════════════════ */}
+      <section style={{ padding: '90px 0', background: smoke }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '48px' }}>
+            <div>
+              <div style={eyebrow}><span style={eyebrowLine} />Every box ticked</div>
+              <h2 style={{ ...displayH(), marginBottom: '0' }}>A+ Advantages<br /><span style={{ color: amber }}>at a Glance</span></h2>
+            </div>
+            <p style={{ color: '#8a8a8a', fontSize: '14px', lineHeight: 1.75, maxWidth: '340px', margin: 0 }}>
+              When you choose TRIAM A+ Fe 550D, every quality benchmark that defines a premium new-age rebar is already met.
+            </p>
           </div>
 
-          {/* Certificates Grid */}
-          <div className="row g-4 justify-content-center">
-            {certifications.map((cert, idx) => (
-              <div key={idx} className="col-6 col-md-4 col-lg-3">
-                <div 
-                  className="tri-cert-card" 
-                  style={{
-                    border: '2px solid #fff',
-                    padding: '8px',
-                    borderRadius: '8px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  <img 
-                    src={cert} 
-                    alt={`Certificate ${idx + 1}`} 
-                    style={{ width: '100%', borderRadius: '4px', border: '4px solid #fff' }} 
-                  />
+          {/* Column headers */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 48px 1fr', gap: '0', marginBottom: '10px', padding: '0 4px' }}>
+            <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#8a8a8a', paddingLeft: '20px' }}>Product Truth</div>
+            <div />
+            <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#8a8a8a', paddingLeft: '20px' }}>The Benefit</div>
+          </div>
+
+          {/* Paired rows */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {advantages.map((a, i) => (
+              <div
+                key={i}
+                style={{ display: 'grid', gridTemplateColumns: '1fr 48px 1fr', gap: '0', cursor: 'default' }}
+                onMouseEnter={() => setAdvantageHover(i)}
+                onMouseLeave={() => setAdvantageHover(null)}
+              >
+                {/* Truth */}
+                <div style={{
+                  background: advantageHover === i ? ink : cream,
+                  border: `1.5px solid ${advantageHover === i ? ink : '#ddd8cf'}`,
+                  borderRight: 'none',
+                  borderRadius: '12px 0 0 12px',
+                  padding: '18px 24px',
+                  display: 'flex', alignItems: 'center', gap: '14px',
+                  transition: 'all 0.25s ease',
+                }}>
+                  <div style={{
+                    width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
+                    background: advantageHover === i ? 'rgba(228,137,21,0.2)' : 'rgba(228,137,21,0.1)',
+                    border: `1.5px solid ${advantageHover === i ? amber : 'rgba(228,137,21,0.3)'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: '12px', fontWeight: 800, color: amber,
+                  }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <span style={{ fontSize: '14px', fontWeight: 700, color: advantageHover === i ? cream : ink, transition: 'color 0.25s' }}>
+                    {a.truth}
+                  </span>
+                </div>
+
+                {/* Arrow connector */}
+                <div style={{
+                  background: advantageHover === i ? amber : '#e2dcd0',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '16px', color: advantageHover === i ? cream : '#8a8a8a',
+                  transition: 'all 0.25s ease',
+                  borderTop: `1.5px solid ${advantageHover === i ? amber : '#ddd8cf'}`,
+                  borderBottom: `1.5px solid ${advantageHover === i ? amber : '#ddd8cf'}`,
+                }}>
+                  →
+                </div>
+
+                {/* Benefit */}
+                <div style={{
+                  background: advantageHover === i ? `rgba(228,137,21,0.06)` : cream,
+                  border: `1.5px solid ${advantageHover === i ? amber : '#ddd8cf'}`,
+                  borderLeft: 'none',
+                  borderRadius: '0 12px 12px 0',
+                  padding: '18px 24px',
+                  display: 'flex', alignItems: 'center',
+                  transition: 'all 0.25s ease',
+                }}>
+                  <span style={{ fontSize: '14px', color: muted, lineHeight: 1.6 }}>
+                    {a.benefit}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* ══════════════════════════════════
+          FINAL TESTING — dark cards section
+      ══════════════════════════════════ */}
+      <section style={{ background: `linear-gradient(160deg, #080f18 0%, ${ink} 100%)`, padding: '90px 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '0', left: '50%', transform: 'translateX(-50%)', width: '700px', height: '400px', background: `radial-gradient(ellipse, rgba(228,137,21,0.07) 0%, transparent 70%)`, pointerEvents: 'none' }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ textAlign: 'center', marginBottom: '52px' }}>
+            <div style={{ ...eyebrow, color: amber, justifyContent: 'center' }}><span style={eyebrowLine} />Final Verification<span style={eyebrowLine} /></div>
+            <h2 style={{ ...displayH('clamp(36px,5vw,60px)'), color: cream }}>Final Product Testing</h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '28px' }}>
+            {tests.map((t, i) => (
+              <div key={i} style={{
+                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: '18px', padding: '36px 28px',
+                transition: 'all 0.3s ease',
+                position: 'relative', overflow: 'hidden',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(228,137,21,0.07)'; e.currentTarget.style.borderColor = 'rgba(228,137,21,0.25)'; e.currentTarget.style.transform = 'translateY(-6px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              >
+                {/* Accent line top */}
+                <div style={{ position: 'absolute', top: 0, left: '28px', right: '28px', height: '3px', background: `linear-gradient(90deg, ${amber}, ${accent})`, borderRadius: '0 0 3px 3px' }} />
+                <div style={{
+                  width: '56px', height: '56px', borderRadius: '14px', marginBottom: '24px',
+                  background: `rgba(228,137,21,0.12)`, border: `1px solid rgba(228,137,21,0.2)`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '24px', color: amber,
+                }}>
+                  <i className={`fa-solid ${t.icon}`} />
+                </div>
+                <h4 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '22px', fontWeight: 800, color: cream, textTransform: 'uppercase', marginBottom: '14px', letterSpacing: '0.3px' }}>
+                  {t.title}
+                </h4>
+                <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.8, margin: 0 }}>
+                  {t.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Pledge strip */}
+          <div style={{
+            background: amber, borderRadius: '12px', padding: '22px 36px',
+            display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px',
+          }}>
+            <i className="fa-solid fa-award" style={{ fontSize: '22px', color: cream, flexShrink: 0 }} />
+            <p style={{ margin: 0, fontFamily: "'Barlow Condensed', sans-serif", fontSize: '20px', fontWeight: 800, color: cream, textTransform: 'uppercase', letterSpacing: '0.5px', textAlign: 'center' }}>
+              Every TRIAM A+ bar is tested to exceed Indian standards — and out-perform competitors.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          LAB + DISPATCH — two columns
+      ══════════════════════════════════ */}
+      <section style={{ padding: '90px 0', background: cream }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+            {[
+              {
+                icon: 'fa-microscope',
+                tag: 'Lab Analysis',
+                title: 'Metallurgical Analysis',
+                body: 'Advanced microscopy examines crystal grain boundaries and surface defects at the microscopic level — ensuring optimal composition and structural integrity in every rebar that leaves the mill.',
+              },
+              {
+                icon: 'fa-truck-ramp-box',
+                tag: 'Dispatch Protocol',
+                title: 'Final Dispatch Check',
+                body: 'A rigorous re-check at the dispatch yard per our Quality Assurance Plan (QAP) — nothing leaves until it has earned the A+ name. Every bundle, every tag, every certificate verified.',
+              },
+            ].map((card, i) => (
+              <div key={i} style={{
+                background: smoke, border: '1px solid #ddd8cf',
+                borderRadius: '18px', overflow: 'hidden',
+                transition: 'all 0.25s ease',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(27,42,58,0.1)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              >
+                {/* Dark header strip */}
+                <div style={{ background: ink, padding: '20px 28px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: 'rgba(228,137,21,0.15)', border: '1px solid rgba(228,137,21,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', color: amber }}>
+                    <i className={`fa-solid ${card.icon}`} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: amber, marginBottom: '2px' }}>{card.tag}</div>
+                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', fontWeight: 800, color: cream, textTransform: 'uppercase' }}>{card.title}</div>
+                  </div>
+                </div>
+                {/* Body */}
+                <div style={{ padding: '28px', borderLeft: `4px solid ${amber}` }}>
+                  <p style={{ margin: 0, fontSize: '14.5px', color: muted, lineHeight: 1.85 }}>{card.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Footer pledge card */}
+          <div style={{
+            marginTop: '32px',
+            background: smoke, border: '1px solid #ddd8cf',
+            borderRadius: '16px', padding: '28px 36px',
+            display: 'flex', gap: '20px', alignItems: 'center',
+            textAlign: 'left',
+          }}>
+            <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: `rgba(228,137,21,0.1)`, border: `1px solid rgba(228,137,21,0.2)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', color: amber, flexShrink: 0 }}>
+              <i className="fa-solid fa-star" />
+            </div>
+            <p style={{ margin: 0, fontFamily: "'Barlow Condensed', sans-serif", fontSize: '22px', fontWeight: 800, color: ink, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
+              Delivering defect-free, high-performance TMT bars that exceed BIS standards and ensure long-term reliability.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          CERTIFICATIONS
+      ══════════════════════════════════ */}
+      <section style={{ background: ink, padding: '90px 0', position: 'relative', overflow: 'hidden' }}>
+        {/* Subtle amber top glow */}
+        <div style={{ position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)', width: '700px', height: '400px', background: `radial-gradient(ellipse, rgba(228,137,21,0.09) 0%, transparent 70%)`, pointerEvents: 'none' }} />
+        {/* Dot grid */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.022) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+
+          {/* Header + Download button */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '52px' }}>
+            <div>
+              <div style={{ ...eyebrow, color: amber }}><span style={eyebrowLine} />Verified & Certified</div>
+              <h2 style={{ ...displayH('clamp(36px,5vw,60px)'), color: cream, marginBottom: '0' }}>
+                Our Certifications
+              </h2>
+            </div>
+            <a
+              href="https://wheat-termite-712594.hostingersite.com/storage/media/8sT6sPSzvxQiPuDnR6eLJWpr4pFz1P0E0PghDSz5.pdf"
+              download
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '10px',
+                background: amber, color: cream,
+                padding: '13px 26px', borderRadius: '8px',
+                fontSize: '13px', fontWeight: 700, textDecoration: 'none',
+                boxShadow: '0 6px 22px rgba(228,137,21,0.3)',
+                transition: 'all 0.25s ease', flexShrink: 0,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#f5a520'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = amber; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              <i className="fa-solid fa-download" style={{ fontSize: '14px' }} />
+              Download Brochure
+            </a>
+          </div>
+
+          {/* Cert grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '18px' }}>
+            {certifications.map((cert, idx) => (
+              <div
+                key={idx}
+                style={{
+                  position: 'relative', overflow: 'hidden', borderRadius: '12px',
+                  border: `1.5px solid ${certHover === idx ? amber : 'rgba(255,255,255,0.1)'}`,
+                  transition: 'all 0.3s ease',
+                  transform: certHover === idx ? 'translateY(-6px) scale(1.02)' : 'none',
+                  boxShadow: certHover === idx ? `0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px ${amber}` : '0 4px 16px rgba(0,0,0,0.2)',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={() => setCertHover(idx)}
+                onMouseLeave={() => setCertHover(null)}
+              >
+                {/* Amber shimmer on hover */}
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: `rgba(228,137,21,${certHover === idx ? 0.08 : 0})`,
+                  transition: 'background 0.3s ease',
+                  zIndex: 2, pointerEvents: 'none',
+                }} />
+                <img
+                  src={cert}
+                  alt={`Certification ${idx + 1}`}
+                  style={{ width: '100%', display: 'block', borderRadius: '10px', aspectRatio: '3/4', objectFit: 'cover' }}
+                />
+                {/* Index badge */}
+                <div style={{
+                  position: 'absolute', top: '10px', left: '10px', zIndex: 3,
+                  background: certHover === idx ? amber : 'rgba(0,0,0,0.5)',
+                  color: cream, fontSize: '10px', fontWeight: 800, letterSpacing: '1px',
+                  padding: '3px 8px', borderRadius: '4px', transition: 'background 0.3s ease',
+                }}>
+                  {String(idx + 1).padStart(2, '0')}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ISO badges strip */}
+          <div style={{ marginTop: '48px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            {['ISO 9001:2015', 'ISO 14001:2015', 'ISO 45001:2018', 'IS 1786:2008', 'NABL Accredited', 'BIS Certified'].map((badge, i) => (
+              <div key={i} style={{
+                background: 'rgba(228,137,21,0.08)', border: '1px solid rgba(228,137,21,0.2)',
+                borderRadius: '50px', padding: '7px 16px',
+                fontSize: '11px', fontWeight: 700, color: amber,
+                letterSpacing: '0.5px',
+              }}>
+                {badge}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          BOTTOM CTA
+      ══════════════════════════════════ */}
+      <section style={{ padding: '80px 0', background: smoke }}>
+        <div className="container">
+          <div style={{
+            background: `linear-gradient(135deg, #0d1621 0%, ${ink} 100%)`,
+            borderRadius: '20px', overflow: 'hidden',
+            position: 'relative', padding: '56px 56px',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            flexWrap: 'wrap', gap: '32px',
+          }}>
+            <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '300px', height: '300px', background: `radial-gradient(circle, rgba(228,137,21,0.1) 0%, transparent 65%)` }} />
+            <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+
+            <div style={{ position: 'relative', zIndex: 2 }}>
+              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: amber, marginBottom: '12px' }}>Experience The Difference</div>
+              <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, color: cream, textTransform: 'uppercase', lineHeight: 1.0, margin: 0 }}>
+                Build with confidence.<br />
+                <span style={{ color: amber }}>Build with A+.</span>
+              </h3>
+            </div>
+
+            <div style={{ position: 'relative', zIndex: 2, display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <Link to="/contact" style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                background: amber, color: cream,
+                padding: '14px 28px', borderRadius: '8px',
+                fontSize: '14px', fontWeight: 700, textDecoration: 'none',
+                boxShadow: '0 6px 24px rgba(228,137,21,0.3)',
+                transition: 'all 0.25s ease',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#f5a520'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = amber; e.currentTarget.style.transform = 'translateY(0)'; }}
+              >
+                Contact Our Team
+                <i className="fa-solid fa-arrow-right" style={{ fontSize: '12px' }} />
+              </Link>
+              <Link to="/Fe-550D-Grade-TMT-16mm-20mm" style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                background: 'transparent', color: 'rgba(255,255,255,0.7)',
+                padding: '14px 28px', borderRadius: '8px',
+                fontSize: '14px', fontWeight: 700, textDecoration: 'none',
+                border: '1.5px solid rgba(255,255,255,0.15)',
+                transition: 'all 0.25s ease',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'; e.currentTarget.style.color = cream; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
+              >
+                View Products
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 }

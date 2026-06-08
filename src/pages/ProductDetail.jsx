@@ -1,76 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
+/* ─── tiny hook: animate a number from 0 to target ─── */
+function useCountUp(target, duration = 1200, start = false) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let startTime = null;
+    const num = parseFloat(target);
+    const step = (ts) => {
+      if (!startTime) startTime = ts;
+      const prog = Math.min((ts - startTime) / duration, 1);
+      const ease = 1 - Math.pow(1 - prog, 3);
+      setVal(Math.floor(ease * num));
+      if (prog < 1) requestAnimationFrame(step);
+      else setVal(num);
+    };
+    requestAnimationFrame(step);
+  }, [target, duration, start]);
+  return val;
+}
 
 export default function ProductDetail() {
   const { slug } = useParams();
-
-  // Determine product content based on URL or route parameter
-  // Route matches:
-  // - /Fe-500D-Grade-TMT-8mm-12mm
-  // - /Fe-550D-Grade-TMT-16mm-20mm
-  // - /Fe-550D-Grade-TMT-25mm-32mm
-  
-  // Normalise slug if accessed directly or through params
-  const currentSlug = slug || window.location.pathname.replace('/', '') || 'Fe-550D-Grade-TMT-16mm-20mm';
+  const currentSlug =
+    slug || window.location.pathname.replace('/', '') || 'Fe-550D-Grade-TMT-16mm-20mm';
 
   const products = {
     'Fe-500D-Grade-TMT-8mm-12mm': {
-      title: 'Fe 500D Grade TMT 8mm – 12mm',
+      title: 'Fe 500D Grade TMT',
       size: '8mm – 12mm',
       grade: 'Fe 500D',
-      desc: 'Ideal for stirrups, slabs, staircases, beams & columns in residential & low-rise buildings. Balances cost with long-term longevity. Available in customized TDC (Technical Delivery Conditions).',
+      gradeCode: '500D',
+      yieldStrength: '500',
+      tensile: '565',
+      elongation: '17',
+      desc: 'Ideal for stirrups, slabs, staircases, beams & columns in residential & low-rise buildings. Balances cost with long-term longevity.',
       image: 'https://enquiry.triamtmt.com/images/tab-img1.jpg',
-      breadcrumbBg: 'https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png'
+      breadcrumbBg:
+        'https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png',
+      applications: ['Stirrups', 'Slabs', 'Staircases', 'Beams', 'Columns', 'Residential'],
+      accentGradient: 'linear-gradient(135deg, #718096 0%, #4a5568 100%)',
     },
     'Fe-550D-Grade-TMT-16mm-20mm': {
-      title: 'Fe 550D Grade TMT 16mm – 20mm',
+      title: 'Fe 550D Grade TMT',
       size: '16mm – 20mm',
       grade: 'Fe 550D',
-      desc: 'Built for beams, columns & high-load slabs. Engineered for crack resistance and continuous-load endurance. Perfectly suited for high-density residential developments and general infrastructure framing.',
-      image: 'https://enquiry.triamtmt.com/images/tab-img6.jpg',
-      breadcrumbBg: 'https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png'
+      gradeCode: '550D',
+      yieldStrength: '550',
+      tensile: '600',
+      elongation: '17',
+      desc: 'Built for beams, columns & high-load slabs. Engineered for crack resistance and continuous-load endurance in high-density residential and infrastructure projects.',
+      image: '/product1.png',
+      breadcrumbBg:
+        'https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png',
+      applications: ['Beams', 'Columns', 'High-Load Slabs', 'Residential Towers', 'Infrastructure', 'Industrial Frames'],
+      accentGradient: 'linear-gradient(135deg, #e48915 0%, #c8401a 100%)',
     },
     'Fe-550D-Grade-TMT-25mm-32mm': {
-      title: 'Fe 550D Grade TMT 25mm – 32mm',
+      title: 'Fe 550D Grade TMT',
       size: '25mm – 32mm',
       grade: 'Fe 550D',
-      desc: 'Suited for high-rise buildings, bridges, dams & heavy industrial structures. Withstands wind, seismic forces, and sustained vertical stress under the most demanding environments.',
+      gradeCode: '550D',
+      yieldStrength: '550',
+      tensile: '600',
+      elongation: '17',
+      desc: 'Suited for high-rise buildings, bridges, dams & heavy industrial structures. Withstands wind, seismic forces and sustained vertical stress under the most demanding environments.',
       image: 'https://enquiry.triamtmt.com/images/tab-img1.jpg',
-      breadcrumbBg: 'https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png'
-    }
+      breadcrumbBg:
+        'https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png',
+      applications: ['High-Rise', 'Bridges', 'Dams', 'Power Plants', 'Heavy Industry', 'Seismic Zones'],
+      accentGradient: 'linear-gradient(135deg, #ecc94b 0%, #b7791f 100%)',
+    },
   };
 
-  // Fallback to 16mm-20mm if slug doesn't match
   const p = products[currentSlug] || products['Fe-550D-Grade-TMT-16mm-20mm'];
-
-  // State for FAQ accordion
   const [activeFaq, setActiveFaq] = useState(0);
+  const [heroVisible, setHeroVisible] = useState(false);
+  const [videoHover, setVideoHover] = useState(false);
+  const heroRef = useRef(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setHeroVisible(true), 80);
+    return () => clearTimeout(t);
+  }, []);
+
+  const yieldVal = useCountUp(p.yieldStrength, 1000, heroVisible);
+  const tensileVal = useCountUp(p.tensile, 1100, heroVisible);
 
   const faqs = [
-    {
-      q: 'What is a TMT bar?',
-      a: 'Thermo-Mechanically Treated (TMT) bars have a tough outer shell and a soft inner core. Triam A+ Fe 550D gives you the perfect balance of strength and flexibility needed for modern homes.'
-    },
-    {
-      q: 'Where are TMT bars generally used?',
-      a: 'Triam A+ is versatile. You\'ll find it in everything from office buildings and schools to massive projects like dams, power plants, and residential complexes.'
-    },
-    {
-      q: 'How are TMT bars manufactured?',
-      a: 'We produce our rebars from Block Mill using advanced Thermax technology from HSE, Germany.'
-    },
-    {
-      q: 'What are the features of TMT bars?',
-      a: 'Our bars offer a unique mix of high strength, superior flexibility, seismic resistance and excellent weldability which are attributed to low carbon content & controlled sulphur, phosphorous.'
-    },
-    {
-      q: 'How are TMT bars superior to traditional steel bars?',
-      a: 'Unlike old-school cold-twisted bars, our TMT bars have no internal residual stresses. This means they resist corrosion much better and last longer.'
-    },
-    {
-      q: 'What are the properties of good quality TMT bars?',
-      a: 'A good bar needs to bend without snapping. Our bars feature high bendability and a scientific rib pattern that ensures a solid lock with the concrete.'
-    }
+    { q: 'What is a TMT bar?', a: "Thermo-Mechanically Treated (TMT) bars have a tough outer shell and a soft inner core. Triam A+ gives you the perfect balance of strength and flexibility needed for modern construction." },
+    { q: 'Where are TMT bars generally used?', a: "Triam A+ is versatile — from office buildings and schools to massive projects like dams, power plants, bridges, and residential complexes." },
+    { q: 'How are TMT bars manufactured?', a: 'We produce our rebars from Block Mill using advanced Thermax technology from HSE, Germany — patented quenching technology that delivers consistent mechanical properties.' },
+    { q: 'What are the features of TMT bars?', a: 'Our bars offer high strength, superior flexibility, seismic resistance, and excellent weldability — attributed to controlled carbon content and regulated sulphur & phosphorous levels.' },
+    { q: 'How are TMT bars superior to traditional steel bars?', a: 'Unlike cold-twisted bars, our TMT bars carry no internal residual stresses — meaning better corrosion resistance, greater ductility, and significantly longer service life.' },
+    { q: 'What are the properties of good quality TMT bars?', a: 'A good bar bends without snapping. Our bars feature high bendability, a scientific rib pattern, and a solid lock with concrete — verified through rigorous bend and rebend testing.' },
   ];
 
   const sidebarLinks = [
@@ -83,314 +107,849 @@ export default function ProductDetail() {
     { name: 'Application Areas', id: 'application' },
     { name: 'Product Packaging', id: 'packaging' },
     { name: 'Quality Checks', id: 'quality' },
-    { name: 'Advantages at a Glance', id: 'advantages' }
+    { name: 'Advantages at a Glance', id: 'advantages' },
   ];
 
+  const physicalRows = [
+    { label: '0.2% Proof Stress', unit: 'N/mm²', std: p.grade === 'Fe 500D' ? '500' : '550', triam: p.grade === 'Fe 500D' ? '500+' : '550+' },
+    { label: 'Tensile Strength', unit: 'N/mm²', std: p.grade === 'Fe 500D' ? '565' : '600', triam: p.grade === 'Fe 500D' ? '565+' : '600+' },
+    { label: 'Elongation', unit: '%', std: '14.5', triam: '17+' },
+    { label: 'Elongation at Max. Force', unit: '%', std: '5', triam: '7+' },
+    { label: 'TS / YS Ratio', unit: '', std: '1.08', triam: '1.15' },
+    { label: 'Bend', unit: '', std: '4D–5D', triam: '3D–4D' },
+    { label: 'Rebend', unit: '', std: '6D–7D', triam: '5D–6D' },
+  ];
+
+  const chemRows = [
+    { label: 'Carbon', unit: '% Max', std: '0.250', triam: '0.200', triamLA: '0.150' },
+    { label: 'Sulphur', unit: '% Max', std: '0.040', triam: '0.040', triamLA: '0.040' },
+    { label: 'Phosphorous', unit: '% Max', std: '0.040', triam: '0.040', triamLA: '0.090' },
+    { label: 'S + P', unit: '% Max', std: '0.075', triam: '0.075', triamLA: '0.130' },
+  ];
+
+  /* ─── inline style helpers ─── */
+  const S = {
+    /* page */
+    page: { backgroundColor: '#f4f3ee', minHeight: '100vh' },
+
+    /* ─ HERO ─ */
+    hero: {
+      position: 'relative',
+      background: 'linear-gradient(160deg, #080f18 0%, #0d1621 45%, #1b2a3a 100%)',
+      overflow: 'hidden',
+      paddingTop: '90px',
+      paddingBottom: '0',
+      minHeight: '480px',
+    },
+    heroBgImg: {
+      position: 'absolute', inset: 0,
+      backgroundImage: `url(${p.breadcrumbBg})`,
+      backgroundSize: 'cover', backgroundPosition: 'center',
+      opacity: 0.08,
+    },
+    heroGlowTop: {
+      position: 'absolute', top: '-120px', right: '-60px',
+      width: '600px', height: '600px',
+      background: 'radial-gradient(circle, rgba(228,137,21,0.13) 0%, transparent 65%)',
+      pointerEvents: 'none',
+    },
+    heroGlowBot: {
+      position: 'absolute', bottom: '0', left: '-80px',
+      width: '400px', height: '400px',
+      background: 'radial-gradient(circle, rgba(200,64,26,0.08) 0%, transparent 65%)',
+      pointerEvents: 'none',
+    },
+    heroNoise: {
+      position: 'absolute', inset: 0,
+      backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E\")",
+      pointerEvents: 'none',
+    },
+    heroDiagonal: {
+      position: 'absolute', bottom: -2, left: 0, right: 0,
+      height: '80px',
+      background: '#f4f3ee',
+      clipPath: 'polygon(0 100%, 100% 100%, 100% 0)',
+      zIndex: 4,
+    },
+    heroInner: {
+      position: 'relative', zIndex: 3,
+      maxWidth: '1240px', margin: '0 auto', padding: '0 24px',
+      display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+      gap: '32px', flexWrap: 'wrap',
+    },
+    heroLeft: {
+      flex: '1', minWidth: '280px', paddingBottom: '80px',
+      opacity: heroVisible ? 1 : 0,
+      transform: heroVisible ? 'translateY(0)' : 'translateY(32px)',
+      transition: 'opacity 0.7s ease, transform 0.7s ease',
+    },
+    heroPill: {
+      display: 'inline-flex', alignItems: 'center', gap: '8px',
+      background: 'rgba(228,137,21,0.12)',
+      border: '1px solid rgba(228,137,21,0.28)',
+      borderRadius: '50px',
+      padding: '5px 14px 5px 10px',
+      marginBottom: '20px',
+    },
+    heroPillDot: { width: '6px', height: '6px', borderRadius: '50%', background: '#e48915', flexShrink: 0 },
+    heroPillText: { fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915' },
+    heroGradeBadge: {
+      display: 'inline-block',
+      background: p.accentGradient,
+      color: '#fff', fontSize: '10px', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase',
+      padding: '4px 14px', borderRadius: '4px', marginBottom: '14px',
+    },
+    heroH1: {
+      fontFamily: "'Barlow Condensed', sans-serif",
+      fontSize: 'clamp(52px, 9vw, 96px)',
+      fontWeight: 900, color: '#fff',
+      textTransform: 'uppercase', lineHeight: 0.88,
+      letterSpacing: '-2px', marginBottom: '10px',
+    },
+    heroSize: {
+      fontFamily: "'Barlow Condensed', sans-serif",
+      fontSize: 'clamp(38px, 5.5vw, 68px)',
+      fontWeight: 700, color: '#e48915',
+      letterSpacing: '-1px', lineHeight: 1.05, marginBottom: '22px',
+    },
+    heroDesc: { color: 'rgba(255,255,255,0.55)', fontSize: '14px', lineHeight: 1.85, maxWidth: '500px', marginBottom: '28px' },
+    heroBreadcrumb: { display: 'flex', gap: '8px', alignItems: 'center', listStyle: 'none', padding: 0, margin: 0 },
+    heroRight: {
+      display: 'flex', flexDirection: 'column', gap: '12px',
+      paddingTop: '60px', paddingBottom: '80px', flexShrink: 0,
+      opacity: heroVisible ? 1 : 0,
+      transform: heroVisible ? 'translateX(0)' : 'translateX(24px)',
+      transition: 'opacity 0.8s 0.2s ease, transform 0.8s 0.2s ease',
+    },
+    heroStatCard: {
+      background: 'rgba(255,255,255,0.045)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      borderRadius: '14px', padding: '18px 24px',
+      backdropFilter: 'blur(12px)',
+      minWidth: '155px',
+    },
+    heroStatLabel: { fontSize: '9px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '6px' },
+    heroStatValue: { fontFamily: "'Barlow Condensed', sans-serif", fontSize: '42px', fontWeight: 900, color: '#e48915', lineHeight: 1 },
+    heroStatUnit: { fontSize: '10px', color: 'rgba(255,255,255,0.3)', marginTop: '4px' },
+
+    /* ─ LAYOUT ─ */
+    mainSection: { padding: '64px 0 88px' },
+
+    /* ─ IMAGE CARD ─ */
+    imgCard: {
+      position: 'relative', borderRadius: '20px', overflow: 'hidden',
+      marginBottom: '52px',
+      boxShadow: '0 24px 64px rgba(27,42,58,0.18), 0 0 0 1px rgba(27,42,58,0.06)',
+    },
+    imgEl: { width: '100%', height: '420px', objectFit: 'cover', display: 'block' },
+    imgOverlay: {
+      position: 'absolute', inset: 0,
+      background: 'linear-gradient(to top, rgba(8,15,24,0.92) 0%, rgba(8,15,24,0.28) 48%, transparent 100%)',
+    },
+    imgBottom: {
+      position: 'absolute', bottom: 0, left: 0, right: 0,
+      padding: '28px 32px',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '12px',
+    },
+    imgGradeLabel: { fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915', marginBottom: '5px' },
+    imgGradeTitle: { fontFamily: "'Barlow Condensed', sans-serif", fontSize: '26px', fontWeight: 800, color: '#fff', textTransform: 'uppercase' },
+    imgTagRow: { display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' },
+    imgTag: {
+      background: 'rgba(228,137,21,0.18)', border: '1px solid rgba(228,137,21,0.38)',
+      color: '#e48915', fontSize: '10px', fontWeight: 700,
+      padding: '4px 11px', borderRadius: '4px', letterSpacing: '1px', textTransform: 'uppercase',
+    },
+
+    /* ─ SECTION EYEBROW / HEADING ─ */
+    eyebrow: {
+      display: 'inline-flex', alignItems: 'center', gap: '10px',
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: '10px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase',
+      color: '#e48915', marginBottom: '12px',
+    },
+    eyebrowLine: { width: '22px', height: '2px', background: '#e48915', flexShrink: 0, borderRadius: '1px' },
+    sectionH2: {
+      fontFamily: "'Barlow Condensed', sans-serif",
+      fontSize: 'clamp(36px, 5vw, 52px)',
+      fontWeight: 900, color: '#1b2a3a',
+      textTransform: 'uppercase', lineHeight: 0.95,
+      marginBottom: '16px', letterSpacing: '-0.5px',
+    },
+    bodyText: { color: '#5a6a7a', fontSize: '15px', lineHeight: 1.82 },
+    bodyTextMuted: { color: '#8a8a8a', fontSize: '14px', lineHeight: 1.8 },
+
+    /* ─ TAGS ─ */
+    tagRow: { display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '16px', marginBottom: '52px' },
+    tag: {
+      background: '#fff', border: '1.5px solid #ddd8cf',
+      borderRadius: '50px', padding: '7px 18px',
+      fontSize: '12px', fontWeight: 700, color: '#1b2a3a', letterSpacing: '0.3px',
+    },
+
+    /* ─ CROSS SECTION IMAGE ─ */
+    crossImg: {
+      marginBottom: '52px', borderRadius: '16px', overflow: 'hidden',
+      border: '1px solid #ddd8cf', background: '#fff',
+      boxShadow: '0 8px 32px rgba(27,42,58,0.07)',
+    },
+    crossCaption: {
+      padding: '14px 22px', background: '#1b2a3a',
+      display: 'flex', alignItems: 'center', gap: '12px',
+    },
+    crossCaptionBar: { width: '3px', height: '22px', background: '#e48915', borderRadius: '2px', flexShrink: 0 },
+    crossCaptionText: { fontSize: '12px', fontWeight: 500, color: 'rgba(255,255,255,0.52)', letterSpacing: '0.3px' },
+
+    /* ─ KEY METRICS CARDS ─ */
+    metricsGrid: { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', marginBottom: '28px' },
+    metricCard: {
+      background: '#1b2a3a', borderRadius: '16px', padding: '24px 20px',
+      position: 'relative', overflow: 'hidden',
+      boxShadow: '0 8px 28px rgba(27,42,58,0.18)',
+    },
+    metricBg: { position: 'absolute', bottom: -16, right: -14, fontSize: '72px', opacity: 0.05, lineHeight: 1, pointerEvents: 'none', userSelect: 'none' },
+    metricNote: { fontSize: '9px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginBottom: '8px' },
+    metricValue: { fontFamily: "'Barlow Condensed', sans-serif", fontSize: '52px', fontWeight: 900, color: '#e48915', lineHeight: 1 },
+    metricUnit: { fontSize: '10px', color: 'rgba(255,255,255,0.32)', margin: '4px 0 10px' },
+    metricLabel: { fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.55)' },
+
+    /* ─ COMPARISON TABLE ─ */
+    compTable: {
+      background: '#fff', borderRadius: '16px', overflow: 'hidden',
+      border: '1px solid #ddd8cf',
+      boxShadow: '0 6px 24px rgba(27,42,58,0.07)',
+      marginBottom: '52px',
+    },
+    compHead: { background: '#1b2a3a', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr' },
+    compHeadCell: (accent) => ({
+      padding: '16px 20px', fontSize: '10px', fontWeight: 700, letterSpacing: '2px',
+      textTransform: 'uppercase',
+      color: accent ? '#e48915' : 'rgba(255,255,255,0.38)',
+      textAlign: accent ? 'center' : undefined,
+    }),
+    compRow: (even) => ({
+      display: 'grid', gridTemplateColumns: '2fr 1fr 1fr',
+      borderBottom: '1px solid #f0ebe3',
+      background: even ? '#fff' : '#fdfcfa',
+    }),
+    compCell: {
+      padding: '14px 20px', fontSize: '13.5px', fontWeight: 600, color: '#1b2a3a',
+    },
+    compCellMid: {
+      padding: '14px 20px', fontSize: '13.5px', color: '#9aabba', textAlign: 'center', fontWeight: 500,
+    },
+    compCellAccent: { padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+    compBadge: {
+      display: 'inline-block',
+      background: 'rgba(228,137,21,0.08)', border: '1px solid rgba(228,137,21,0.22)',
+      borderRadius: '6px', padding: '3px 13px',
+      fontSize: '13.5px', fontWeight: 700, color: '#c8401a',
+    },
+
+    /* ─ CHEM TABLES ─ */
+    chemGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '16px' },
+    chemCard: { background: '#fff', borderRadius: '16px', overflow: 'hidden', border: '1px solid #ddd8cf' },
+    chemHead: (dark) => ({ background: dark ? '#080f18' : '#1b2a3a', padding: '18px 20px' }),
+    chemHeadSub: { fontSize: '9px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#e48915', marginBottom: '4px' },
+    chemHeadTitle: { fontSize: '14px', fontWeight: 700, color: '#fff' },
+    chemRow: (even) => ({
+      padding: '12px 18px', borderBottom: '1px solid #f0ebe3',
+      background: even ? '#fff' : '#fdfcfa',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+    }),
+    chemRowLabel: { fontSize: '12px', fontWeight: 700, color: '#1b2a3a', marginBottom: '1px' },
+    chemRowUnit: { fontSize: '10px', color: '#9aabba' },
+    chemRowValues: { display: 'flex', gap: '12px', alignItems: 'center' },
+    chemStd: { fontSize: '12px', color: '#9aabba' },
+    chemArrow: { fontSize: '11px', color: '#ddd8cf' },
+    chemBadge: { fontSize: '13px', fontWeight: 700, color: '#c8401a', background: 'rgba(200,64,26,0.07)', padding: '2px 9px', borderRadius: '5px' },
+    chemNote: {
+      padding: '16px 20px', background: '#fffaf4', borderRadius: '12px',
+      border: '1px solid rgba(228,137,21,0.18)',
+      display: 'flex', gap: '13px', alignItems: 'flex-start',
+      marginBottom: '52px',
+    },
+    chemNoteIcon: { fontSize: '18px', flexShrink: 0, marginTop: '1px' },
+    chemNoteText: { margin: 0, fontSize: '13px', color: '#7a4a1a', lineHeight: 1.75 },
+
+    /* ─ VIDEO ─ */
+    videoCard: {
+      marginBottom: '52px', borderRadius: '20px', overflow: 'hidden',
+      position: 'relative', height: '340px',
+      boxShadow: '0 20px 60px rgba(0,0,0,0.22)',
+    },
+    videoBg: { position: 'absolute', inset: 0, backgroundSize: 'cover', backgroundPosition: 'center' },
+    videoOverlay: { position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(8,15,24,0.88) 0%, rgba(8,15,24,0.5) 100%)' },
+    videoContent: {
+      position: 'absolute', inset: 0, zIndex: 2,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    },
+    videoTag: { fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '22px' },
+    videoPlayBtn: (hover) => ({
+      width: '84px', height: '84px',
+      background: hover ? '#f5a520' : '#e48915',
+      borderRadius: '50%',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: '26px', color: '#fff',
+      textDecoration: 'none',
+      boxShadow: hover
+        ? '0 0 0 14px rgba(228,137,21,0.22), 0 0 0 28px rgba(228,137,21,0.1), 0 12px 40px rgba(228,137,21,0.45)'
+        : '0 0 0 10px rgba(228,137,21,0.15), 0 0 0 22px rgba(228,137,21,0.07), 0 8px 28px rgba(228,137,21,0.35)',
+      transition: 'all 0.3s ease',
+      marginBottom: '22px',
+      transform: hover ? 'scale(1.08)' : 'scale(1)',
+    }),
+    videoTitle: {
+      fontFamily: "'Barlow Condensed', sans-serif",
+      fontSize: '22px', fontWeight: 800, color: '#fff',
+      textTransform: 'uppercase', letterSpacing: '0.5px',
+    },
+
+    /* ─ FAQ ─ */
+    faqItem: (active) => ({
+      background: '#fff', borderRadius: '12px', overflow: 'hidden',
+      border: `1.5px solid ${active ? '#e48915' : '#ddd8cf'}`,
+      transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+      boxShadow: active ? '0 4px 22px rgba(228,137,21,0.1)' : 'none',
+      marginBottom: '8px',
+    }),
+    faqBtn: {
+      width: '100%', padding: '20px 24px',
+      background: 'none', border: 'none', cursor: 'pointer',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      gap: '16px', textAlign: 'left',
+    },
+    faqNum: (active) => ({
+      width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
+      background: active ? '#e48915' : '#f0ebe3',
+      color: active ? '#fff' : '#8a8a8a',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: "'Barlow Condensed', sans-serif",
+      fontSize: '12px', fontWeight: 800, transition: 'all 0.25s ease',
+    }),
+    faqQ: (active) => ({ fontSize: '15px', fontWeight: 700, color: active ? '#1b2a3a' : '#3a4557' }),
+    faqIcon: (active) => ({
+      width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
+      background: active ? 'rgba(228,137,21,0.1)' : '#f0ebe3',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: '12px', color: active ? '#e48915' : '#8a8a8a',
+      transition: 'all 0.25s ease',
+      transform: active ? 'rotate(45deg)' : 'none',
+    }),
+    faqBody: { padding: '0 24px 20px 68px', fontSize: '14px', color: '#5a6a7a', lineHeight: 1.82, borderTop: '1px solid #f0ebe3' },
+
+    /* ─ BOTTOM CTA ─ */
+    bottomCta: {
+      borderRadius: '20px', overflow: 'hidden',
+      position: 'relative', display: 'flex', minHeight: '220px',
+      boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
+    },
+    bottomCtaBg: { position: 'absolute', inset: 0, background: 'linear-gradient(140deg, #080f18 0%, #1b2a3a 100%)' },
+    bottomCtaTexture: { position: 'absolute', inset: 0, backgroundSize: 'cover', opacity: 0.1 },
+    bottomCtaGlow: { position: 'absolute', top: '-40%', left: '-10%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(228,137,21,0.14) 0%, transparent 65%)' },
+    bottomCtaInner: { position: 'relative', zIndex: 2, display: 'flex', width: '100%', alignItems: 'stretch' },
+    bottomCtaLeft: { flex: 1, padding: '48px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' },
+    bottomCtaTag: { fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915', marginBottom: '12px' },
+    bottomCtaH3: { fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(30px, 3.5vw, 42px)', fontWeight: 900, color: '#fff', textTransform: 'uppercase', lineHeight: 1.05, marginBottom: '24px', maxWidth: '320px' },
+    bottomCtaBtn: {
+      display: 'inline-flex', alignItems: 'center', gap: '8px',
+      background: '#e48915', color: '#fff',
+      padding: '13px 26px', borderRadius: '8px',
+      fontSize: '13px', fontWeight: 700, textDecoration: 'none',
+      alignSelf: 'flex-start',
+      boxShadow: '0 6px 24px rgba(228,137,21,0.32)',
+      transition: 'all 0.25s ease',
+    },
+    bottomCtaRight: { width: '38%', position: 'relative', flexShrink: 0 },
+    bottomCtaRightImg: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' },
+    bottomCtaRightFade: { position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0d1621 0%, transparent 55%)' },
+
+    /* ─ SIDEBAR ─ */
+    sidebar: { position: 'sticky', top: '100px', display: 'flex', flexDirection: 'column', gap: '20px' },
+
+    /* specs card */
+    specsCard: { background: '#1b2a3a', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 36px rgba(27,42,58,0.2)' },
+    specsCardHead: { padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.07)' },
+    specsCardHeadSub: { fontSize: '9px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915', marginBottom: '6px' },
+    specsCardHeadTitle: { fontFamily: "'Barlow Condensed', sans-serif", fontSize: '22px', fontWeight: 800, color: '#fff', textTransform: 'uppercase' },
+    specsGrid: { padding: '20px 24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px', borderBottom: '1px solid rgba(255,255,255,0.07)' },
+    specItem: {},
+    specLabel: { fontSize: '9px', fontWeight: 600, color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' },
+    specVal: { fontFamily: "'Barlow Condensed', sans-serif", fontSize: '30px', fontWeight: 800, color: '#e48915', lineHeight: 1 },
+    specUnit: { fontSize: '9px', color: 'rgba(255,255,255,0.22)', marginTop: '2px' },
+    specsFooter: { padding: '16px 24px' },
+    specsBtn: {
+      display: 'block', textAlign: 'center',
+      background: '#e48915', color: '#fff',
+      padding: '12px', borderRadius: '8px',
+      fontSize: '13px', fontWeight: 700, textDecoration: 'none',
+      transition: 'background 0.2s ease, transform 0.2s ease',
+    },
+
+    /* nav widget */
+    navWidget: { background: '#fff', border: '1px solid #ddd8cf', borderRadius: '16px', overflow: 'hidden' },
+    navWidgetHead: { padding: '16px 24px', borderBottom: '1px solid #ddd8cf', display: 'flex', alignItems: 'center', gap: '12px' },
+    navWidgetBar: { width: '3px', height: '18px', background: '#e48915', borderRadius: '2px' },
+    navWidgetTitle: { margin: 0, fontSize: '14px', fontWeight: 800, color: '#1b2a3a' },
+    navLink: {
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      padding: '10px 24px',
+      fontSize: '13px', fontWeight: 600, color: '#3a4557', textDecoration: 'none',
+      borderLeft: '2px solid transparent',
+      transition: 'all 0.18s ease',
+    },
+
+    /* CTA card */
+    ctaCard: { borderRadius: '16px', overflow: 'hidden', position: 'relative', textAlign: 'center', padding: '44px 28px' },
+    ctaCardBg: { position: 'absolute', inset: 0, background: '#1b2a3a' },
+    ctaCardTexture: { position: 'absolute', inset: 0, backgroundSize: 'cover', opacity: 0.15 },
+    ctaCardGlow: { position: 'absolute', top: '-30%', right: '-20%', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(228,137,21,0.13) 0%, transparent 65%)' },
+    ctaCardInner: { position: 'relative', zIndex: 2 },
+    ctaIcon: {
+      width: '48px', height: '48px', background: 'rgba(228,137,21,0.14)',
+      border: '1px solid rgba(228,137,21,0.28)', borderRadius: '12px',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      margin: '0 auto 20px', fontSize: '22px',
+    },
+    ctaH3: { fontFamily: "'Barlow Condensed', sans-serif", fontSize: '34px', fontWeight: 900, color: '#fff', textTransform: 'uppercase', lineHeight: 1.1, marginBottom: '10px' },
+    ctaSubtext: { fontSize: '13px', color: 'rgba(255,255,255,0.42)', marginBottom: '24px', lineHeight: 1.7 },
+    ctaBtn: {
+      display: 'inline-block',
+      background: '#e48915', color: '#fff',
+      padding: '12px 30px', borderRadius: '8px',
+      fontSize: '13px', fontWeight: 700, textDecoration: 'none',
+      boxShadow: '0 6px 22px rgba(228,137,21,0.28)',
+    },
+
+    /* dl widget */
+    dlWidget: { background: '#fff', border: '1px solid #ddd8cf', borderRadius: '16px', overflow: 'hidden' },
+    dlHead: { padding: '16px 24px', borderBottom: '1px solid #ddd8cf', display: 'flex', alignItems: 'center', gap: '12px' },
+    dlBody: { padding: '16px' },
+    dlItem: {
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '13px 16px', marginBottom: '8px',
+      background: '#f9fafb', border: '1px solid #ddd8cf', borderRadius: '10px',
+      textDecoration: 'none', transition: 'all 0.2s ease',
+    },
+    dlItemLeft: { display: 'flex', alignItems: 'center', gap: '10px' },
+    dlItemLabel: { fontSize: '13px', fontWeight: 600, color: '#1b2a3a' },
+  };
+
   return (
-    <main>
-      {/* Breadcrumb banner */}
-      <section className="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-        <div className="rs-breadcrumb-bg" style={{ backgroundImage: `url(${p.breadcrumbBg})` }}></div>
-        <div className="container">
-          <div className="row">
-            <div className="col-xxl-6 col-xl-8 col-lg-8">
-              <div className="rs-breadcrumb-content-wrapper">
-                <div className="rs-breadcrumb-title-wrapper">
-                  <h1 className="rs-breadcrumb-title" style={{ fontWeight: 800 }}>{p.title}</h1>
-                </div>
-                <div className="rs-breadcrumb-menu">
-                  <nav>
-                    <ul>
-                      <li><span><Link to="/">Home</Link></span></li>
-                      <li><span>{p.title}</span></li>
-                    </ul>
-                  </nav>
-                </div>
-              </div>
+    <main style={S.page}>
+
+      {/* ══════════════════ HERO ══════════════════ */}
+      <section style={S.hero} ref={heroRef}>
+        <div style={S.heroBgImg} />
+        <div style={S.heroGlowTop} />
+        <div style={S.heroGlowBot} />
+        <div style={S.heroNoise} />
+        <div style={S.heroDiagonal} />
+
+        <div style={S.heroInner}>
+          {/* LEFT */}
+          <div style={S.heroLeft}>
+            <div style={S.heroPill}>
+              <div style={S.heroPillDot} />
+              <span style={S.heroPillText}>Premium Grade Product</span>
             </div>
+
+            <div style={S.heroGradeBadge}>{p.grade}</div>
+
+            <h1 style={S.heroH1}>{p.title}</h1>
+            <div style={S.heroSize}>{p.size}</div>
+            <p style={S.heroDesc}>{p.desc}</p>
+
+            <nav>
+              <ol style={S.heroBreadcrumb}>
+                <li>
+                  <Link to="/" style={{ color: 'rgba(255,255,255,0.38)', fontSize: '12px', fontWeight: 600, textDecoration: 'none' }}>
+                    Home
+                  </Link>
+                </li>
+                <li style={{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', padding: '0 4px' }}>/</li>
+                <li style={{ color: '#e48915', fontSize: '12px', fontWeight: 600 }}>
+                  {p.grade} · {p.size}
+                </li>
+              </ol>
+            </nav>
+          </div>
+
+          {/* RIGHT: stat panels */}
+          <div style={S.heroRight}>
+            {[
+              { label: 'Yield Strength', value: yieldVal + '+', unit: 'N/mm²' },
+              { label: 'Tensile Strength', value: tensileVal + '+', unit: 'N/mm²' },
+              { label: 'Elongation', value: '17+', unit: '%' },
+            ].map((s, i) => (
+              <div key={i} style={S.heroStatCard}>
+                <div style={S.heroStatLabel}>{s.label}</div>
+                <div style={S.heroStatValue}>{s.value}</div>
+                <div style={S.heroStatUnit}>{s.unit}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Main Content Layout */}
-      <section className="rs-services-area section-space">
+      {/* ══════════════════ BODY ══════════════════ */}
+      <section style={S.mainSection}>
         <div className="container">
           <div className="row g-5">
-            {/* Left Content column */}
+
+            {/* ─── LEFT: MAIN CONTENT ─── */}
             <div className="col-xl-8 col-lg-8">
-              <div className="rs-services-details-wrapper">
-                <div className="rs-services-details-thumb mb-4">
-                  <img src={p.image} alt={p.title} style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }} />
-                </div>
 
-                <h2>A+ All the Way</h2>
-                <p>
+              {/* Product Image Card */}
+              <div style={S.imgCard}>
+                <img src={p.image} alt={p.title} style={S.imgEl} />
+                <div style={S.imgOverlay} />
+                <div style={S.imgBottom}>
+                  <div>
+                    <div style={S.imgGradeLabel}>TRIAM A+</div>
+                    <div style={S.imgGradeTitle}>{p.grade} · {p.size}</div>
+                  </div>
+                  <div style={S.imgTagRow}>
+                    <span style={S.imgTag}>ISI Certified</span>
+                    <span style={S.imgTag}>IS 1786:2008</span>
+                    <span style={S.imgTag}>ISO 9001</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Application Tags */}
+              <div style={S.eyebrow}><span style={S.eyebrowLine} />Application Areas</div>
+              <div style={S.tagRow}>
+                {p.applications.map((app, i) => (
+                  <span key={i} style={S.tag}>{app}</span>
+                ))}
+              </div>
+
+              {/* A+ All the Way */}
+              <div style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />About this Product</div>
+                <h2 style={S.sectionH2}>A+ All the Way</h2>
+                <p style={{ ...S.bodyText, marginBottom: '16px' }}>
                   For close to two decades, Amit Metaliks Ltd. has built its name in the metallurgical sector on one principle: no shortcuts.
-                  Every TRIAM A+ {p.grade} rebar is forged on the patented Thermax technology from HSE, Germany, then carried through a refined process that pairs high strength with high ductility at every stage. Pick up an ISI-certified bar and the A+ quality shows along its full length.
+                  Every TRIAM A+ {p.grade} rebar is forged on the patented Thermax technology from HSE, Germany, then carried through a refined process that pairs high strength with high ductility at every stage.
                 </p>
-                
-                <div className="my-4">
-                  <img src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/jCZ08YrDJXpXR5kGRDQkxxNKubNLMIuVUAHYDsjR.png" alt="Rebar Cross Section" width="100%" style={{ borderRadius: '8px' }} />
+                <p style={S.bodyText}>
+                  Pick up an ISI-certified bar and the A+ quality shows along its full length — in every millimetre of steel, in every test certificate, in every structure it supports.
+                </p>
+              </div>
+
+              {/* Cross Section Image */}
+              <div style={S.crossImg}>
+                <img
+                  src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/jCZ08YrDJXpXR5kGRDQkxxNKubNLMIuVUAHYDsjR.png"
+                  alt="Rebar Cross Section"
+                  style={{ width: '100%', display: 'block' }}
+                />
+                <div style={S.crossCaption}>
+                  <div style={S.crossCaptionBar} />
+                  <span style={S.crossCaptionText}>
+                    Cross-section showing the dual-layer Thermax structure — hardened martensitic rim + ductile ferrite-pearlite core
+                  </span>
+                </div>
+              </div>
+
+              {/* Physical Properties */}
+              <div style={{ marginBottom: '0' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Performance Data</div>
+                <h2 style={S.sectionH2}>Physical Properties</h2>
+                <p style={{ ...S.bodyTextMuted, marginBottom: '28px' }}>
+                  TRIAM A+ {p.grade} doesn't just meet IS 1786:2008 — it comfortably exceeds the minimum limits and conforms to ISO 9001, ISO 14001, and ISO 45001.
+                </p>
+
+                {/* Metric Cards */}
+                <div style={S.metricsGrid}>
+                  {[
+                    { note: 'Proof Stress', value: p.yieldStrength + '+', unit: 'N/mm²', label: 'Yield Strength', icon: '⚙' },
+                    { note: 'Ultimate Load', value: p.tensile + '+', unit: 'N/mm²', label: 'Tensile Strength', icon: '⚡' },
+                    { note: 'Ductility', value: '17+', unit: '%', label: 'Elongation', icon: '↔' },
+                  ].map((m, i) => (
+                    <div key={i} style={S.metricCard}>
+                      <div style={S.metricBg}>{m.icon}</div>
+                      <div style={S.metricNote}>{m.note}</div>
+                      <div style={S.metricValue}>{m.value}</div>
+                      <div style={S.metricUnit}>{m.unit}</div>
+                      <div style={S.metricLabel}>{m.label}</div>
+                    </div>
+                  ))}
                 </div>
 
-                <h2>A+ Physical Properties</h2>
-                <p>
-                  TRIAM A+ {p.grade} doesn't just meet IS 1786:2008 — it comfortably exceeds the minimum limits and conforms to ISO 9001, ISO 14001, and ISO 45001 quality standards.<br />
-                  Where the standard specifies a yield strength of {p.grade === 'Fe 500D' ? '500' : '550'} N/mm², our bars deliver {p.grade === 'Fe 500D' ? '500+' : '550+'}. Where the standard calls for 14.5% elongation, ours hits 17% minimum. That combined margin of strength and ductility is what gives the bar its real safety reserve in long-service structures.
+                {/* Comparison Table */}
+                <div style={S.compTable}>
+                  <div style={S.compHead}>
+                    <div style={S.compHeadCell(false)}>Property</div>
+                    <div style={{ ...S.compHeadCell(false), textAlign: 'center' }}>IS Standard</div>
+                    <div style={S.compHeadCell(true)}>Triam A+</div>
+                  </div>
+                  {physicalRows.map((row, i) => (
+                    <div key={i} style={S.compRow(i % 2 === 0)}>
+                      <div style={S.compCell}>
+                        {row.label}
+                        {row.unit && <span style={{ fontSize: '11px', color: '#9aabba', fontWeight: 400, marginLeft: '4px' }}>{row.unit}</span>}
+                      </div>
+                      <div style={S.compCellMid}>{row.std}</div>
+                      <div style={S.compCellAccent}>
+                        <span style={S.compBadge}>{row.triam}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Chemical Properties */}
+              <div style={S.eyebrow}><span style={S.eyebrowLine} />Composition Data</div>
+              <h2 style={S.sectionH2}>Chemical Properties</h2>
+              <p style={{ ...S.bodyTextMuted, marginBottom: '28px' }}>
+                Built on controlled chemistry — clean steel, lean composition. A low-alloy variant is also available with carbon controlled at 0.15% max for enhanced corrosion resistance.
+              </p>
+
+              <div style={S.chemGrid}>
+                {/* Standard Grade */}
+                <div style={S.chemCard}>
+                  <div style={S.chemHead(false)}>
+                    <div style={S.chemHeadSub}>Standard Grade</div>
+                    <div style={S.chemHeadTitle}>TRIAM A+ {p.grade}</div>
+                  </div>
+                  {chemRows.map((c, i) => (
+                    <div key={i} style={S.chemRow(i % 2 === 0)}>
+                      <div>
+                        <div style={S.chemRowLabel}>{c.label}</div>
+                        <div style={S.chemRowUnit}>{c.unit}</div>
+                      </div>
+                      <div style={S.chemRowValues}>
+                        <span style={S.chemStd}>{c.std}</span>
+                        <span style={S.chemArrow}>→</span>
+                        <span style={S.chemBadge}>{c.triam}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Low Alloy */}
+                <div style={S.chemCard}>
+                  <div style={S.chemHead(true)}>
+                    <div style={S.chemHeadSub}>Low Alloy Variant</div>
+                    <div style={S.chemHeadTitle}>TRIAM A+ {p.grade} LA</div>
+                  </div>
+                  {chemRows.map((c, i) => (
+                    <div key={i} style={S.chemRow(i % 2 === 0)}>
+                      <div>
+                        <div style={S.chemRowLabel}>{c.label}</div>
+                        <div style={S.chemRowUnit}>{c.unit}</div>
+                      </div>
+                      <div style={S.chemRowValues}>
+                        <span style={S.chemStd}>{c.std}</span>
+                        <span style={S.chemArrow}>→</span>
+                        <span style={S.chemBadge}>{c.triamLA}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={S.chemNote}>
+                <span style={S.chemNoteIcon}>ℹ</span>
+                <p style={S.chemNoteText}>
+                  Every ISI-certified TRIAM A+ {p.grade} bar delivers a combination of strength, ductility, and corrosion resistance that few rebars can match. The A+ quality shows in every inch of metal.
                 </p>
+              </div>
 
-                <table className="custom-table table-responsive mb-4">
-                  <thead>
-                    <tr>
-                      <th>PHYSICAL PROPERTIES</th>
-                      <th>IS:1786:2008 {p.grade}</th>
-                      <th>Triam A+ {p.grade}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>0.2% Proof Stress : N/mm<sup>2</sup> (Min)</td>
-                      <td>{p.grade === 'Fe 500D' ? '500' : '550'}</td>
-                      <td>{p.grade === 'Fe 500D' ? '500+' : '550+'}</td>
-                    </tr>
-                    <tr>
-                      <td>Tensile Strength : N/mm<sup>2</sup> (Min)</td>
-                      <td>{p.grade === 'Fe 500D' ? '565' : '600'}</td>
-                      <td>{p.grade === 'Fe 500D' ? '565+' : '600+'}</td>
-                    </tr>
-                    <tr>
-                      <td>Elongation (%)</td>
-                      <td>14.5</td>
-                      <td>17+</td>
-                    </tr>
-                    <tr>
-                      <td>Elongation of Max. Force (%) (Min)</td>
-                      <td>5</td>
-                      <td>7+</td>
-                    </tr>
-                    <tr>
-                      <td>TS / YS Ratio</td>
-                      <td>1.08</td>
-                      <td>1.15</td>
-                    </tr>
-                    <tr>
-                      <td>Bend</td>
-                      <td>4D-5D</td>
-                      <td>3D-4D</td>
-                    </tr>
-                    <tr>
-                      <td>Rebend</td>
-                      <td>6D-7D</td>
-                      <td>5D-6D</td>
-                    </tr>
-                  </tbody>
-                </table>
+              {/* Video Section */}
+              <div style={S.videoCard}>
+                <div
+                  style={{ ...S.videoBg, backgroundImage: 'url(https://enquiry.triamtmt.com/images/tab-img6.jpg)' }}
+                />
+                <div style={S.videoOverlay} />
+                <div style={S.videoContent}>
+                  <div style={S.videoTag}>Watch the manufacturing process</div>
+                  <a
+                    href="https://www.youtube.com/watch?v=BNEq6JcQK0M"
+                    target="_blank" rel="noreferrer"
+                    style={S.videoPlayBtn(videoHover)}
+                    onMouseEnter={() => setVideoHover(true)}
+                    onMouseLeave={() => setVideoHover(false)}
+                  >
+                    <i className="fa-solid fa-play" style={{ marginLeft: '5px' }} />
+                  </a>
+                  <div style={S.videoTitle}>See Thermax Technology in Action</div>
+                </div>
+              </div>
 
-                <h2>A+ Chemical Properties</h2>
-                <p>
-                  Built on controlled chemistry — clean steel, lean composition — TRIAM A+ {p.grade} conforms to {p.grade}, IS:1786:2008 specifications while delivering better weldability, higher bending capability, and superior ductility than the standard demands.<br />
-                  A low-alloy steel variant is also available, with carbon controlled at 0.15% max and trace alloying elements that deliver {p.grade}-grade mechanical properties (per IS 1786:2008, clause 4.2.3) along with significantly enhanced corrosion resistance — a combination few rebars can match.
-                </p>
-
-                <table className="custom-table table-responsive mb-4">
-                  <thead>
-                    <tr>
-                      <th>CHEMICAL PROPERTIES</th>
-                      <th>IS:1786:2008 {p.grade}</th>
-                      <th>TRIAM A+ {p.grade}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Carbon (%) Max</td>
-                      <td>0.250</td>
-                      <td>0.200</td>
-                    </tr>
-                    <tr>
-                      <td>Sulphur (%) Max</td>
-                      <td>0.040</td>
-                      <td>0.040</td>
-                    </tr>
-                    <tr>
-                      <td>Phosphorous (%) Max</td>
-                      <td>0.040</td>
-                      <td>0.040</td>
-                    </tr>
-                    <tr>
-                      <td>Sulphur & Phosphorous (%) Max</td>
-                      <td>0.075</td>
-                      <td>0.075</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="custom-table table-responsive mb-4">
-                  <thead>
-                    <tr>
-                      <th>CHEMICAL PROPERTIES</th>
-                      <th>IS:1786:2008 {p.grade}</th>
-                      <th>TRIAM A+ {p.grade} Low Alloy</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Carbon (%) Max</td>
-                      <td>0.250</td>
-                      <td>0.150</td>
-                    </tr>
-                    <tr>
-                      <td>Sulphur (%) Max</td>
-                      <td>0.040</td>
-                      <td>0.040</td>
-                    </tr>
-                    <tr>
-                      <td>Phosphorous (%) Max</td>
-                      <td>0.040</td>
-                      <td>0.090</td>
-                    </tr>
-                    <tr>
-                      <td>Sulphur & Phosphorous (%) Max</td>
-                      <td>0.075</td>
-                      <td>0.130</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p>Every time you hold an ISI-certified TRIAM A+ {p.grade} in your hand, you feel the A+ quality in every inch of metal.</p>
-
-                {/* Video Play banner */}
-                <div className="rs-services-details-video rs-video-one my-5">
-                  <div className="rs-video-bg-thumb" style={{ backgroundImage: "url(https://enquiry.triamtmt.com/images/tab-img6.jpg)" }}></div>
-                  <div className="container">
-                    <div className="row justify-content-center">
-                      <div className="col-xl-7 col-lg-8 col-md-10">
-                        <div className="rs-video-content text-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-                          <div className="rs-video-play-btn">
-                            <a href="https://www.youtube.com/watch?v=BNEq6JcQK0M" className="rs-play-btn popup-video" target="_blank" rel="noreferrer" style={{ width: '80px', height: '80px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#e48915', color: '#fff', borderRadius: '50%', fontSize: '24px' }}>
-                              <i className="fa-solid fa-play"></i>
-                            </a>
-                          </div>
+              {/* FAQ */}
+              <div style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Common Questions</div>
+                <h3 style={S.sectionH2}>FAQ</h3>
+                <div style={{ marginTop: '24px' }}>
+                  {faqs.map((faq, idx) => (
+                    <div key={idx} style={S.faqItem(activeFaq === idx)}>
+                      <button
+                        style={S.faqBtn}
+                        onClick={() => setActiveFaq(activeFaq === idx ? -1 : idx)}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                          <span style={S.faqNum(activeFaq === idx)}>
+                            {String(idx + 1).padStart(2, '0')}
+                          </span>
+                          <span style={S.faqQ(activeFaq === idx)}>{faq.q}</span>
                         </div>
-                      </div>
+                        <span style={S.faqIcon(activeFaq === idx)}>
+                          <i className="fa-solid fa-plus" />
+                        </span>
+                      </button>
+                      {activeFaq === idx && (
+                        <div style={S.faqBody}>
+                          <div style={{ paddingTop: '16px' }}>{faq.a}</div>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  ))}
                 </div>
+              </div>
 
-                <div className="has-border-line my-4" style={{ borderBottom: '1px solid #eee' }}></div>
-                <h3 className="rs-services-details-title mb-4">FAQ</h3>
-                
-                {/* Stateful Accordion */}
-                <div className="rs-services-details-faq mb-5">
-                  <div className="rs-faq-content rs-accordion-one">
-                    <div className="accordion-wrapper">
-                      <div className="accordion">
-                        {faqs.map((faq, idx) => (
-                          <div key={idx} className="rs-accordion-item" style={{ border: '1px solid #eee', borderRadius: '8px', marginBottom: '10px', overflow: 'hidden' }}>
-                            <h4 className="accordion-header" style={{ margin: 0 }}>
-                              <button 
-                                className={`accordion-button ${activeFaq === idx ? '' : 'collapsed'}`} 
-                                type="button" 
-                                onClick={() => setActiveFaq(activeFaq === idx ? -1 : idx)}
-                                style={{
-                                  width: '100%',
-                                  padding: '20px',
-                                  textAlign: 'left',
-                                  backgroundColor: activeFaq === idx ? '#f7f5f2' : '#fff',
-                                  border: 'none',
-                                  fontWeight: 700,
-                                  fontSize: '16px',
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                  color: activeFaq === idx ? '#e48915' : '#191919'
-                                }}
-                              >
-                                {faq.q}
-                                <i className={`fa-solid ${activeFaq === idx ? 'fa-minus' : 'fa-plus'}`} style={{ fontSize: '14px' }}></i>
-                              </button>
-                            </h4>
-                            {activeFaq === idx && (
-                              <div className="accordion-collapse collapse show">
-                                <div className="accordion-body" style={{ padding: '20px', backgroundColor: '#fff', color: '#555', fontSize: '14px', lineHeight: '1.7', borderTop: '1px solid #eee' }}>
-                                  {faq.a}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom CTA Box */}
-                <div className="rs-services-details-cta p-relative" style={{ borderRadius: '12px', overflow: 'hidden', display: 'flex', backgroundColor: '#191919', color: '#fff' }}>
-                  <div className="rs-services-details-cta-bg-thumb" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/5ed2PbhFs4YyBh8d3SVZEQO6x8lUeKsJxY22nHCt.jpg)', backgroundSize: 'cover', opacity: 0.15 }}></div>
-                  <div className="rs-services-details-cta-content" style={{ padding: '50px 40px', zIndex: 2, flex: '1' }}>
-                    <h3 className="rs-services-details-title mb-4" style={{ color: '#fff', fontSize: '26px', fontWeight: 800 }}>We are always ready to help you and answer your questions</h3>
-                    <Link to="/contact" className="triam-btn triam-btn-yellow" style={{ textDecoration: 'none' }}>
-                      Explore More
+              {/* Bottom CTA */}
+              <div style={S.bottomCta}>
+                <div style={S.bottomCtaBg} />
+                <div style={{ ...S.bottomCtaTexture, backgroundImage: 'url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/5ed2PbhFs4YyBh8d3SVZEQO6x8lUeKsJxY22nHCt.jpg)' }} />
+                <div style={S.bottomCtaGlow} />
+                <div style={S.bottomCtaInner}>
+                  <div style={S.bottomCtaLeft}>
+                    <div style={S.bottomCtaTag}>Get In Touch</div>
+                    <h3 style={S.bottomCtaH3}>Ready to build something great?</h3>
+                    <Link to="/contact" style={S.bottomCtaBtn}>
+                      Contact Us &nbsp;<i className="fa-solid fa-arrow-right" style={{ fontSize: '12px' }} />
                     </Link>
                   </div>
-                  <div className="rs-services-details-cta-thumb d-none d-md-block" style={{ width: '40%', position: 'relative', zIndex: 2 }}>
-                    <img src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/IIjLqrsZBaXJl6Zp9B0oVVhvQ1Bm26eVR7kekQiv.jpg" alt="Support" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div className="d-none d-md-block" style={S.bottomCtaRight}>
+                    <img
+                      src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/IIjLqrsZBaXJl6Zp9B0oVVhvQ1Bm26eVR7kekQiv.jpg"
+                      alt="Support"
+                      style={S.bottomCtaRightImg}
+                    />
+                    <div style={S.bottomCtaRightFade} />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Sidebar column */}
+            {/* ─── RIGHT: SIDEBAR ─── */}
             <div className="col-xl-4 col-lg-4">
-              <div className="rs-sidebar-wrapper rs-sidebar-sticky" style={{ position: 'sticky', top: '100px' }}>
-                {/* Categories widget */}
-                <div className="sidebar-widget widget-categories-two mb-4" style={{ backgroundColor: '#f9fafb', border: '1px solid #eee', borderRadius: '12px', padding: '30px' }}>
-                  <h5 className="mb-4 sidebar-widget-title" style={{ fontWeight: 800, fontSize: '18px', borderBottom: '2px solid #e48915', paddingBottom: '10px' }}>Our Services</h5>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    {sidebarLinks.map((link, idx) => (
-                      <li key={idx} style={{ padding: '12px 0', borderBottom: idx < sidebarLinks.length - 1 ? '1px solid #eee' : 'none' }}>
-                        <a href={`#${link.id}`} style={{ color: '#555', textDecoration: 'none', fontWeight: 600, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} className="sidebar-link-hover">
-                          {link.name}
-                          <i className="ri-arrow-right-line" style={{ color: '#e48915' }}></i>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div style={S.sidebar}>
 
-                {/* Talk CTA Widget */}
-                <div className="sidebar-widget widget-cta mb-4 text-center p-relative" style={{ backgroundColor: '#191919', color: '#fff', borderRadius: '12px', overflow: 'hidden', padding: '40px 30px' }}>
-                  <div className="sidebar-widget-cta-thumb" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/ltNm33aKSpwTDb4TnpNRfVs8GlLOb1uJec3BAD1o.jpg)', backgroundSize: 'cover', opacity: 0.2 }}></div>
-                  <div className="sidebar-widget-content" style={{ position: 'relative', zIndex: 2 }}>
-                    <h3 className="sidebar-widget-title mb-4" style={{ color: '#fff', fontWeight: 800, fontSize: '28px', lineHeight: '1.3' }}>Have a <br /> project in <br /> mind?</h3>
-                    <Link to="/contact" className="triam-btn triam-btn-yellow" style={{ display: 'inline-flex', textDecoration: 'none' }}>
-                      Let's Talk
+                {/* Grade Specs Card */}
+                <div style={S.specsCard}>
+                  <div style={S.specsCardHead}>
+                    <div style={S.specsCardHeadSub}>Product Specifications</div>
+                    <div style={S.specsCardHeadTitle}>{p.grade} · {p.size}</div>
+                  </div>
+                  <div style={S.specsGrid}>
+                    {[
+                      { label: 'Yield Strength', val: p.yieldStrength + '+', unit: 'N/mm²' },
+                      { label: 'Tensile Str.', val: p.tensile + '+', unit: 'N/mm²' },
+                      { label: 'Elongation', val: '17+', unit: '%' },
+                      { label: 'TS/YS Ratio', val: '1.15', unit: '' },
+                    ].map((s, i) => (
+                      <div key={i} style={S.specItem}>
+                        <div style={S.specLabel}>{s.label}</div>
+                        <div style={S.specVal}>{s.val}</div>
+                        {s.unit && <div style={S.specUnit}>{s.unit}</div>}
+                      </div>
+                    ))}
+                  </div>
+                  <div style={S.specsFooter}>
+                    <Link to="/contact" style={S.specsBtn}>
+                      Request a Quote
                     </Link>
                   </div>
                 </div>
 
-                {/* Download widget */}
-                <div className="sidebar-widget widget-download mb-4" style={{ backgroundColor: '#f9fafb', border: '1px solid #eee', borderRadius: '12px', padding: '30px' }}>
-                  <h5 className="mb-4 sidebar-widget-title" style={{ fontWeight: 800, fontSize: '18px', borderBottom: '2px solid #e48915', paddingBottom: '10px' }}>Download Brochures</h5>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    <li style={{ marginBottom: '15px' }}>
-                      <a href="#" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '15px', backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px', textDecoration: 'none', color: '#191919', fontWeight: 600 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <img src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/4NSVYaCAgXI7UtbnT7PxM7sxvprmuMQi0qU17bt4.svg" alt="PDF Icon" width="20" />
-                          Report 2023-24
-                        </div>
-                        <img src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/ovuRLvRf5RkMi3bS1ydqp7kg4wLQLhwYH4DyyOCT.svg" alt="Download Icon" width="16" />
+                {/* On-Page Nav Widget */}
+                <div style={S.navWidget}>
+                  <div style={S.navWidgetHead}>
+                    <div style={S.navWidgetBar} />
+                    <h5 style={S.navWidgetTitle}>On This Page</h5>
+                  </div>
+                  <div style={{ padding: '8px 0' }}>
+                    {sidebarLinks.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={`#${link.id}`}
+                        style={S.navLink}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.color = '#c8401a';
+                          e.currentTarget.style.borderLeftColor = '#e48915';
+                          e.currentTarget.style.paddingLeft = '28px';
+                          e.currentTarget.style.background = 'rgba(228,137,21,0.04)';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.color = '#3a4557';
+                          e.currentTarget.style.borderLeftColor = 'transparent';
+                          e.currentTarget.style.paddingLeft = '24px';
+                          e.currentTarget.style.background = 'none';
+                        }}
+                      >
+                        <span>{link.name}</span>
+                        <i className="ri-arrow-right-line" style={{ color: '#e48915', fontSize: '15px', flexShrink: 0 }} />
                       </a>
-                    </li>
-                    <li>
-                      <a href="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/YTJbUO6ba8jZmZkQGeBPNe7jSbwTNOCMnho0fwyN.pdf" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '15px', backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '8px', textDecoration: 'none', color: '#191919', fontWeight: 600 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <img src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/6Q7yVj27cqGpULJ5epH2FCbLwmJben64aHPjl9Rs.svg" alt="PDF Icon" width="20" />
-                          Download PDF
-                        </div>
-                        <img src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/tEhKHbW2Dukw07Kv0cTUQmwWWBSwjwUgaZaRrnK3.svg" alt="Download Icon" width="16" />
-                      </a>
-                    </li>
-                  </ul>
+                    ))}
+                  </div>
                 </div>
+
+                {/* "Have a project?" CTA Card */}
+                <div style={{ ...S.ctaCard, position: 'relative' }}>
+                  <div style={S.ctaCardBg} />
+                  <div style={{ ...S.ctaCardTexture, backgroundImage: 'url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/ltNm33aKSpwTDb4TnpNRfVs8GlLOb1uJec3BAD1o.jpg)' }} />
+                  <div style={S.ctaCardGlow} />
+                  <div style={S.ctaCardInner}>
+                    <div style={S.ctaIcon}>💬</div>
+                    <h3 style={S.ctaH3}>Have a<br />project<br />in mind?</h3>
+                    <p style={S.ctaSubtext}>Our team is ready to help you choose the right grade for your project.</p>
+                    <Link to="/contact" style={S.ctaBtn}>Let's Talk</Link>
+                  </div>
+                </div>
+
+                {/* Download Widget */}
+                <div style={S.dlWidget}>
+                  <div style={S.dlHead}>
+                    <div style={S.navWidgetBar} />
+                    <h5 style={S.navWidgetTitle}>Downloads</h5>
+                  </div>
+                  <div style={S.dlBody}>
+                    {[
+                      {
+                        label: 'Annual Report 2023–24',
+                        href: '#',
+                        icon: 'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/4NSVYaCAgXI7UtbnT7PxM7sxvprmuMQi0qU17bt4.svg',
+                        dl: 'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/ovuRLvRf5RkMi3bS1ydqp7kg4wLQLhwYH4DyyOCT.svg',
+                      },
+                      {
+                        label: 'Product Brochure PDF',
+                        href: 'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/YTJbUO6ba8jZmZkQGeBPNe7jSbwTNOCMnho0fwyN.pdf',
+                        icon: 'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/6Q7yVj27cqGpULJ5epH2FCbLwmJben64aHPjl9Rs.svg',
+                        dl: 'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/tEhKHbW2Dukw07Kv0cTUQmwWWBSwjwUgaZaRrnK3.svg',
+                      },
+                    ].map((item, i) => (
+                      <a
+                        key={i}
+                        href={item.href}
+                        target={item.href !== '#' ? '_blank' : undefined}
+                        rel="noreferrer"
+                        style={{ ...S.dlItem, marginBottom: i === 0 ? '8px' : 0 }}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = '#e48915'; e.currentTarget.style.background = '#fffaf4'; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = '#ddd8cf'; e.currentTarget.style.background = '#f9fafb'; }}
+                      >
+                        <div style={S.dlItemLeft}>
+                          <img src={item.icon} alt="" width="20" />
+                          <span style={S.dlItemLabel}>{item.label}</span>
+                        </div>
+                        <img src={item.dl} alt="Download" width="16" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
