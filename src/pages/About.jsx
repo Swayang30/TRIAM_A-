@@ -155,7 +155,7 @@ export default function About() {
             <div className="about-cmd-img-col">
               <div className="about-cmd-img-wrap">
                 <img
-                  src="https://wheat-termite-712594.hostingersite.com/storage/media/nLj51DWAU1uf3AAg5I3sJj6Bm6lgCwHh6JxgGrwE.jpg"
+                  src="/Mr-Amit_Kumar.png"
                   alt="Mr. Amit Kumar Singh — CMD"
                   className="about-cmd-img"
                 />
