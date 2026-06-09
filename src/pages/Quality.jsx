@@ -371,7 +371,7 @@ export default function Quality() {
       ══════════════════════════════════ */}
       <section style={{ padding: '88px 0', background: cream }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+          <div className="quality-intro-grid" style={{ gap: '64px', alignItems: 'center' }}>
 
             {/* Quote block */}
             <div>
@@ -420,7 +420,7 @@ export default function Quality() {
           </div>
 
           {/* Steps row */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0', position: 'relative' }}>
+          <div className="quality-process-grid" style={{ gap: '0', position: 'relative' }}>
             {/* Connector line */}
             <div style={{ position: 'absolute', top: '36px', left: '10%', right: '10%', height: '2px', background: 'rgba(228,137,21,0.18)', zIndex: 0 }} />
 
@@ -502,7 +502,8 @@ export default function Quality() {
             {advantages.map((a, i) => (
               <div
                 key={i}
-                style={{ display: 'grid', gridTemplateColumns: '1fr 48px 1fr', gap: '0', cursor: 'default' }}
+                className="quality-adv-row"
+                style={{ gap: '0', cursor: 'default' }}
                 onMouseEnter={() => setAdvantageHover(i)}
                 onMouseLeave={() => setAdvantageHover(null)}
               >
@@ -575,7 +576,7 @@ export default function Quality() {
             <h2 style={{ ...displayH('clamp(36px,5vw,60px)'), color: cream }}>Final Product Testing</h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '28px' }}>
+          <div className="quality-tests-grid" style={{ gap: '20px', marginBottom: '28px' }}>
             {tests.map((t, i) => (
               <div key={i} style={{
                 background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
@@ -624,7 +625,7 @@ export default function Quality() {
       ══════════════════════════════════ */}
       <section style={{ padding: '90px 0', background: cream }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+          <div className="quality-lab-grid" style={{ gap: '24px' }}>
             {[
               {
                 icon: 'fa-microscope',
@@ -722,7 +723,7 @@ export default function Quality() {
           </div>
 
           {/* Cert grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '18px' }}>
+          <div className="quality-cert-grid" style={{ gap: '18px' }}>
             {certifications.map((cert, idx) => (
               <div
                 key={idx}

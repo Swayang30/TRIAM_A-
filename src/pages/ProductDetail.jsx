@@ -617,15 +617,17 @@ export default function ProductDetail() {
               </div>
 
               {/* Application Tags */}
-              <div style={S.eyebrow}><span style={S.eyebrowLine} />Application Areas</div>
-              <div style={S.tagRow}>
-                {p.applications.map((app, i) => (
-                  <span key={i} style={S.tag}>{app}</span>
-                ))}
+              <div id="application">
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Application Areas</div>
+                <div style={S.tagRow}>
+                  {p.applications.map((app, i) => (
+                    <span key={i} style={S.tag}>{app}</span>
+                  ))}
+                </div>
               </div>
 
               {/* A+ All the Way */}
-              <div style={{ marginBottom: '52px' }}>
+              <div id="future" style={{ marginBottom: '52px' }}>
                 <div style={S.eyebrow}><span style={S.eyebrowLine} />About this Product</div>
                 <h2 style={S.sectionH2}>A+ All the Way</h2>
                 <p style={{ ...S.bodyText, marginBottom: '16px' }}>
@@ -653,7 +655,7 @@ export default function ProductDetail() {
               </div>
 
               {/* Physical Properties */}
-              <div style={{ marginBottom: '0' }}>
+              <div id="physical" style={{ marginBottom: '0' }}>
                 <div style={S.eyebrow}><span style={S.eyebrowLine} />Performance Data</div>
                 <h2 style={S.sectionH2}>Physical Properties</h2>
                 <p style={{ ...S.bodyTextMuted, marginBottom: '28px' }}>
@@ -700,6 +702,7 @@ export default function ProductDetail() {
               </div>
 
               {/* Chemical Properties */}
+              <div id="chemical">
               <div style={S.eyebrow}><span style={S.eyebrowLine} />Composition Data</div>
               <h2 style={S.sectionH2}>Chemical Properties</h2>
               <p style={{ ...S.bodyTextMuted, marginBottom: '28px' }}>
@@ -756,6 +759,83 @@ export default function ProductDetail() {
                   Every ISI-certified TRIAM A+ {p.grade} bar delivers a combination of strength, ductility, and corrosion resistance that few rebars can match. The A+ quality shows in every inch of metal.
                 </p>
               </div>
+              </div>{/* /#chemical */}
+
+              {/* Dimensional Tolerance */}
+              <div id="tolerance" style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Dimensional Standards</div>
+                <h2 style={S.sectionH2}>Dimensional Tolerance</h2>
+                <p style={{ ...S.bodyTextMuted, marginBottom: '28px' }}>
+                  TRIAM A+ {p.grade} bars are produced within tight dimensional tolerances per IS 1786:2008, ensuring consistent cross-sections, rib geometry, and weight per metre across every batch.
+                </p>
+                <div style={S.compTable}>
+                  <div style={S.compHead}>
+                    <div style={S.compHeadCell(false)}>Parameter</div>
+                    <div style={{ ...S.compHeadCell(false), textAlign: 'center' }}>IS 1786 Limit</div>
+                    <div style={S.compHeadCell(true)}>Triam A+</div>
+                  </div>
+                  {[
+                    { param: 'Mass (Weight/metre)', limit: '±6%', triam: '±4%' },
+                    { param: 'Nominal Diameter', limit: '±0.5 mm', triam: '±0.3 mm' },
+                    { param: 'Rib Height', limit: '≥ 0.05d', triam: 'Exceeds' },
+                    { param: 'Rib Spacing', limit: '≤ 0.7d', triam: 'Compliant' },
+                  ].map((row, i) => (
+                    <div key={i} style={S.compRow(i % 2 === 0)}>
+                      <div style={S.compCell}>{row.param}</div>
+                      <div style={S.compCellMid}>{row.limit}</div>
+                      <div style={S.compCellAccent}><span style={S.compBadge}>{row.triam}</span></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Seismic Resistance */}
+              <div id="seismic" style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Earthquake Safety</div>
+                <h2 style={S.sectionH2}>Seismic Resistance</h2>
+                <p style={{ ...S.bodyTextMuted, marginBottom: '24px' }}>
+                  Structures in seismic zones need more than strength — they need ductility: the ability to absorb energy without sudden fracture. TRIAM A+ {p.grade} delivers both.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '28px' }}>
+                  {[
+                    { icon: '🔁', title: 'High Elongation', text: '17%+ elongation ensures the bar stretches before it breaks — critical for seismic shock absorption.' },
+                    { icon: '⚖', title: 'TS/YS Ratio 1.15', text: 'A higher tensile-to-yield ratio provides a safety margin against sudden overload during earthquakes.' },
+                    { icon: '🔩', title: 'Superior Bendability', text: 'Bend and rebend tests at 3D radius confirm resistance to cracking under cyclic stress.' },
+                    { icon: '🛡', title: 'No Residual Stress', text: 'Unlike cold-twisted bars, TMT bars carry no locked-in stress — stable under repeated seismic loading.' },
+                  ].map((item, i) => (
+                    <div key={i} style={{ background: '#fff', border: '1px solid #ddd8cf', borderRadius: '12px', padding: '20px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                      <span style={{ fontSize: '22px', flexShrink: 0 }}>{item.icon}</span>
+                      <div>
+                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '16px', fontWeight: 700, color: '#1b2a3a', marginBottom: '4px' }}>{item.title}</div>
+                        <div style={{ fontSize: '13px', color: '#5a6a7a', lineHeight: 1.7 }}>{item.text}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Corrosion Resistance */}
+              <div id="corrosion" style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Durability</div>
+                <h2 style={S.sectionH2}>Corrosion Resistance</h2>
+                <p style={{ ...S.bodyTextMuted, marginBottom: '24px' }}>
+                  Controlled carbon, sulphur, and phosphorus levels — combined with Thermax quenching — produce a bar with naturally superior corrosion resistance.
+                </p>
+                <div style={{ background: '#fff', border: '1px solid #ddd8cf', borderRadius: '16px', padding: '28px', marginBottom: '0' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+                    {[
+                      { label: 'Carbon ≤ 0.20%', sub: 'Low carbon minimises carbide precipitation at grain boundaries — a primary corrosion trigger.' },
+                      { label: 'S + P ≤ 0.075%', sub: 'Combined sulphur and phosphorus content is tightly controlled to reduce micro-galvanic corrosion.' },
+                      { label: 'Low Alloy Variant', sub: 'Our LA grade holds carbon at ≤ 0.15%, offering enhanced resistance for coastal and humid environments.' },
+                    ].map((item, i) => (
+                      <div key={i}>
+                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '17px', fontWeight: 700, color: '#c8401a', marginBottom: '6px' }}>{item.label}</div>
+                        <div style={{ fontSize: '13px', color: '#5a6a7a', lineHeight: 1.7 }}>{item.sub}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
               {/* Video Section */}
               <div style={S.videoCard}>
@@ -775,6 +855,78 @@ export default function ProductDetail() {
                     <i className="fa-solid fa-play" style={{ marginLeft: '5px' }} />
                   </a>
                   <div style={S.videoTitle}>See Thermax Technology in Action</div>
+                </div>
+              </div>
+
+              {/* Product Packaging */}
+              <div id="packaging" style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Delivery & Handling</div>
+                <h2 style={S.sectionH2}>Product Packaging</h2>
+                <p style={{ ...S.bodyTextMuted, marginBottom: '24px' }}>
+                  Every bundle of TRIAM A+ {p.grade} is prepared to IS 1786:2008 packaging standards — tagged, bound, and traceable from mill to site.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+                  {[
+                    { icon: '📦', title: 'Bundle Weight', text: 'Standard bundle: approx. 2 MT, adjustable to customer requirement.' },
+                    { icon: '🏷', title: 'IS Tag', text: 'Each bundle carries an IS-compliant tag — grade, heat number, size, weight, and manufacturer details.' },
+                    { icon: '🔗', title: 'Wire Binding', text: 'Secured with MS binding wire at regular intervals to prevent damage during transit and handling.' },
+                    { icon: '📋', title: 'Mill Test Certificate', text: 'MTC available for every heat — physical, chemical, and dimensional test data on record.' },
+                  ].map((item, i) => (
+                    <div key={i} style={{ background: '#fff', border: '1px solid #ddd8cf', borderRadius: '12px', padding: '20px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                      <span style={{ fontSize: '22px', flexShrink: 0 }}>{item.icon}</span>
+                      <div>
+                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '16px', fontWeight: 700, color: '#1b2a3a', marginBottom: '4px' }}>{item.title}</div>
+                        <div style={{ fontSize: '13px', color: '#5a6a7a', lineHeight: 1.7 }}>{item.text}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quality Checks */}
+              <div id="quality" style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Testing & Certification</div>
+                <h2 style={S.sectionH2}>Quality Checks</h2>
+                <p style={{ ...S.bodyTextMuted, marginBottom: '24px' }}>
+                  Every heat of TRIAM A+ undergoes rigorous in-house testing before dispatch. Our laboratory is equipped for full IS 1786:2008 verification.
+                </p>
+                <div style={{ background: '#1b2a3a', borderRadius: '16px', overflow: 'hidden', marginBottom: '20px' }}>
+                  {[
+                    { test: 'Tensile Test', freq: 'Every Heat', detail: 'Yield strength, tensile strength, and elongation measured per IS 1608.' },
+                    { test: 'Bend Test', freq: 'Every Heat', detail: 'Bar bent through 180° around a mandrel of specified diameter without cracking.' },
+                    { test: 'Rebend Test', freq: 'Every Heat', detail: 'Bar bent, aged at 100°C, then rebent — verifies ductility after strain ageing.' },
+                    { test: 'Chemical Analysis', freq: 'Every Heat', detail: 'Spectrometer analysis for C, S, P, Mn, Si — full ladle and product analysis.' },
+                    { test: 'Dimensional Check', freq: 'Continuous', detail: 'Mass per metre, diameter, rib height, and spacing checked during rolling.' },
+                  ].map((row, i) => (
+                    <div key={i} style={{ padding: '16px 24px', borderBottom: i < 4 ? '1px solid rgba(255,255,255,0.07)' : 'none', display: 'grid', gridTemplateColumns: '1.2fr 0.8fr 2fr', gap: '16px', alignItems: 'center' }}>
+                      <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '15px', fontWeight: 700, color: '#fff' }}>{row.test}</div>
+                      <div style={{ fontSize: '11px', fontWeight: 600, color: '#e48915', textTransform: 'uppercase', letterSpacing: '1px' }}>{row.freq}</div>
+                      <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>{row.detail}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Advantages at a Glance */}
+              <div id="advantages" style={{ marginBottom: '52px' }}>
+                <div style={S.eyebrow}><span style={S.eyebrowLine} />Why Choose Triam A+</div>
+                <h2 style={S.sectionH2}>Advantages at a Glance</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', marginTop: '24px' }}>
+                  {[
+                    'Higher yield and tensile strength than IS 1786:2008 minimums',
+                    'Superior elongation (17%+) for seismic and ductility requirements',
+                    'Better weldability — low carbon equivalent reduces heat-affected zone brittleness',
+                    'No residual stress — unlike cold-twisted bars',
+                    'ISI Mark certified — IS 1786:2008 compliant every batch',
+                    'ISO 9001:2015, ISO 14001, and ISO 45001 certified facility',
+                    'Thermax technology from HSE, Germany — patented quenching process',
+                    'Low alloy (LA) variant available for coastal and humid environments',
+                  ].map((text, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: '#fff', border: '1px solid #ddd8cf', borderRadius: '10px', padding: '14px 16px' }}>
+                      <span style={{ color: '#e48915', fontSize: '16px', flexShrink: 0, marginTop: '1px' }}>✓</span>
+                      <span style={{ fontSize: '13.5px', fontWeight: 600, color: '#1b2a3a', lineHeight: 1.6 }}>{text}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 

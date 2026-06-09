@@ -304,7 +304,7 @@ export default function Home() {
               />
               <div className="cp-accent-rule" />
               <TextType
-                typingSpeed={70}
+                typingSpeed={45}
                 text={
                   `At Triam TMT, we are driven by an unwavering commitment to strength, precision, and progress. Our revamped identity embodies what we have always believed: that great structures are not merely built — they are engineered with intent. The very name Triam reflects our pursuit of excellence — a promise of superior quality embedded in every rebar we manufacture. This philosophy shapes our brand's core values: resilience, reliability, and the relentless drive to raise the bar, quite literally.\n\nRooted in ethical manufacturing, advanced technology, and a deep respect for the communities we serve, Triam TMT is dedicated to delivering reinforcing steel that sets new benchmarks for the construction industry. From high-rise residential towers to sprawling infrastructure projects, every Triam A+ TMT bar is a testament to our belief that strength and quality must never be compromised.\n\nOur vision is to empower India's infrastructure future, making Triam TMT a name synonymous with trust in every home, every bridge, and every landmark that shapes tomorrow.`
                 }

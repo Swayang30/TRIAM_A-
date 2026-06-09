@@ -141,27 +141,49 @@ const benefits = [
 const badges = ['ISI Certified', 'IS 1786:2008', 'ISO 9001', 'FE 550D'];
 
 /* ── Main component ── */
-export default function OnsiteAdviceForm() {
+export default function OnsiteAdviceForm({ source = 'onsite-advice' }) {
   const [formData,     setFormData]     = useState({ fullName: '', email: '', phone: '', inquiry: '', message: '' });
   const [focusedField, setFocusedField] = useState(null);
-  const [submitted,    setSubmitted]    = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // null | "success" | "error"
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.phone) {
-      alert('Please fill out the required fields (Full Name and Phone Number).');
-      return;
+    if (!formData.fullName || !formData.phone) return;
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/leads`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source,
+          name:    formData.fullName,
+          phone:   formData.phone,
+          email:   formData.email    || '',
+          city:    '',
+          message: formData.message  || '',
+          product: formData.inquiry  || '',
+          page:    window.location.pathname,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitStatus('success');
+        setFormData({ fullName: '', email: '', phone: '', inquiry: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
     }
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ fullName: '', email: '', phone: '', inquiry: '', message: '' });
-    }, 3500);
   };
 
   const amber = '#e48915';
@@ -248,7 +270,7 @@ export default function OnsiteAdviceForm() {
 
             {/* Form body */}
             <div style={{ padding: '28px 32px' }}>
-              {submitted ? (
+              {submitStatus === 'success' ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(74,222,128,0.1)', border: '2px solid rgba(74,222,128,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', color: '#4ade80', fontSize: '28px' }}>
                     <i className="fa-solid fa-check" />
@@ -265,10 +287,25 @@ export default function OnsiteAdviceForm() {
                   <input type="email" name="email"   placeholder="Email Address"     value={formData.email}   onChange={handleChange} onFocus={() => setFocusedField('email')}   onBlur={() => setFocusedField(null)} style={iStyle('email')} />
                   <input type="text"  name="inquiry" placeholder="Your Inquiry Topic" value={formData.inquiry} onChange={handleChange} onFocus={() => setFocusedField('inquiry')} onBlur={() => setFocusedField(null)} style={iStyle('inquiry')} />
                   <textarea name="message" placeholder="Write Your Message" value={formData.message} onChange={handleChange} onFocus={() => setFocusedField('message')} onBlur={() => setFocusedField(null)} style={{ ...iStyle('message'), height: '108px', resize: 'none' }} />
-                  <button type="submit" className="oaf-submit" style={{ width: '100%', padding: '15px', background: amber, color: cream, border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', boxShadow: '0 6px 20px rgba(228,137,21,0.3)', transition: 'all 0.25s ease', marginTop: '4px' }}>
-                    <i className="fa-solid fa-paper-plane" style={{ fontSize: '14px' }} />
-                    Send Inquiry
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    onClick={handleSubmit}
+                    className="oaf-submit"
+                    style={{ width: '100%', padding: '15px', background: isSubmitting ? 'rgba(228,137,21,0.6)' : amber, color: cream, border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: 800, cursor: isSubmitting ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', boxShadow: '0 6px 20px rgba(228,137,21,0.3)', transition: 'all 0.25s ease', marginTop: '4px' }}
+                  >
+                    {isSubmitting ? 'Sending...' : <><i className="fa-solid fa-paper-plane" style={{ fontSize: '14px' }} /> Send Inquiry</>}
                   </button>
+                  {submitStatus === 'success' && (
+                    <p style={{ color: '#22c55e', marginTop: '8px', fontFamily: 'var(--font-body)' }}>
+                      ✅ Thank you! Our team will contact you shortly.
+                    </p>
+                  )}
+                  {submitStatus === 'error' && (
+                    <p style={{ color: '#ef4444', marginTop: '8px', fontFamily: 'var(--font-body)' }}>
+                      ❌ Something went wrong. Please call us directly.
+                    </p>
+                  )}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '14px' }}>
                     <i className="fa-solid fa-lock" style={{ color: 'rgba(255,255,255,0.25)', fontSize: '10px' }} />
                     <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.28)' }}>Your information is private and never shared.</span>

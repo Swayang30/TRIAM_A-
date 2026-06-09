@@ -96,7 +96,7 @@ export default function Contact() {
           </div>
 
           {/* Main hero block */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', paddingBottom: '96px', opacity: heroIn ? 1 : 0, transform: heroIn ? 'none' : 'translateY(24px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
+          <div className="contact-hero-grid" style={{ gap: '80px', alignItems: 'center', paddingBottom: '96px', opacity: heroIn ? 1 : 0, transform: heroIn ? 'none' : 'translateY(24px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
 
             {/* Left */}
             <div>
@@ -172,7 +172,7 @@ export default function Contact() {
       ══════════════════════════════════ */}
       <section style={{ background: smoke, padding: '0' }}>
         <div className="container" style={{ transform: 'translateY(-52px)', position: 'relative', zIndex: 10 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+          <div className="contact-channel-grid" style={{ gap: '16px' }}>
             {[
               { icon: 'fa-phone',         eyebrow: 'Call Us Anytime',    headline: '1800 843 3333',       sub: 'Toll-free · Mon–Sat · 10 AM – 6 PM', href: 'tel:18008433333',          cta: 'Call Now'        },
               { icon: 'fa-envelope',      eyebrow: 'Write to Us',        headline: 'info@triamtmt.com',   sub: 'We respond within 1 business day',   href: 'mailto:info@triamtmt.com', cta: 'Send Email'      },
@@ -212,7 +212,7 @@ export default function Contact() {
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: '20px', alignItems: 'stretch' }}>
+          <div className="contact-map-grid" style={{ gap: '20px', alignItems: 'stretch' }}>
 
             {/* Left: office card */}
             <div style={{ background: ink, borderRadius: '18px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -273,7 +273,7 @@ export default function Contact() {
       </section>
 
       {/* ══ Inquiry Form ══ */}
-      <OnsiteAdviceForm />
+      <OnsiteAdviceForm source="contact" />
 
     </main>
   );

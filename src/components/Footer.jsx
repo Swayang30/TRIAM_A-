@@ -42,7 +42,7 @@ export default function Footer() {
             <div className="col-lg-4 col-md-6">
               <div className="tmt-footer-logo">
                 <img
-                  src="https://wheat-termite-712594.hostingersite.com/storage/media/nCS4zfNIkPQagMi24GBWRCD7t6qUQDETrC39U7S5.png"
+                  src="/triam2.png"
                   alt="Triam TMT"
                 />
               </div>

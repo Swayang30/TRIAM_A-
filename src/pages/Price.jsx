@@ -80,6 +80,10 @@ export default function Price() {
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [heroIn,           setHeroIn]           = useState(false);
   const [cardHover,        setCardHover]        = useState(null);
+  const [priceName,    setPriceName]    = useState('');
+  const [pricePhone,   setPricePhone]   = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // null | "success" | "error"
 
   useEffect(() => { const t = setTimeout(() => setHeroIn(true), 80); return () => clearTimeout(t); }, []);
 
@@ -100,10 +104,38 @@ export default function Price() {
 
   const handleStateChange = (e) => { setSelectedState(e.target.value); setSelectedDistrict(''); };
 
-  const getPrice = () => {
-    if (!selectedState || !selectedDistrict) { alert('Please select both state & district'); return; }
-    const slugify = (t) => t.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
-    window.open(`https://wheat-termite-712594.hostingersite.com/price-list/${slugify(selectedState)}-${slugify(selectedDistrict)}.pdf`, '_blank');
+  const getPrice = async () => {
+    if (!selectedState || !selectedDistrict || !priceName.trim() || !pricePhone.trim()) return;
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/leads`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source:  'price-inquiry',
+          name:    priceName.trim(),
+          phone:   pricePhone.trim(),
+          email:   '',
+          city:    `${selectedDistrict}, ${selectedState}`,
+          message: '',
+          product: 'TMT Bar Price List PDF',
+          page:    window.location.pathname,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitStatus('success');
+        const slugify = (t) => t.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+        window.open(`https://wheat-termite-712594.hostingersite.com/price-list/${slugify(selectedState)}-${slugify(selectedDistrict)}.pdf`, '_blank');
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   /* ── price table data ── */
@@ -255,16 +287,51 @@ export default function Price() {
                     </select>
                   </div>
 
+                  {/* Name & Phone */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '22px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#8a8a8a', marginBottom: '7px' }}>Your Name</label>
+                      <input
+                        type="text"
+                        placeholder="Full name *"
+                        value={priceName}
+                        onChange={e => setPriceName(e.target.value)}
+                        style={{ width: '100%', boxSizing: 'border-box', height: '48px', padding: '0 14px', border: `1.5px solid ${priceName ? amber : '#ddd8cf'}`, borderRadius: '10px', fontSize: '13px', color: ink, background: smoke, outline: 'none', transition: 'border-color 0.2s' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#8a8a8a', marginBottom: '7px' }}>Phone</label>
+                      <input
+                        type="tel"
+                        placeholder="Phone *"
+                        value={pricePhone}
+                        onChange={e => setPricePhone(e.target.value)}
+                        style={{ width: '100%', boxSizing: 'border-box', height: '48px', padding: '0 14px', border: `1.5px solid ${pricePhone ? amber : '#ddd8cf'}`, borderRadius: '10px', fontSize: '13px', color: ink, background: smoke, outline: 'none', transition: 'border-color 0.2s' }}
+                      />
+                    </div>
+                  </div>
+
                   {/* CTA button */}
                   <button
+                    type="submit"
+                    disabled={isSubmitting}
                     onClick={getPrice}
-                    style={{ width: '100%', height: '54px', background: amber, color: cream, border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: 800, letterSpacing: '0.3px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: 'all 0.25s ease', boxShadow: '0 6px 20px rgba(228,137,21,0.32)' }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#f5a520'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = amber; e.currentTarget.style.transform = 'none'; }}
+                    style={{ width: '100%', height: '54px', background: isSubmitting ? 'rgba(228,137,21,0.55)' : amber, color: cream, border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: 800, letterSpacing: '0.3px', cursor: isSubmitting ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: 'all 0.25s ease', boxShadow: '0 6px 20px rgba(228,137,21,0.32)' }}
+                    onMouseEnter={e => { if (!isSubmitting) { e.currentTarget.style.background = '#f5a520'; e.currentTarget.style.transform = 'translateY(-2px)'; }}}
+                    onMouseLeave={e => { e.currentTarget.style.background = isSubmitting ? 'rgba(228,137,21,0.55)' : amber; e.currentTarget.style.transform = 'none'; }}
                   >
-                    <i className="fa-solid fa-file-arrow-down" style={{ fontSize: '16px' }} />
-                    Get Price List PDF
+                    {isSubmitting ? 'Sending...' : <><i className="fa-solid fa-file-arrow-down" style={{ fontSize: '16px' }} /> Get Price List PDF</>}
                   </button>
+                  {submitStatus === 'success' && (
+                    <p style={{ color: '#22c55e', marginTop: '8px', fontFamily: 'var(--font-body)' }}>
+                      ✅ Thank you! Our team will contact you shortly.
+                    </p>
+                  )}
+                  {submitStatus === 'error' && (
+                    <p style={{ color: '#ef4444', marginTop: '8px', fontFamily: 'var(--font-body)' }}>
+                      ❌ Something went wrong. Please call us directly.
+                    </p>
+                  )}
 
                   {/* Footer note */}
                   <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: 'rgba(228,137,21,0.06)', border: '1px solid rgba(228,137,21,0.15)', borderRadius: '8px' }}>
