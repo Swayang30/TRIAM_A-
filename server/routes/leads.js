@@ -11,7 +11,8 @@ router.post('/', validate, async (req, res) => {
     ''
   );
 
-  const payload = { ...req.body, ip };
+  const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+  const payload = { ...req.body, ip, timestamp };
 
   console.log(
     `[${new Date().toISOString()}] Lead — source: ${payload.source || 'unknown'} | name: ${payload.name} | phone: ${payload.phone}`
