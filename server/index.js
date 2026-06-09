@@ -8,22 +8,12 @@ const app  = express();
 const PORT = process.env.PORT || 3001;
 
 // ── CORS ─────────────────────────────────────────────────────────────────────
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:4173',
-  process.env.ALLOWED_ORIGINS,
-].filter(Boolean);
-
 app.use(cors({
-  origin: (origin, cb) => {
-    // Allow requests with no origin (curl, Postman, server-side)
-    if (!origin) return cb(null, true);
-    if (allowedOrigins.includes(origin)) return cb(null, true);
-    cb(new Error(`CORS: origin ${origin} is not allowed`));
-  },
-  methods:     ['GET', 'POST', 'OPTIONS'],
-  credentials: true,
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+app.options('*', cors());
 
 // ── Body parsers ──────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '16kb' }));
