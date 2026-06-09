@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:4173',
-  process.env.ALLOWED_ORIGIN,
+  process.env.ALLOWED_ORIGINS,
 ].filter(Boolean);
 
 app.use(cors({
