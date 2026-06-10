@@ -227,11 +227,11 @@ export default function Quality() {
   ];
 
   const processSteps = [
-    { num: '01', icon: 'fa-boxes-stacked',  title: 'Raw Material',    desc: 'Spectrometer testing cross-checked with wet chemical methods — defects caught before the line.' },
-    { num: '02', icon: 'fa-flask-vial',      title: 'Blending',        desc: 'Tight control over blending ensures uniform composition and consistent quality heat to heat.' },
-    { num: '03', icon: 'fa-fire-burner',     title: 'Steel Refining',  desc: 'Advanced refining strips impurities and locks in superior chemical and physical properties.' },
-    { num: '04', icon: 'fa-arrows-spin',     title: 'Billet Casting',  desc: 'Continuous casting delivers defect-free billets meeting the highest quality benchmarks.' },
-    { num: '05', icon: 'fa-microscope',      title: 'Lab Testing',     desc: 'NABL-accredited lab verifies chemical and mechanical properties of every heat in real time.' },
+    { num: '01', icon: 'fa-boxes-stacked',  title: 'Raw Material',   desc: 'Every batch is spectrometer-tested and cross-checked by wet chemistry — defects caught before they reach the line.' },
+    { num: '02', icon: 'fa-flask-vial',      title: 'Blending',       desc: 'Precise charge blending locks in uniform chemistry, so quality holds steady heat to heat.' },
+    { num: '03', icon: 'fa-fire-burner',     title: 'Steel Refining', desc: 'Ladle refining strips out impurities and fine-tunes the mix — clean steel, low sulphur and phosphorus.' },
+    { num: '04', icon: 'fa-arrows-spin',     title: 'Billet Casting', desc: 'Continuous casting forms clean, defect-free billets — 100% tested before they\'re rolled.' },
+    { num: '05', icon: 'fa-microscope',      title: 'Lab Testing',    desc: 'Our NABL-accredited lab verifies the chemistry and strength of every heat, results fed back in real time.' },
   ];
 
   const advantages = [
@@ -244,15 +244,15 @@ export default function Quality() {
   ];
 
   const tests = [
-    { icon: 'fa-wrench',       title: 'Mechanical Testing',  desc: '0.2% Proof Stress, Tensile Strength, and Total Elongation — measured on advanced UTM systems against IS 1786:2008.' },
-    { icon: 'fa-circle-check', title: 'Structural Testing',  desc: 'Bending and re-bending checks confirm exceptional flexibility and durability across every rebar in every lot.' },
-    { icon: 'fa-microscope',   title: 'UTM Lab Equipment',   desc: 'Universal Testing Machine with extensometer provides verified mechanical data that surpasses BIS minimum standards.' },
+    { icon: 'fa-wrench',       title: 'Mechanical Testing', desc: 'Yield, tensile and elongation measured on UTM systems against IS:1786:2008 — 550+ yield, 600+ tensile, 17%+ elongation, every lot.' },
+    { icon: 'fa-circle-check', title: 'Structural Testing', desc: 'Bend and re-bend checks on every lot. Triam A+ bends at 3D–4D where ordinary bars need 4D–5D — real flexibility, not just strength.' },
+    { icon: 'fa-microscope',   title: 'UTM Lab Equipment',  desc: 'Universal Testing Machines fitted with extensometers capture precise, repeatable data on every heat — the hard proof behind the A+ grade.' },
   ];
 
   const stats = [
     { value: '100', suffix: '%', label: 'Billets Tested' },
     { value: '3',   suffix: '+', label: 'ISO Certifications' },
-    { value: '20',  suffix: '+', label: 'Years of Precision' },
+    { value: 'NABL', suffix: '', label: 'Accredited Labs', text: true },
     { value: '0',   suffix: '',  label: 'Compromise on Quality' },
   ];
 
@@ -329,7 +329,7 @@ export default function Quality() {
               </h1>
               <div style={{ width: '56px', height: '4px', background: `linear-gradient(90deg, ${accent}, ${amber})`, borderRadius: '2px', marginBottom: '22px' }} />
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: 1.85, maxWidth: '480px', marginBottom: '28px' }}>
-                Built in at every stage — not inspected in at the end. From raw material to dispatch, every heat earns the A+ name.
+                Built in at every stage — never inspected in at the end. From the first melt to final dispatch, every heat earns the A+ name.
               </p>
               <nav>
                 <ol style={{ display: 'flex', gap: '8px', listStyle: 'none', padding: 0, margin: 0, alignItems: 'center' }}>
@@ -356,7 +356,7 @@ export default function Quality() {
                   minWidth: '130px',
                 }}>
                   <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '40px', fontWeight: 900, color: amber, lineHeight: 1 }}>
-                    <Counter target={s.value} suffix={s.suffix} />
+                    {s.text ? <span>{s.value}</span> : <Counter target={s.value} suffix={s.suffix} />}
                   </div>
                   <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginTop: '6px' }}>{s.label}</div>
                 </div>
@@ -377,24 +377,23 @@ export default function Quality() {
             <div>
               <div style={eyebrow}><span style={eyebrowLine} />The A+ Standard</div>
               <h2 style={{ ...displayH(), marginBottom: '24px' }}>
-                Built in,<br />
-                <span style={{ color: amber }}>Not inspected</span><br />
-                At the end.
+                Every Heat,<br />
+                <span style={{ color: amber }}>Proven.</span>
               </h2>
               <p style={{ color: muted, fontSize: '15px', lineHeight: 1.85, marginBottom: '20px' }}>
-                Through steelmaking and rolling, sample after sample moves to our <strong style={{ color: ink }}>NABL-accredited in-house laboratory</strong>, where spectrometers, Universal Testing Machines, and a team of metallurgical specialists verify the chemical and mechanical properties of every heat.
+                Through steelmaking and rolling, sample after sample goes to our <strong style={{ color: ink }}>NABL-accredited in-house lab</strong> — where spectrometers, Universal Testing Machines and metallurgical specialists verify the chemistry and strength of every heat.
               </p>
               <p style={{ color: muted, fontSize: '15px', lineHeight: 1.85 }}>
-                Results flow back to the plant in real time — so composition is corrected before it becomes a problem. In the rare event a concern does surface, root cause analysis is immediate and uncompromising. Every issue sharpens our processes for the next heat, the next batch, the next builder who counts on us.
+                Results flow back to the plant in real time, so composition is corrected before it becomes a problem. If a concern ever surfaces, root-cause analysis is immediate — and every fix sharpens the next heat, the next batch, the next builder counting on us.
               </p>
             </div>
 
             {/* TextType feature panel */}
             <QualityTypePanel features={[
-              { label: 'NABL-Accredited Laboratory',        sub: 'Every heat verified by certified specialists' },
-              { label: 'Real-Time Feedback to Plant',        sub: 'Composition corrected before it becomes a problem' },
-              { label: 'Zero-Compromise Dispatch Protocol',  sub: 'QAP check at the yard — nothing leaves without A+' },
-              { label: 'Continuous Process Improvement',     sub: 'Every issue becomes a catalyst for sharper output' },
+              { label: 'NABL-Accredited Lab',           sub: 'Spectrometers, UTMs and metallurgists check every heat — chemistry and strength alike.' },
+              { label: 'Real-Time Plant Feedback',       sub: 'Results go straight back to the floor, so steel is corrected before it ever becomes a problem.' },
+              { label: 'Zero-Compromise Dispatch',       sub: 'A final check in the dispatch yard. Nothing ships until it clears — no exceptions.' },
+              { label: 'Continuous Process Improvement', sub: 'Every issue becomes a catalyst for sharper output' },
             ]} />
           </div>
         </div>
@@ -614,7 +613,7 @@ export default function Quality() {
           }}>
             <i className="fa-solid fa-award" style={{ fontSize: '22px', color: cream, flexShrink: 0 }} />
             <p style={{ margin: 0, fontFamily: "'Barlow Condensed', sans-serif", fontSize: '20px', fontWeight: 800, color: cream, textTransform: 'uppercase', letterSpacing: '0.5px', textAlign: 'center' }}>
-              Every TRIAM A+ bar is tested to exceed Indian standards — and out-perform competitors.
+              Every TRIAM A+ Bar is Tested to Beat the Standard — Not Just Pass It.
             </p>
           </div>
         </div>
@@ -631,13 +630,13 @@ export default function Quality() {
                 icon: 'fa-microscope',
                 tag: 'Lab Analysis',
                 title: 'Metallurgical Analysis',
-                body: 'Advanced microscopy examines crystal grain boundaries and surface defects at the microscopic level — ensuring optimal composition and structural integrity in every rebar that leaves the mill.',
+                body: 'Microscopy examines grain structure, rib geometry and surface defects at microscopic level — confirming the make-up of every bar that leaves the mill.',
               },
               {
                 icon: 'fa-truck-ramp-box',
                 tag: 'Dispatch Protocol',
                 title: 'Final Dispatch Check',
-                body: 'A rigorous re-check at the dispatch yard per our Quality Assurance Plan (QAP) — nothing leaves until it has earned the A+ name. Every bundle, every tag, every certificate verified.',
+                body: 'A final re-check at the dispatch yard, to our Quality Assurance Plan (QAP). Nothing ships until it earns the A+ name — every bundle, tag and certificate verified.',
               },
             ].map((card, i) => (
               <div key={i} style={{
@@ -678,7 +677,7 @@ export default function Quality() {
               <i className="fa-solid fa-star" />
             </div>
             <p style={{ margin: 0, fontFamily: "'Barlow Condensed', sans-serif", fontSize: '22px', fontWeight: 800, color: ink, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
-              Delivering defect-free, high-performance TMT bars that exceed BIS standards and ensure long-term reliability.
+              Defect-Free Bars, Built to Perform and Proven to Last.
             </p>
           </div>
         </div>

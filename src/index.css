@@ -2466,7 +2466,7 @@ a {
 /* ── Responsive ── */
 @media (max-width: 960px) {
   .cp-grid { grid-template-columns: 1fr; gap: 40px; }
-  .cp-stats-col { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cp-stats-col { position: static; display: block; }
   .cp-section .tw-heading { font-size: 38px !important; }
 }
 
@@ -4804,7 +4804,7 @@ button, [role="button"] {
 ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 576px) {
   .cp-para { font-size: 15px; }
-  .cp-stats-col { grid-template-columns: 1fr 1fr !important; }
+  .cp-stats-col { display: block !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════════

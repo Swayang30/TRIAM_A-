@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 /* ── Ticker: scrolling price strip ── */
 function PriceTicker() {
   const items = [
-    '8mm · ₹351', '10mm · ₹538', '12mm · ₹773',
-    '16mm · ₹1,375', '20mm · ₹2,148', '25mm · ₹3,356',
-    'FE 550D · ISI Certified', 'Updated Nov 2025',
-    '8mm · ₹351', '10mm · ₹538', '12mm · ₹773',
-    '16mm · ₹1,375', '20mm · ₹2,148', '25mm · ₹3,356',
-    'FE 550D · ISI Certified', 'Updated Nov 2025',
+    '6mm · ₹242', '8mm · ₹402', '10mm · ₹614', '12mm · ₹883',
+    '16mm · ₹1,568', '20mm · ₹2,460', '25mm · ₹3,875',
+    'FE 550D · ISI Certified', 'Updated June 2026',
+    '6mm · ₹242', '8mm · ₹402', '10mm · ₹614', '12mm · ₹883',
+    '16mm · ₹1,568', '20mm · ₹2,460', '25mm · ₹3,875',
+    'FE 550D · ISI Certified', 'Updated June 2026',
   ];
   return (
     <div style={{ background: '#e48915', overflow: 'hidden', padding: '10px 0', position: 'relative', zIndex: 5 }}>
@@ -144,15 +144,16 @@ export default function Price() {
 
   /* ── price table data ── */
   const priceRows = [
-    { size: '8mm',  wb: '₹351',    bj: '₹391',    up: '₹407',    as: '₹399'   },
-    { size: '10mm', wb: '₹538',    bj: '₹582',    up: '₹605',    as: '₹594'   },
-    { size: '12mm', wb: '₹773',    bj: '₹844',    up: '₹876',    as: '₹860'   },
-    { size: '16mm', wb: '₹1,375',  bj: '₹1,496',  up: '₹1,554',  as: '₹1,525' },
-    { size: '20mm', wb: '₹2,148',  bj: '₹2,336',  up: '₹2,427',  as: '₹2,382' },
-    { size: '25mm', wb: '₹3,356',  bj: '₹3,448',  up: '₹3,582',  as: '₹3,515' },
+    { size: '6mm',  wb: '₹242',    bj: '₹270',    up: '₹280',    as: '₹275'   },
+    { size: '8mm',  wb: '₹402',    bj: '₹448',    up: '₹466',    as: '₹457'   },
+    { size: '10mm', wb: '₹614',    bj: '₹665',    up: '₹691',    as: '₹679'   },
+    { size: '12mm', wb: '₹883',    bj: '₹965',    up: '₹1,001',  as: '₹983'   },
+    { size: '16mm', wb: '₹1,568',  bj: '₹1,707',  up: '₹1,773',  as: '₹1,740' },
+    { size: '20mm', wb: '₹2,460',  bj: '₹2,675',  up: '₹2,779',  as: '₹2,728' },
+    { size: '25mm', wb: '₹3,875',  bj: '₹3,982',  up: '₹4,143',  as: '₹4,059' },
   ];
 
-  const barThickness = { '8mm': 8, '10mm': 10, '12mm': 12, '16mm': 16, '20mm': 20, '25mm': 25 };
+  const barThickness = { '6mm': 6, '8mm': 8, '10mm': 10, '12mm': 12, '16mm': 16, '20mm': 20, '25mm': 25 };
 
   /* ── tokens ── */
   const ink   = '#1b2a3a';
@@ -181,10 +182,16 @@ export default function Price() {
           .price-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .price-why-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .price-buying-grid { grid-template-columns: 1fr !important; }
+          .price-section-meta-row { flex-direction: column !important; align-items: flex-start !important; }
         }
         @media (max-width: 768px) {
           .price-table-outer { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
-          .price-table-outer > div { min-width: 540px; }
+          .price-table-outer > div { min-width: 580px; }
+          .price-hero-section { padding-top: 56px !important; }
+          .price-hero-inner { padding-bottom: 52px !important; }
+          .price-ghost-rate { font-size: clamp(52px,14vw,80px) !important; margin-bottom: -8px !important; }
+          .price-ghost-card { font-size: clamp(38px,11vw,64px) !important; }
+          .price-why-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 576px) {
           .price-stats-grid > div { border-right: none !important; border-bottom: 1px solid #e8e2d8; padding: 20px 16px !important; }
@@ -194,13 +201,16 @@ export default function Price() {
           .price-disclaimer-grid { grid-template-columns: 1fr !important; }
           .price-cta-inner { padding: 44px 24px !important; }
           .price-picker-namerow { grid-template-columns: 1fr !important; }
+          .price-table-outer > div { min-width: 520px; }
+          .price-cta-buttons { flex-direction: column !important; }
+          .price-cta-buttons a { width: 100% !important; justify-content: center !important; }
         }
       `}</style>
 
       {/* ══════════════════════════════════
           HERO
       ══════════════════════════════════ */}
-      <section style={{
+      <section className="price-hero-section" style={{
         background: `linear-gradient(160deg, #080f18 0%, #0d1621 45%, ${ink} 100%)`,
         position: 'relative', overflow: 'hidden',
         paddingTop: '90px',
@@ -212,7 +222,7 @@ export default function Price() {
         {/* Accent diagonal */}
         <div style={{ position: 'absolute', bottom: 60, left: 0, right: 0, height: '1px', background: 'rgba(228,137,21,0.12)', pointerEvents: 'none' }} />
 
-        <div className="container" style={{ position: 'relative', zIndex: 2, paddingBottom: '72px' }}>
+        <div className="container price-hero-inner" style={{ position: 'relative', zIndex: 2, paddingBottom: '72px' }}>
           <div className="price-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: '64px', alignItems: 'center' }}>
 
             {/* LEFT */}
@@ -224,19 +234,19 @@ export default function Price() {
               </div>
 
               {/* Badge */}
-              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(72px,10vw,108px)', fontWeight: 900, color: 'rgba(255,255,255,0.06)', lineHeight: 0.85, letterSpacing: '-4px', textTransform: 'uppercase', marginBottom: '-12px', userSelect: 'none' }}>
+              <div className="price-ghost-rate" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(72px,10vw,108px)', fontWeight: 900, color: 'rgba(255,255,255,0.06)', lineHeight: 0.85, letterSpacing: '-4px', textTransform: 'uppercase', marginBottom: '-12px', userSelect: 'none' }}>
                 RATE
               </div>
-              <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(52px,7vw,84px)', fontWeight: 900, color: cream, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-2px', marginBottom: '8px' }}>
+              <h1 className="price-ghost-card" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(52px,7vw,84px)', fontWeight: 900, color: cream, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-2px', marginBottom: '8px' }}>
                 CARD
               </h1>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
                 <div style={{ width: '48px', height: '3px', background: `linear-gradient(90deg, #c8401a, ${amber})`, borderRadius: '2px' }} />
-                <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '22px', fontWeight: 700, color: amber, textTransform: 'uppercase', letterSpacing: '1px' }}>Pricing & Service Overview</span>
+                <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '22px', fontWeight: 700, color: amber, textTransform: 'uppercase', letterSpacing: '1px' }}>PRICING & DELIVERY</span>
               </div>
 
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '15px', lineHeight: 1.85, maxWidth: '480px', marginBottom: '36px' }}>
-                Per-piece pricing across every size and delivery region — GST-inclusive, revised monthly to reflect current market rates. Build smarter with premium TRIAM A+ rebars.
+                Per-piece prices for every size and region — GST-inclusive and updated monthly to track the market. Premium FE 550D that gives you more metre per kilo, so the same structure takes fewer bars.
               </p>
 
               {/* CTAs */}
@@ -278,7 +288,7 @@ export default function Price() {
                 <div style={{ background: ink, padding: '24px 28px', borderBottom: `3px solid ${amber}` }}>
                   <div style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: amber, marginBottom: '6px' }}>TRIAM A+ FE 550D</div>
                   <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '24px', fontWeight: 800, color: cream, textTransform: 'uppercase' }}>Latest TMT Bar Price List</div>
-                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>Let's Build a Strong Foundation for the Nation</div>
+                  <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>Your size, your state — this month's rate.</div>
                 </div>
 
                 {/* Form body */}
@@ -361,7 +371,7 @@ export default function Price() {
                   {/* Footer note */}
                   <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: 'rgba(228,137,21,0.06)', border: '1px solid rgba(228,137,21,0.15)', borderRadius: '8px' }}>
                     <i className="fa-solid fa-circle-info" style={{ color: amber, fontSize: '13px', flexShrink: 0 }} />
-                    <span style={{ fontSize: '11.5px', color: '#7a6a5a' }}>Prices are GST-inclusive & updated monthly</span>
+                    <span style={{ fontSize: '11.5px', color: '#7a6a5a' }}>Prices are GST-inclusive and updated monthly.</span>
                   </div>
                 </div>
               </div>
@@ -380,10 +390,10 @@ export default function Price() {
         <div className="container">
           <div className="price-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0' }}>
             {[
-              { icon: 'fa-calendar-check', value: 'Nov 2025', label: 'Last Updated',    sub: 'Prices revised monthly'         },
-              { icon: 'fa-map-location-dot', value: '11',     label: 'States Covered', sub: 'Across India'                   },
-              { icon: 'fa-ruler',            value: '6',      label: 'Bar Sizes',       sub: '8mm to 25mm diameter'           },
-              { icon: 'fa-receipt',          value: '100%',   label: 'GST Inclusive',   sub: 'No hidden charges'              },
+              { icon: 'fa-calendar-check',   value: 'June 2026', label: 'Last Updated',    sub: 'Prices revised monthly'  },
+              { icon: 'fa-map-location-dot', value: '11',     label: 'States Covered',  sub: 'Across India'             },
+              { icon: 'fa-ruler',            value: '7',      label: 'Bar Sizes',        sub: '6mm to 25mm diameter'     },
+              { icon: 'fa-receipt',          value: '100%',   label: 'GST Inclusive',    sub: 'No hidden charges'        },
             ].map((s, i) => (
               <div key={i} style={{ padding: '28px 24px', borderRight: i < 3 ? '1px solid #e8e2d8' : 'none', display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: amber, fontSize: '18px', flexShrink: 0 }}>
@@ -413,10 +423,10 @@ export default function Price() {
 
           <div className="price-why-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
             {[
-              { icon: 'fa-scale-balanced',   title: 'Instant Comparison',       desc: 'Compare prices across regions in one view before placing any order.' },
-              { icon: 'fa-calculator',       title: 'Budgeting Accuracy',        desc: 'Contractors, developers, and homebuilders can plan with confidence.' },
-              { icon: 'fa-eye',              title: 'Clear Transparency',        desc: 'Eliminates middleman markup confusion. What you see is what you pay.' },
-              { icon: 'fa-location-dot',     title: 'Regional Localization',     desc: 'Reflects logistics, taxes, and raw supply variables by state.' },
+              { icon: 'fa-scale-balanced',   title: 'Instant Comparison',    desc: 'See prices across every region and size in one view — before you place a single order.' },
+              { icon: 'fa-calculator',       title: 'Budgeting Accuracy',    desc: 'Contractors, developers and homebuilders can cost a project up front, to the rupee.' },
+              { icon: 'fa-eye',              title: 'No Middleman Markup',   desc: 'Straight from the source. What you see is what you pay — no dealer guesswork.' },
+              { icon: 'fa-location-dot',     title: 'Regional Pricing',      desc: 'Rates reflect real logistics, taxes and supply costs in your state.' },
             ].map((c, i) => (
               <div key={i} className="info-card" style={{ background: cream, border: '1px solid #ddd8cf', borderRadius: '16px', padding: '28px 24px', transition: 'all 0.25s ease', cursor: 'default' }}>
                 <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: amber, fontSize: '20px', marginBottom: '18px' }}>
@@ -476,7 +486,7 @@ export default function Price() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 {[
-                  { label: 'Effective', value: '1 Nov 2025' },
+                  { label: 'Effective', value: '1 Jun 2026' },
                   { label: 'Grade',    value: 'FE 550D'    },
                   { label: 'Standard', value: 'IS 1786'    },
                   { label: 'Unit',     value: 'INR/Piece'  },

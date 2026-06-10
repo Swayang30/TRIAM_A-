@@ -134,21 +134,21 @@ export default function Home() {
     {
       size: '8 – 12 mm',
       grade: 'Fe 500D',
-      desc: 'Ideal for stirrups, slabs, staircases, beams & columns in residential & low-rise buildings. Balances cost with long-term longevity. Available in customized TDC (Technical Delivery Conditions).',
+      desc: 'The everyday workhorse — stirrups, slabs, staircases, beams and columns in homes and low-rise builds. Bends easily, works fast, and balances cost with long-term life. Available in customised TDC (Technical Delivery Conditions).',
       url: '/Fe-500D-Grade-TMT-8mm-12mm'
     },
     {
       size: '16 – 20 mm',
       grade: 'Fe 550D',
       sub: '(22)*',
-      desc: 'Built for beams, columns & high-load slabs. Engineered for crack resistance and continuous-load endurance.',
-      note: '* 22 mm: Roof bolt application in mining industry.',
+      desc: 'The structural backbone — beams, columns and high-load slabs. Higher ductility and a tighter rib pattern give it real crack resistance and endurance under continuous load.',
+      note: '* 22 mm: roof-bolt application for the mining industry.',
       url: '/Fe-550D-Grade-TMT-16mm-20mm'
     },
     {
       size: '25 – 32 mm',
       grade: 'Fe 550D',
-      desc: 'Suited for high-rise buildings, bridges, dams & industrial structures. Withstands wind, seismic forces, and sustained vertical stress.',
+      desc: 'The heavy lifters — high-rises, bridges, dams and industrial structures. Built to take wind, seismic shock and sustained vertical load without giving an inch.',
       url: '/Fe-550D-Grade-TMT-25mm-32mm'
     }
   ];
@@ -306,27 +306,84 @@ export default function Home() {
               <TextType
                 typingSpeed={45}
                 text={
-                  `At Triam TMT, we are driven by an unwavering commitment to strength, precision, and progress. Our revamped identity embodies what we have always believed: that great structures are not merely built — they are engineered with intent. The very name Triam reflects our pursuit of excellence — a promise of superior quality embedded in every rebar we manufacture. This philosophy shapes our brand's core values: resilience, reliability, and the relentless drive to raise the bar, quite literally.\n\nRooted in ethical manufacturing, advanced technology, and a deep respect for the communities we serve, Triam TMT is dedicated to delivering reinforcing steel that sets new benchmarks for the construction industry. From high-rise residential towers to sprawling infrastructure projects, every Triam A+ TMT bar is a testament to our belief that strength and quality must never be compromised.\n\nOur vision is to empower India's infrastructure future, making Triam TMT a name synonymous with trust in every home, every bridge, and every landmark that shapes tomorrow.`
+                  `German technology. Eastern grit.\n\nAt Triam TMT, we believe great structures aren't just built — they're engineered with intent. That belief sits in every bar we make: A+ strength, A+ flexibility, A+ grip, and no compromise on any of the three.\n\nBuilt on ethical manufacturing and advanced German technology, Triam A+ goes into everything from family homes to high-rises and national infrastructure. One grade. No shortcuts.\n\nOur vision is simple: to be the name India trusts in every home, every bridge, every landmark that shapes tomorrow.`
                 }
               />
             </div>
 
-            {/* Right: Stat Cards */}
+            {/* Right: Built to Last — redesigned */}
             <div className="cp-stats-col">
-              {[
-                { num: '₹1,000 Cr+', label: 'Annual Turnover',   icon: '◈' },
-                { num: '5,25,000 MT', label: 'Yearly Capacity',   icon: '◈' },
-                { num: '450+',        label: 'Trusted Dealers',   icon: '◈' },
-                { num: 'SAIL',        label: 'Conversion Agent',  icon: '◈' },
-              ].map((stat, i) => (
-                <div key={i} className="cp-stat-card">
-                  <div className="cp-stat-inner">
-                    <div className="cp-stat-num">{stat.num}</div>
-                    <div className="cp-stat-label">{stat.label}</div>
+              <div style={{ background: 'linear-gradient(150deg, rgba(14,22,34,0.95) 0%, rgba(10,16,26,0.98) 100%)', border: '1px solid rgba(228,137,21,0.18)', borderRadius: '20px', overflow: 'hidden', position: 'relative', boxShadow: '0 24px 64px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)' }}>
+
+                {/* Amber glow orb */}
+                <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '220px', height: '220px', background: 'radial-gradient(circle, rgba(228,137,21,0.1) 0%, transparent 65%)', pointerEvents: 'none' }} />
+
+                {/* Ghost watermark */}
+                <div style={{ position: 'absolute', bottom: '-12px', right: '-8px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '96px', fontWeight: 900, color: 'rgba(228,137,21,0.04)', textTransform: 'uppercase', letterSpacing: '-4px', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>LAST</div>
+
+                {/* Gradient top bar */}
+                <div style={{ height: '3px', background: 'linear-gradient(90deg, #e48915 0%, #c8401a 55%, rgba(200,64,26,0.15) 100%)' }} />
+
+                {/* Card header */}
+                <div style={{ padding: '26px 28px 22px', position: 'relative', zIndex: 1 }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.25)', borderRadius: '50px', padding: '5px 14px 5px 10px', marginBottom: '16px' }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#e48915', flexShrink: 0 }} />
+                    <span style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915', fontFamily: "'DM Sans', sans-serif" }}>BUILT TO LAST</span>
                   </div>
-                  <div className="cp-stat-bar" />
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '30px', fontWeight: 900, textTransform: 'uppercase', lineHeight: 1.05, letterSpacing: '-0.5px' }}>
+                    <span style={{ color: 'rgba(255,255,255,0.9)' }}>Made for the </span>
+                    <span style={{ color: '#e48915' }}>Long Haul</span>
+                  </div>
                 </div>
-              ))}
+
+                {/* Divider */}
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '0 28px' }} />
+
+                {/* Feature rows */}
+                <div style={{ padding: '22px 28px 28px', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '0' }}>
+                  {[
+                    {
+                      title: 'Earthquake-Ready',
+                      sub: 'Tested under reverse seismic loading.',
+                      icon: (
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e48915" strokeWidth="2"><polyline points="2 12 6 8 9 14 12 8 15 14 18 8 22 12"/></svg>
+                      ),
+                    },
+                    {
+                      title: 'Corrosion-Resistant',
+                      sub: 'Clean chemistry, no residual stress.',
+                      icon: (
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e48915" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      ),
+                    },
+                    {
+                      title: 'Fire-Resistant',
+                      sub: 'Holds full strength up to 600°C.',
+                      icon: (
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e48915" strokeWidth="2"><path d="M12 2c0 0-5 5-5 10a5 5 0 0 0 10 0c0-5-5-10-5-10z"/><path d="M12 12c0 0-2 2-2 4a2 2 0 0 0 4 0c0-2-2-4-2-4z"/></svg>
+                      ),
+                    },
+                    {
+                      title: 'Lighter & Longer',
+                      sub: 'More metre per kilo than ordinary bars.',
+                      icon: (
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e48915" strokeWidth="2"><path d="M3 12h18M17 8l4 4-4 4"/><path d="M5 5v14"/></svg>
+                      ),
+                    },
+                  ].map((f, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', paddingBottom: i < 3 ? '18px' : 0, marginBottom: i < 3 ? '18px' : 0, borderBottom: i < 3 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+                      <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(228,137,21,0.08)', border: '1px solid rgba(228,137,21,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                        {f.icon}
+                      </div>
+                      <div>
+                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '16px', fontWeight: 800, color: 'rgba(255,255,255,0.88)', textTransform: 'uppercase', letterSpacing: '0.5px', lineHeight: 1.2, marginBottom: '4px' }}>{f.title}</div>
+                        <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.65, fontFamily: "'DM Sans', sans-serif" }}>{f.sub}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
             </div>
 
           </div>
@@ -384,7 +441,7 @@ export default function Home() {
 
                 {/* Panel Header */}
                 <div className="pv2-ph">
-                  <div className="pv2-ph-eye">Key Properties</div>
+                  <div className="pv2-ph-eye" style={{ opacity: 0, height: 0, overflow: 'hidden' }} />
                   <h3 className="pv2-ph-title">Across All Sizes</h3>
                 </div>
 
@@ -393,17 +450,17 @@ export default function Home() {
                 {/* Properties List */}
                 <div className="pv2-props">
                   {[
-                    { name: 'Superior Strength & Excellent Bendability', bg: 'rgba(59,130,246,0.15)', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2.2"><path d="M6 4v16M18 4v16M4 8h4M16 8h4M4 16h4M16 16h4M8 4h8M8 20h8"/></svg> },
-                    { name: 'High Seismic & Earthquake Resistance', bg: 'rgba(245,158,11,0.15)', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2"><path d="M2 12c2-4 4-6 6-6s4 6 6 6 4-6 6-6"/><path d="M2 18c2-4 4-6 6-6s4 6 6 6 4-6 6-6"/></svg> },
-                    { name: 'Anti-Corrosive & Fire Resistant Property', bg: 'rgba(34,197,94,0.15)', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> },
-                    { name: 'Adherence to Stringent Quality Norms', bg: 'rgba(167,139,250,0.15)', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.2"><circle cx="12" cy="8" r="4"/><path d="M5 19a7 7 0 0 1 14 0"/></svg> },
-                    { name: 'Durability & Value-for-money', bg: 'rgba(45,212,191,0.15)', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" strokeWidth="2.2"><circle cx="12" cy="12" r="8"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-3 3-3 5"/><path d="M12 18h.01"/></svg> },
-                  ].map((prop, i) => (
+                    'A+ Strength & Easy Bendability',
+                    'Seismic & Earthquake Resistant',
+                    'Corrosion & Fire Resistant',
+                    'ISI-Certified to IS:1786:2008',
+                    'More Metre per Kilo',
+                  ].map((name, i) => (
                     <div key={i} className="pv2-prop-row">
-                      <div className="pv2-prop-ic" style={{ background: prop.bg }}>
-                        {prop.icon}
+                      <div className="pv2-prop-ic" style={{ background: 'rgba(228,137,21,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#e48915"/></svg>
                       </div>
-                      <span className="pv2-prop-nm">{prop.name}</span>
+                      <span className="pv2-prop-nm">{name}</span>
                     </div>
                   ))}
                 </div>
@@ -481,7 +538,7 @@ export default function Home() {
             <div className="tmt-eyebrow" style={{ justifyContent: 'center' }}>Our Projects</div>
             <h2 className="section-title">Built with Triam A+</h2>
             <p style={{ fontSize: '15px', color: 'var(--c-muted)', maxWidth: '520px', margin: '12px auto 0' }}>
-              From homes to highways — our steel stands in India's most ambitious structures.
+              <strong>Homes, hospitals, warehouses, dams, high-rises — every one gets the same A+ grade.</strong>
             </p>
           </div>
           <div className="row g-4">

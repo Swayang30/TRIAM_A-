@@ -43,7 +43,7 @@ export default function ProductDetail() {
       grade: 'Fe 550D',
       yieldStrength: '550',
       tensile: '600',
-      desc: 'Built for beams, columns & high-load slabs. Engineered for crack resistance and continuous-load endurance in high-density residential and infrastructure projects.',
+      desc: 'The structural backbone of a building — beams, columns and high-load slabs. Higher ductility and a tighter rib pattern mean real crack resistance and endurance under continuous load, from high-density housing to major infrastructure.',
       image: '/product1.png',
       breadcrumbBg: 'https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png',
       applications: ['Beams', 'Columns', 'High-Load Slabs', 'Residential Towers', 'Infrastructure', 'Industrial Frames'],
@@ -78,12 +78,12 @@ export default function ProductDetail() {
   const tensileVal = useCountUp(p.tensile, 1100, heroVisible);
 
   const faqs = [
-    { q: 'What is a TMT bar?', a: 'Thermo-Mechanically Treated (TMT) bars have a tough outer shell and a soft inner core. Triam A+ gives you the perfect balance of strength and flexibility needed for modern construction.' },
-    { q: 'Where are TMT bars generally used?', a: 'Triam A+ is versatile — from office buildings and schools to massive projects like dams, power plants, bridges, and residential complexes.' },
-    { q: 'How are TMT bars manufactured?', a: 'We produce our rebars from Block Mill using advanced Thermax technology from HSE, Germany — patented quenching technology that delivers consistent mechanical properties.' },
-    { q: 'What are the features of TMT bars?', a: 'Our bars offer high strength, superior flexibility, seismic resistance, and excellent weldability — attributed to controlled carbon content and regulated sulphur & phosphorous levels.' },
-    { q: 'How are TMT bars superior to traditional steel bars?', a: 'Unlike cold-twisted bars, our TMT bars carry no internal residual stresses — meaning better corrosion resistance, greater ductility, and significantly longer service life.' },
-    { q: 'What are the properties of good quality TMT bars?', a: 'A good bar bends without snapping. Our bars feature high bendability, a scientific rib pattern, and a solid lock with concrete — verified through rigorous bend and rebend testing.' },
+    { q: 'What makes Triam A+ different from an ordinary TMT bar?', a: "A TMT bar has a tough outer shell and a ductile core. Triam A+ FE 550D goes further — it's graded A+ on three things, not one: strength, flexibility and grip. Rolled on German Thermex technology for the right balance of all three." },
+    { q: 'Which sizes and grade does Triam A+ come in?', a: 'FE 550D, in diameters from 8 mm to 32 mm, supplied in fixed 12-metre lengths and section-wise bundles. Smaller bars for slabs and stirrups; 16–32 mm for beams, columns and heavy structures.' },
+    { q: 'How is Triam A+ manufactured?', a: 'From sponge iron in our own Steel Melting Shop, through in-house casting, rolling and Thermex quenching — every bar made on one integrated line. Nothing outsourced, 100% of billets tested.' },
+    { q: 'Is Triam A+ certified and tested?', a: 'Yes — ISI-certified and conforming to IS:1786:2008, backed by ISO 9001, 14001 and OHSAS 45001 systems. Every heat is checked in our NABL-accredited labs before it ships.' },
+    { q: 'How does Triam A+ handle earthquakes, fire and corrosion?', a: 'Tested under simulated seismic loading, holds strength up to 600°C, and resists corrosion thanks to clean low-alloy chemistry with no torsional residual stress.' },
+    { q: 'Where can I buy Triam A+ and get a price?', a: 'Through our 450+ dealers across the region. Call 1800 843 3333 or request a quote at triamtmt.com for the current rate on your size and quantity.' },
   ];
 
   const sidebarLinks = [
@@ -482,7 +482,7 @@ export default function ProductDetail() {
           <div className={`pd-hero-left ${heroVisible ? 'in' : 'out'}`}>
             <div className="pd-hero-pill">
               <div className="pd-hero-pill-dot" />
-              <span className="pd-hero-pill-txt">Premium Grade Product</span>
+              <span className="pd-hero-pill-txt">Premium Grade Product · {p.grade}</span>
             </div>
             <div className="pd-grade-badge" style={{ background: p.accentGradient }}>{p.grade}</div>
             <h1 className="pd-hero-h1">{p.title}</h1>

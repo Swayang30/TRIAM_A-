@@ -3,28 +3,13 @@ import { Link } from 'react-router-dom';
 
 const slides = [
   {
-    image: '/photo1.png',
-    eyebrow: 'Triam A+ TMT Rebars',
-    headline: 'Forged\nfor Forever.',
-    sub: 'German-engineered precision. Uncompromising quality. Built into every rebar we make.',
-    cta1: { label: 'Explore Products', to: '/Fe-550D-Grade-TMT-16mm-20mm' },
-    cta2: { label: 'Get a Quote', to: '/contact' },
-  },
-  {
-    image: '/photo2.png',
-    eyebrow: 'Fe 500D · Fe 550D Grade',
-    headline: 'Steel That Never Bends to Mediocrity.',
-    sub: '8mm to 32mm — exceeding IS:1786:2008 at every diameter, every single time.',
-    cta1: { label: 'View Products', to: '/Fe-500D-Grade-TMT-8mm-12mm' },
-    cta2: { label: 'Our Quality', to: '/quality' },
-  },
-  {
     image: '/photo3.png',
-    eyebrow: '5,25,000 MT Yearly Capacity',
-    headline: 'Where Strength Meets Precision.',
-    sub: '450+ trusted dealers. ₹1,000 Cr+ turnover. A SAIL-authorised conversion agent you can count on.',
-    cta1: { label: 'About Triam', to: '/about' },
-    cta2: { label: 'Become a Dealer', to: '/contact' },
+    eyebrow: 'Triam A+ TMT Rebars',
+    headline: 'Lifelong Bari\nStrong.',
+    sub: "Strong is everywhere. The A+ is what's rare.",
+    badge: 'A+ STRENGTH · A+ FLEXIBILITY · A+ GRIP',
+    cta1: { label: 'Find a Triam Dealer', to: '/contact' },
+    cta2: { label: 'Download Brochure', href: '/TRIAM-Brochure-pdf.pdf' },
   },
   {
     image: '/photo4.png',
@@ -82,9 +67,24 @@ export default function HeroSlider() {
               {slide.headline}
             </h1>
             <p className="tmt-hero-sub">{slide.sub}</p>
+            {slide.badge && (
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '28px', flexWrap: 'wrap' }}>
+                {slide.badge.split('·').map((item, i) => (
+                  <React.Fragment key={i}>
+                    {i > 0 && <span style={{ color: 'rgba(228,137,21,0.5)', fontSize: '14px' }}>·</span>}
+                    <span style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915', background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.25)', borderRadius: '50px', padding: '5px 14px' }}>
+                      {item.trim()}
+                    </span>
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
             <div className="tmt-hero-actions">
               <Link to={slide.cta1.to} className="tmt-btn-amber">{slide.cta1.label} →</Link>
-              <Link to={slide.cta2.to} className="tmt-btn-outline-white">{slide.cta2.label}</Link>
+              {slide.cta2.href
+                ? <a href={slide.cta2.href} download className="tmt-btn-outline-white">{slide.cta2.label}</a>
+                : <Link to={slide.cta2.to} className="tmt-btn-outline-white">{slide.cta2.label}</Link>
+              }
             </div>
           </div>
         </div>
