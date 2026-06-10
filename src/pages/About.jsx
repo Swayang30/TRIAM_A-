@@ -226,7 +226,7 @@ export default function About() {
 
             <div className="about-mill-img-wrap">
               <img
-                src="/public/block_mill3.jpeg"
+                src="/block_mill3.jpeg"
                 alt="Block Mill Rolling"
                 className="about-mill-img"
               />
