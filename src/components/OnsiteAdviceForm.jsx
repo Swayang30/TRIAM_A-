@@ -105,7 +105,7 @@ function BenefitsPanel({ benefits }) {
         <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: amber, marginBottom: '16px', flexShrink: 0 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><GearSvgPath /></svg>
         </div>
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '30px', fontWeight: 900, color: cream, textTransform: 'uppercase', lineHeight: 1.1, letterSpacing: '-0.5px', minHeight: '68px' }}>
+        <div className="oaf-benefits-title" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '30px', fontWeight: 900, color: cream, textTransform: 'uppercase', lineHeight: 1.1, letterSpacing: '-0.5px', minHeight: '68px' }}>
           {displayText}
           <span style={{ display: 'inline-block', width: '2px', height: '1em', background: amber, marginLeft: '3px', verticalAlign: 'middle', animation: 'oaf-cursor 0.85s step-end infinite' }} />
         </div>
@@ -212,6 +212,46 @@ export default function OnsiteAdviceForm({ source = 'onsite-advice' }) {
         #advice-form input::placeholder,
         #advice-form textarea::placeholder { color: rgba(255,255,255,0.32); }
         .oaf-submit:hover { background:#f5a520 !important; transform:translateY(-2px) !important; }
+
+        @media (max-width: 768px) {
+          #advice-form { padding: 64px 0 48px !important; margin-bottom: 40px; }
+
+          .oaf-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+
+          .oaf-left-col { text-align: left; }
+          .oaf-left-col p { max-width: 100% !important; }
+
+          .oaf-form-card {
+            border-radius: 16px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+          }
+
+          .oaf-field-row {
+            grid-template-columns: 1fr !important;
+            gap: 0 !important;
+          }
+
+          .oaf-benefits-title {
+            font-size: clamp(18px, 5.5vw, 26px) !important;
+            white-space: normal !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            min-height: auto !important;
+          }
+
+          #advice-form input,
+          #advice-form textarea {
+            min-height: 48px;
+            font-size: 16px !important;
+          }
+
+          #advice-form .oaf-submit {
+            min-height: 52px !important;
+          }
+        }
       `}</style>
 
       {/* Dot grid */}
@@ -222,10 +262,10 @@ export default function OnsiteAdviceForm({ source = 'onsite-advice' }) {
       <div style={{ position: 'absolute', top: '-60px', left: '-60px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(200,64,26,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '72px', alignItems: 'start' }}>
+        <div className="oaf-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '72px', alignItems: 'start' }}>
 
           {/* ── LEFT: Benefits ── */}
-          <div>
+          <div className="oaf-left-col">
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
               <span style={{ width: '20px', height: '2px', background: amber, borderRadius: '1px', flexShrink: 0 }} />
               <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: amber, fontFamily: "'DM Sans', sans-serif" }}>Why Choose Us</span>
@@ -258,7 +298,7 @@ export default function OnsiteAdviceForm({ source = 'onsite-advice' }) {
           </div>
 
           {/* ── RIGHT: Form card ── */}
-          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '20px', overflow: 'hidden' }}>
+          <div className="oaf-form-card" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '20px', overflow: 'hidden' }}>
 
             {/* Card header */}
             <div style={{ background: `linear-gradient(135deg, ${ink} 0%, #0d1a27 100%)`, padding: '28px 32px', borderBottom: `3px solid ${amber}` }}>
@@ -280,7 +320,7 @@ export default function OnsiteAdviceForm({ source = 'onsite-advice' }) {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 12px' }}>
+                  <div className="oaf-field-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 12px' }}>
                     <input type="text"  name="fullName" placeholder="Full Name *"    value={formData.fullName} onChange={handleChange} required onFocus={() => setFocusedField('fullName')} onBlur={() => setFocusedField(null)} style={iStyle('fullName')} />
                     <input type="text"  name="phone"    placeholder="Phone Number *" value={formData.phone}    onChange={handleChange} required onFocus={() => setFocusedField('phone')}    onBlur={() => setFocusedField(null)} style={iStyle('phone')} />
                   </div>
