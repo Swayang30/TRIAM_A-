@@ -320,7 +320,7 @@ export default function About() {
       <section className="about-graphic-section">
         <div className="container">
           <img
-            src="https://wheat-termite-712594.hostingersite.com/storage/media/rfcyeYbG9LGMBN3fk5wXaqpXRHY0HXU5s3rPKt1C.png"
+            src="/about_abstract.jpeg"
             alt="Triam A+ Edge Infographic"
             style={{ width: '100%', maxWidth: '960px', display: 'inline-block' }}
           />

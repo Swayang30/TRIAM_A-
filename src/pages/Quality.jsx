@@ -796,8 +796,8 @@ export default function Quality() {
             <div style={{ position: 'relative', zIndex: 2 }}>
               <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: amber, marginBottom: '12px' }}>Experience The Difference</div>
               <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, color: cream, textTransform: 'uppercase', lineHeight: 1.0, margin: 0 }}>
-                Build with confidence.<br />
-                <span style={{ color: amber }}>Build with A+.</span>
+                Strong is expected<br />
+                <span style={{ color: amber }}>A+ is engineered.</span>
               </h3>
             </div>
 
