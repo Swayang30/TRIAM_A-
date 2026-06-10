@@ -73,7 +73,7 @@ export default function BlogDetail() {
                 </div>
 
                 {/* Banner Thumbnail */}
-                <div className="mb-5" style={{ height: '380px', overflow: 'hidden', borderRadius: '8px' }}>
+                <div className="mb-5 blog-detail-img-wrap" style={{ height: '380px', overflow: 'hidden', borderRadius: '8px' }}>
                   <img src={post.thumbnail} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
 

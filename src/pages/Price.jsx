@@ -126,8 +126,12 @@ export default function Price() {
       const data = await res.json();
       if (data.success) {
         setSubmitStatus('success');
-        const slugify = (t) => t.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
-        window.open(`https://wheat-termite-712594.hostingersite.com/price-list/${slugify(selectedState)}-${slugify(selectedDistrict)}.pdf`, '_blank');
+        const link = document.createElement('a');
+        link.href = '/Price-list.jpeg';
+        link.download = 'TRIAM-A+-Price-List.jpeg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       } else {
         setSubmitStatus('error');
       }
@@ -171,6 +175,27 @@ export default function Price() {
 
   return (
     <main style={{ backgroundColor: smoke }}>
+      <style>{`
+        @media (max-width: 900px) {
+          .price-hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .price-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .price-why-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .price-buying-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 768px) {
+          .price-table-outer { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+          .price-table-outer > div { min-width: 540px; }
+        }
+        @media (max-width: 576px) {
+          .price-stats-grid > div { border-right: none !important; border-bottom: 1px solid #e8e2d8; padding: 20px 16px !important; }
+          .price-stats-grid > div:nth-child(odd) { border-right: 1px solid #e8e2d8 !important; }
+          .price-why-grid { grid-template-columns: 1fr !important; }
+          .price-notes-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+          .price-disclaimer-grid { grid-template-columns: 1fr !important; }
+          .price-cta-inner { padding: 44px 24px !important; }
+          .price-picker-namerow { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* ══════════════════════════════════
           HERO
@@ -188,7 +213,7 @@ export default function Price() {
         <div style={{ position: 'absolute', bottom: 60, left: 0, right: 0, height: '1px', background: 'rgba(228,137,21,0.12)', pointerEvents: 'none' }} />
 
         <div className="container" style={{ position: 'relative', zIndex: 2, paddingBottom: '72px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: '64px', alignItems: 'center' }}>
+          <div className="price-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: '64px', alignItems: 'center' }}>
 
             {/* LEFT */}
             <div style={{ opacity: heroIn ? 1 : 0, transform: heroIn ? 'translateY(0)' : 'translateY(28px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
@@ -288,7 +313,7 @@ export default function Price() {
                   </div>
 
                   {/* Name & Phone */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '22px' }}>
+                  <div className="price-picker-namerow" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '22px' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#8a8a8a', marginBottom: '7px' }}>Your Name</label>
                       <input
@@ -320,11 +345,11 @@ export default function Price() {
                     onMouseEnter={e => { if (!isSubmitting) { e.currentTarget.style.background = '#f5a520'; e.currentTarget.style.transform = 'translateY(-2px)'; }}}
                     onMouseLeave={e => { e.currentTarget.style.background = isSubmitting ? 'rgba(228,137,21,0.55)' : amber; e.currentTarget.style.transform = 'none'; }}
                   >
-                    {isSubmitting ? 'Sending...' : <><i className="fa-solid fa-file-arrow-down" style={{ fontSize: '16px' }} /> Get Price List PDF</>}
+                    {isSubmitting ? 'Sending...' : <><i className="fa-solid fa-file-arrow-down" style={{ fontSize: '16px' }} /> Download Price List</>}
                   </button>
                   {submitStatus === 'success' && (
                     <p style={{ color: '#22c55e', marginTop: '8px', fontFamily: 'var(--font-body)' }}>
-                      ✅ Thank you! Our team will contact you shortly.
+                      ✅ Download started! Check your downloads folder.
                     </p>
                   )}
                   {submitStatus === 'error' && (
@@ -353,7 +378,7 @@ export default function Price() {
       ══════════════════════════════════ */}
       <section style={{ background: cream, borderBottom: '1px solid #e8e2d8' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0' }}>
+          <div className="price-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0' }}>
             {[
               { icon: 'fa-calendar-check', value: 'Nov 2025', label: 'Last Updated',    sub: 'Prices revised monthly'         },
               { icon: 'fa-map-location-dot', value: '11',     label: 'States Covered', sub: 'Across India'                   },
@@ -386,7 +411,7 @@ export default function Price() {
             <p style={{ color: muted, fontSize: '14px', maxWidth: '480px', margin: '0 auto' }}>Know exactly what you're paying — by region, by size, by grade.</p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+          <div className="price-why-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
             {[
               { icon: 'fa-scale-balanced',   title: 'Instant Comparison',       desc: 'Compare prices across regions in one view before placing any order.' },
               { icon: 'fa-calculator',       title: 'Budgeting Accuracy',        desc: 'Contractors, developers, and homebuilders can plan with confidence.' },
@@ -478,7 +503,7 @@ export default function Price() {
           </div>
 
           {/* ── Table ── */}
-          <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="price-table-outer" style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
 
             {/* Column headers */}
             <div style={{ display: 'grid', gridTemplateColumns: '1.7fr 1fr 1fr 1fr 1fr', background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
@@ -569,7 +594,7 @@ export default function Price() {
           </div>
 
           {/* Notes strip */}
-          <div style={{ marginTop: '20px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+          <div className="price-notes-grid" style={{ marginTop: '20px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {[
               { icon: 'fa-ruler-horizontal', text: 'Each rebar piece is 12 metres fixed length' },
               { icon: 'fa-arrow-trend-up',   text: 'Subject to market fluctuations & local freight' },
@@ -595,7 +620,7 @@ export default function Price() {
             <h2 style={{ ...displayH(), marginBottom: '0' }}>What You Need to Know</h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <div className="price-buying-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             {/* Know before purchasing */}
             <div style={{ background: cream, border: '1px solid #ddd8cf', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(27,42,58,0.05)' }}>
               <div style={{ background: ink, padding: '22px 28px', display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -661,7 +686,7 @@ export default function Price() {
       ══════════════════════════════════ */}
       <section style={{ padding: '0 0 80px', background: smoke }}>
         <div className="container">
-          <div style={{
+          <div className="price-cta-inner" style={{
             background: `linear-gradient(140deg, #080f18 0%, ${ink} 100%)`,
             borderRadius: '20px', position: 'relative', overflow: 'hidden',
             padding: '64px 56px',
@@ -722,7 +747,7 @@ export default function Price() {
             </div>
             <div>
               <div style={{ fontSize: '13px', fontWeight: 800, color: ink, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Important Notes</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 32px' }}>
+              <div className="price-disclaimer-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 32px' }}>
                 {[
                   'Prices are subject to revision without prior notice to reflect steel commodity changes.',
                   'All pricing listed is fully inclusive of standard GST rates.',

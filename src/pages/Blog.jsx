@@ -53,7 +53,7 @@ export default function Blog() {
                   filteredPosts.map((post) => (
                     <div key={post.id} className="col-md-6">
                       <div className="card h-100 border-0" style={{ boxShadow: '0 4px 15px rgba(0,0,0,0.05)', borderRadius: '12px', overflow: 'hidden' }}>
-                        <div style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                        <div className="blog-img-wrap" style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
                           <img 
                             src={post.thumbnail} 
                             alt={post.title} 

@@ -704,8 +704,8 @@ export default function Quality() {
               </h2>
             </div>
             <a
-              href="https://wheat-termite-712594.hostingersite.com/storage/media/8sT6sPSzvxQiPuDnR6eLJWpr4pFz1P0E0PghDSz5.pdf"
-              download
+              href="/TRIAM-Brochure-pdf.pdf"
+              download="TRIAM-A+-Brochure.pdf"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '10px',
                 background: amber, color: cream,

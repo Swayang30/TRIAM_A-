@@ -4869,3 +4869,24 @@ button, [role="button"] {
   /* Keep cert hover states visible */
   .cert-arrow:hover { transform: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   BREADCRUMB — MOBILE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .rs-breadcrumb-title { font-size: 36px; }
+  .rs-breadcrumb-area { padding: 60px 0; }
+}
+
+@media (max-width: 480px) {
+  .rs-breadcrumb-title { font-size: 28px; }
+  .rs-breadcrumb-area { padding: 48px 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BLOG & BLOG DETAIL — MOBILE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 576px) {
+  .blog-img-wrap { height: 170px !important; }
+  .blog-detail-img-wrap { height: 220px !important; }
+}
