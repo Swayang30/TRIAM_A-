@@ -341,7 +341,7 @@ export default function Quality() {
             </div>
 
             {/* Right: stat tiles */}
-            <div style={{
+            <div className="quality-hero-stats-grid" style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px',
               flexShrink: 0,
               opacity: heroIn ? 1 : 0, transform: heroIn ? 'translateX(0)' : 'translateX(24px)',

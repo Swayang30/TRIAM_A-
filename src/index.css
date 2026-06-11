@@ -4437,33 +4437,32 @@ a {
   50% { opacity: 0; }
 }
 
-/* ── ShinyText — Shimmer Component ── */
+/* ── ShinyText — Shimmer Component (background-clip: text approach) ── */
 .shiny-text {
-  position: relative;
-  overflow: hidden;
-}
-
-.shiny-text::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 50%;
-  height: 100%;
   background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.62) 50%,
-    transparent 100%
+    120deg,
+    var(--shiny-base, rgba(255,255,255,0.45)) 0%,
+    var(--shiny-base, rgba(255,255,255,0.45)) 38%,
+    var(--shiny-peak, #ffffff) 50%,
+    var(--shiny-base, rgba(255,255,255,0.45)) 62%,
+    var(--shiny-base, rgba(255,255,255,0.45)) 100%
   );
-  animation: shinySlide var(--shine-speed, 2.8s) ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shinySlide var(--shine-speed, 2.8s) linear infinite;
 }
 
 @keyframes shinySlide {
-  0%   { left: -60%; }
-  100% { left: 115%; }
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Pillar badges use dark-on-light gradient */
+.about-group-pillar {
+  --shiny-base: rgba(27, 42, 58, 0.55);
+  --shiny-peak: #1b2a3a;
 }
 
 /* ── About Page Responsive ── */
@@ -4748,9 +4747,12 @@ button, [role="button"] {
   .quality-cert-grid { grid-template-columns: repeat(2, 1fr); gap: 10px !important; }
 }
 
-/* Quality hero stat tiles → 1-col on small screens */
+/* Quality hero stat tiles — expand to full row width when wrapped on mobile */
+@media (max-width: 768px) {
+  .quality-hero-stats-grid { width: 100%; }
+}
 @media (max-width: 576px) {
-  .quality-hero-stats-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .quality-hero-stats-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; width: 100%; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -4766,6 +4768,7 @@ button, [role="button"] {
   .about-hero-content { padding-bottom: 52px; padding-top: 100px; }
   .about-hero-title { letter-spacing: -2px; }
   .about-group-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-group-img { height: 360px; }
   .about-mill-img { height: 320px; }
   .about-cmd-img { height: 380px; }
   .about-group-pillars { flex-wrap: wrap; gap: 8px; }
@@ -4775,8 +4778,17 @@ button, [role="button"] {
   .about-hero-content { padding-top: 80px; }
   .about-hero-stats { flex-direction: column; }
   .about-hero-stat { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.07) !important; }
+  .about-group-img { height: 280px; }
   .about-mill-img { height: 240px; }
   .about-cmd-img { height: 300px; }
+}
+
+/* About hero title — reduce minimum font size on small phones */
+@media (max-width: 576px) {
+  .about-hero-title { font-size: clamp(52px, 14vw, 80px) !important; letter-spacing: -2px; }
+}
+@media (max-width: 380px) {
+  .about-hero-title { font-size: clamp(40px, 13vw, 58px) !important; letter-spacing: -1.5px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════

@@ -34,19 +34,19 @@ export default function About() {
     {
       name: "Bikash Debnath",
       role: "Dealer Partner",
-      feedback: "My association with TRIAMTMT has been long-standing, and with every passing day, my business continues to grow steadily. The consistent quality of products and the strong support from the TRIAMTMT marketing team have played a crucial role in my success.",
+      feedback: "My association with TRIAM TMT has been long-standing, and with every passing day, my business continues to grow steadily. The consistent quality of products and the strong support from the TRIAM TMT marketing team have played a crucial role in my success.",
       image: "https://wheat-termite-712594.hostingersite.com/storage/media/FWAOjow7VqalY3PKMzh9jADzYRqw2U2mb6DZVLAn.jpg"
     },
     {
       name: "Shuvendu Mahato",
       role: "Business Owner",
-      feedback: "Working with TRIAMTMT has been a truly rewarding experience. Their product quality is consistently reliable, and the support from their team has helped me expand my business with confidence.",
+      feedback: "Working with TRIAM TMT has been a truly rewarding experience. Their product quality is consistently reliable, and the support from their team has helped me expand my business with confidence.",
       image: "https://wheat-termite-712594.hostingersite.com/storage/media/iD6Ycynw9mC169q78v1O9ekRTnaLCNs34fOpZKol.jpg"
     },
     {
       name: "Pabitra Mahato",
       role: "Volunteer / Partner",
-      feedback: "My journey with TRIAMTMT has been excellent so far. Their strong market presence and continuous guidance from the support team have significantly contributed to the growth of my business.",
+      feedback: "My journey with TRIAM TMT has been excellent so far. Their strong market presence and continuous guidance from the support team have significantly contributed to the growth of my business.",
       image: "https://wheat-termite-712594.hostingersite.com/storage/media/C4vxD6udwxZBSzbHAITc8VMHos50w2brwiydxIxJ.jpg"
     }
   ];
@@ -272,8 +272,10 @@ export default function About() {
                 <span style={{ color: '#e48915' }}>Real-World Strength</span>
               </h2>
             </div>
-            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '14px', lineHeight: 1.78, maxWidth: '300px', margin: 0, fontFamily: "'DM Sans', sans-serif" }}>
-              Four properties that separate a Triam A+ bar from the rest — built in, not added on.
+            <p style={{ fontSize: '14px', lineHeight: 1.78, maxWidth: '300px', margin: 0, fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}>
+              <ShinyText speed={3}>
+                Four properties that separate a Triam A+ bar from the rest — built in, not added on.
+              </ShinyText>
             </p>
           </div>
 

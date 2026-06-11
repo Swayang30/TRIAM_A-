@@ -189,19 +189,19 @@ export default function Home() {
     {
       name: 'Bikash Debnath',
       role: 'Dealer',
-      feedback: 'My association with TRIAMTMT has been long-standing, and with every passing day, my business continues to grow steadily. The consistent quality of products and the strong support from the TRIAMTMT marketing team have played a crucial role in my success.',
+      feedback: 'My association with TRIAM TMT has been long-standing, and with every passing day, my business continues to grow steadily. The consistent quality of products and the strong support from the TRIAM TMT marketing team have played a crucial role in my success.',
       image: 'https://wheat-termite-712594.hostingersite.com/storage/media/yEHtlWy7XwdC5RZhWjG4EUIMxwNzQPZKkC49yENG.jpg'
     },
     {
       name: 'Shuvendu Mahato',
       role: 'Business Owner',
-      feedback: 'Working with TRIAMTMT has been a truly rewarding experience. Their product quality is consistently reliable, and the support from their team has helped me expand my business with confidence.',
+      feedback: 'Working with TRIAM TMT has been a truly rewarding experience. Their product quality is consistently reliable, and the support from their team has helped me expand my business with confidence.',
       image: 'https://wheat-termite-712594.hostingersite.com/storage/media/C4vxD6udwxZBSzbHAITc8VMHos50w2brwiydxIxJ.jpg'
     },
     {
       name: 'Pabitra Mahato',
       role: 'Volunteer',
-      feedback: 'My journey with TRIAMTMT has been excellent so far. Their strong market presence and continuous guidance from the support team have significantly contributed to the growth of my business.',
+      feedback: 'My journey with TRIAM TMT has been excellent so far. Their strong market presence and continuous guidance from the support team have significantly contributed to the growth of my business.',
       image: 'https://wheat-termite-712594.hostingersite.com/storage/media/iD6Ycynw9mC169q78v1O9ekRTnaLCNs34fOpZKol.jpg'
     }
   ];
