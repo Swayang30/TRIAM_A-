@@ -16,8 +16,9 @@ const slides = [
     eyebrow: "Powering India's Future",
     headline: "The Backbone of Tomorrow's India.",
     sub: 'From high-rise towers to critical infrastructure — Triam A+ powers every landmark that shapes tomorrow.',
-    cta1: { label: 'Our Projects', to: '/about' },
-    cta2: { label: 'Contact Us', to: '/contact' },
+    badge: 'A+ STRENGTH · A+ FLEXIBILITY · A+ GRIP',
+    cta1: { label: 'Find a Triam Dealer', to: '/contact' },
+    cta2: { label: 'Download Brochure', href: '/TRIAM-Brochure-pdf.pdf' },
   },
 ];
 
