@@ -299,13 +299,13 @@ export default function ProductDetail() {
           border: 1px solid #ddd8cf; background: #fff;
           box-shadow: 0 8px 32px rgba(27,42,58,0.07);
         }
-        .pd-cross img { width: 100%; display: block; }
+        .pd-cross img { width: 100%; height: auto; display: block; max-width: 100%; }
         .pd-cross-cap {
           padding: 14px 22px; background: #1b2a3a;
           display: flex; align-items: center; gap: 12px;
         }
         .pd-cross-bar { width: 3px; height: 22px; background: #e48915; border-radius: 2px; flex-shrink: 0; }
-        .pd-cross-txt { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.52); letter-spacing: 0.3px; }
+        .pd-cross-txt { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.52); letter-spacing: 0.3px; line-height: 1.6; }
 
         /* ─── METRIC CARDS ─── */
         .pd-metrics {
@@ -330,15 +330,15 @@ export default function ProductDetail() {
           margin-bottom: 0;
         }
         .pd-tbl {
-          width: 100%; min-width: 420px; border-collapse: collapse;
+          width: 100%; min-width: 500px; border-collapse: collapse;
           background: #fff; border: 1px solid #ddd8cf;
         }
         .pd-tbl thead { background: #1b2a3a; }
-        .pd-th { padding: 16px 20px; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.38); text-align: left; }
+        .pd-th { padding: 14px 13px; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.38); text-align: left; }
         .pd-th-acc { color: #e48915 !important; text-align: center !important; }
-        .pd-td      { padding: 14px 20px; font-size: 13.5px; font-weight: 600; color: #1b2a3a; border-bottom: 1px solid #f0ebe3; }
-        .pd-td-mid  { padding: 14px 20px; font-size: 13.5px; color: #9aabba; text-align: center; font-weight: 500; border-bottom: 1px solid #f0ebe3; }
-        .pd-td-acc  { padding: 12px 20px; text-align: center; border-bottom: 1px solid #f0ebe3; }
+        .pd-td      { padding: 12px 13px; font-size: 13.5px; font-weight: 600; color: #1b2a3a; border-bottom: 1px solid #f0ebe3; }
+        .pd-td-mid  { padding: 12px 13px; font-size: 13.5px; color: #9aabba; text-align: center; font-weight: 500; border-bottom: 1px solid #f0ebe3; }
+        .pd-td-acc  { padding: 10px 13px; text-align: center; border-bottom: 1px solid #f0ebe3; }
         .pd-badge   { display: inline-block; background: rgba(228,137,21,0.08); border: 1px solid rgba(228,137,21,0.22); border-radius: 6px; padding: 3px 13px; font-size: 13.5px; font-weight: 700; color: #c8401a; }
         tr:last-child .pd-td, tr:last-child .pd-td-mid, tr:last-child .pd-td-acc { border-bottom: none; }
 
@@ -416,6 +416,13 @@ export default function ProductDetail() {
 
         /* ════════════════ RESPONSIVE ════════════════ */
 
+        /* ─── FAQ flex fix — prevents question text pushing icon off-screen ─── */
+        .pd-faq-q-wrap { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; }
+        .pd-faq-q-wrap > span:last-child { min-width: 0; word-break: break-word; }
+
+        /* ─── Corrosion box — padding controlled by CSS so mobile can override ─── */
+        .pd-corrosion-box { padding: 28px; }
+
         /* Tablet ≤ 1024px */
         @media (max-width: 1024px) {
           .pd-layout { grid-template-columns: 1fr 300px; gap: 36px; }
@@ -431,40 +438,109 @@ export default function ProductDetail() {
         /* Mobile ≤ 768px */
         @media (max-width: 768px) {
           .pd-hero { padding-top: 72px; }
-          .pd-hero-grid { grid-template-columns: 1fr; padding: 0 16px 56px; gap: 24px; }
+          /* padding-bottom 100px clears the 80px diagonal cut so stat cards are never hidden */
+          .pd-hero-grid { grid-template-columns: 1fr; padding: 0 16px 100px; gap: 24px; }
           .pd-hero-right { flex-direction: row; overflow-x: auto; scrollbar-width: none; gap: 12px; padding-bottom: 4px; }
           .pd-hero-right::-webkit-scrollbar { display: none; }
-          .pd-stat-card { min-width: 142px; padding: 16px 18px; flex-shrink: 0; }
+          .pd-stat-card { min-width: 148px; padding: 16px 18px; flex-shrink: 0; }
           .pd-stat-value { font-size: 36px; }
+          .pd-hero-pill-txt { font-size: 9px; letter-spacing: 1.5px; }
+          .pd-hero-desc { font-size: 13px; margin-bottom: 20px; }
 
           .pd-body { padding: 36px 0 60px; }
-          .pd-img-card img { height: 240px; }
+          .pd-img-card img { height: 220px; }
+          /* Stack image overlay vertically so grade text + tags are both visible */
+          .pd-img-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+          .pd-img-bottom > div:last-child { justify-content: flex-start; }
 
           .pd-metrics { grid-template-columns: 1fr; gap: 12px; }
+          .pd-metric { padding: 20px 16px; }
           .pd-chem-grid { grid-template-columns: 1fr; }
+          .pd-chem-note { padding: 14px 16px; }
           .pd-grid2 { grid-template-columns: 1fr; }
           .pd-grid3 { grid-template-columns: 1fr; }
           .pd-adv-grid { grid-template-columns: 1fr; }
 
-          .pd-qrow { grid-template-columns: 1fr; gap: 4px; }
+          .pd-qrow { grid-template-columns: 1fr; gap: 4px; padding: 14px 16px; }
 
-          .pd-cta-left { padding: 32px 24px; }
+          .pd-cta-left { padding: 28px 20px; }
           .pd-cta-right { display: none; }
+          .pd-cta-wrap { min-height: auto; }
 
           .pd-faq-body { padding: 0 16px 18px 16px; }
           .pd-faq-btn  { padding: 16px; }
+          .pd-faq-q-wrap { gap: 10px; }
 
           .pd-sidebar { grid-template-columns: 1fr; }
-          .pd-specs-grid { grid-template-columns: 1fr 1fr; }
+          .pd-specs-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
 
-          .pd-strip-item { padding: 14px 16px; }
+          .pd-strip-item { padding: 12px 14px; }
+
+          .pd-corrosion-box { padding: 20px 16px; }
+
+          /* ── About section + cross-section image ── */
+          .pd-sec { margin-bottom: 44px; }
+          .pd-txt { font-size: 14px; line-height: 1.75; }
+          .pd-cross { margin-bottom: 36px; border-radius: 12px; }
+          .pd-cross img { min-height: 160px; object-fit: contain; }
+          .pd-cross-cap { padding: 12px 16px; align-items: flex-start; gap: 10px; }
+          .pd-cross-bar { margin-top: 2px; }
+          .pd-cross-txt { font-size: 11px; }
         }
 
         /* Small mobile ≤ 480px */
         @media (max-width: 480px) {
-          .pd-hero-grid { padding: 0 12px 48px; }
-          .pd-metric-val { font-size: 42px; }
-          .pd-h2 { font-size: clamp(28px, 8vw, 40px); }
+          .pd-hero-grid { padding: 0 12px 100px; }
+          .pd-hero-h1 { font-size: clamp(36px, 9vw, 60px); }
+          .pd-hero-size { font-size: clamp(22px, 5.5vw, 44px); }
+          .pd-hero-desc { font-size: 12px; }
+          .pd-stat-card { min-width: 118px; padding: 14px 14px; }
+          .pd-stat-value { font-size: 30px; }
+          .pd-stat-label { font-size: 8px; letter-spacing: 1.5px; }
+          .pd-metric-val { font-size: 38px; }
+          .pd-h2 { font-size: clamp(24px, 7vw, 36px); }
+          .pd-corrosion-box { padding: 16px 12px; }
+          .pd-cta-left { padding: 24px 16px; }
+          .pd-faq-body { padding: 0 12px 16px; }
+          .pd-faq-btn { padding: 12px; gap: 8px; }
+          .pd-faq-q-wrap { gap: 8px; }
+          .pd-faq-num { width: 24px; height: 24px; font-size: 11px; }
+          .pd-qrow { padding: 12px 12px; }
+          .pd-metric { padding: 16px 14px; }
+          .pd-strip-item { padding: 10px 12px; gap: 8px; }
+          .pd-strip-icon { width: 30px; height: 30px; font-size: 14px; }
+          .pd-strip-name { font-size: 11px; }
+          .pd-strip-sub { font-size: 10px; }
+          .pd-icard { padding: 18px; gap: 12px; }
+          .pd-sec { margin-bottom: 36px; }
+          .pd-txt { font-size: 13.5px; }
+          .pd-cross { margin-bottom: 28px; }
+          .pd-cross img { min-height: 140px; }
+          .pd-cross-cap { padding: 10px 12px; gap: 8px; }
+          .pd-cross-txt { font-size: 11px; }
+        }
+
+        /* Extra small ≤ 360px */
+        @media (max-width: 360px) {
+          .pd-hero-grid { padding: 0 10px 100px; }
+          .pd-stat-card { min-width: 104px; padding: 12px 12px; }
+          .pd-stat-value { font-size: 26px; }
+          .pd-stat-label { font-size: 7.5px; }
+          .pd-h2 { font-size: clamp(20px, 6.5vw, 28px); }
+          .pd-metric-val { font-size: 34px; }
+          .pd-faq-btn { padding: 10px; }
+          .pd-qrow { padding: 10px 10px; }
+          .pd-cta-left { padding: 20px 14px; }
+          .pd-corrosion-box { padding: 14px 10px; }
+          .pd-icard { padding: 14px 12px; gap: 10px; }
+          .pd-adv-item { padding: 12px 14px; }
+          .pd-specs-grid { grid-template-columns: 1fr 1fr; }
+          .pd-strip-item { padding: 10px; gap: 6px; }
+          .pd-sec { margin-bottom: 30px; }
+          .pd-txt { font-size: 13px; }
+          .pd-cross img { min-height: 120px; }
+          .pd-cross-cap { padding: 8px 10px; gap: 6px; }
+          .pd-cross-txt { font-size: 10.5px; }
         }
       `}</style>
 
@@ -614,7 +690,12 @@ export default function ProductDetail() {
                   ))}
                 </div>
                 <div className="pd-tbl-wrap">
-                  <table className="pd-tbl">
+                  <table className="pd-tbl" style={{ tableLayout:'fixed' }}>
+                    <colgroup>
+                      <col style={{ width:'44%' }} />
+                      <col style={{ width:'28%' }} />
+                      <col style={{ width:'28%' }} />
+                    </colgroup>
                     <thead>
                       <tr>
                         <th className="pd-th">Property</th>
@@ -685,7 +766,12 @@ export default function ProductDetail() {
                   Produced within tight dimensional tolerances per IS 1786:2008, ensuring consistent cross-sections, rib geometry, and weight per metre across every batch.
                 </p>
                 <div className="pd-tbl-wrap">
-                  <table className="pd-tbl">
+                  <table className="pd-tbl" style={{ tableLayout:'fixed' }}>
+                    <colgroup>
+                      <col style={{ width:'44%' }} />
+                      <col style={{ width:'28%' }} />
+                      <col style={{ width:'28%' }} />
+                    </colgroup>
                     <thead>
                       <tr>
                         <th className="pd-th">Parameter</th>
@@ -740,7 +826,7 @@ export default function ProductDetail() {
                 <p className="pd-muted" style={{ marginBottom:'24px' }}>
                   Controlled carbon, sulphur, and phosphorus levels — combined with Thermax quenching — produce a bar with naturally superior corrosion resistance.
                 </p>
-                <div style={{ background:'#fff', border:'1px solid #ddd8cf', borderRadius:'16px', padding:'28px' }}>
+                <div className="pd-corrosion-box" style={{ background:'#fff', border:'1px solid #ddd8cf', borderRadius:'16px' }}>
                   <div className="pd-grid3">
                     {[
                       { label:'Carbon ≤ 0.20%',  sub:'Low carbon minimises carbide precipitation at grain boundaries — a primary corrosion trigger.' },
@@ -854,7 +940,7 @@ export default function ProductDetail() {
                     return (
                       <div key={idx} className={`pd-faq${open?' open':''}`}>
                         <button className="pd-faq-btn" onClick={() => setActiveFaq(open ? -1 : idx)}>
-                          <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+                          <div className="pd-faq-q-wrap">
                             <span className="pd-faq-num" style={{ background: open?'#e48915':'#f0ebe3', color: open?'#fff':'#8a8a8a' }}>
                               {String(idx+1).padStart(2,'0')}
                             </span>

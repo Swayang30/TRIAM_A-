@@ -1,153 +1,186 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const amber = '#e48915';
 const ink   = '#1b2a3a';
 const cream = '#ffffff';
 
 export default function FloatingCTA() {
-  const [open,         setOpen]         = useState(false);
-  const [name,         setName]         = useState('');
-  const [phone,        setPhone]        = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // null | "success" | "error"
+  const [callMenuOpen, setCallMenuOpen] = useState(false);
+  const callMenuRef = useRef(null);
 
-  const reset = () => {
-    setName(''); setPhone('');
-    setSubmitStatus(null); setIsSubmitting(false);
-  };
-
-  const close = () => { setOpen(false); reset(); };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!name.trim() || !phone.trim()) return;
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/leads`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source:  'floating-cta',
-          name:    name.trim(),
-          phone:   phone.trim(),
-          email:   '',
-          city:    '',
-          message: '',
-          product: '',
-          page:    window.location.pathname,
-        }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setSubmitStatus('success');
-      } else {
-        setSubmitStatus('error');
+  useEffect(() => {
+    if (!callMenuOpen) return;
+    const handler = (e) => {
+      if (callMenuRef.current && !callMenuRef.current.contains(e.target)) {
+        setCallMenuOpen(false);
       }
-    } catch (err) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    };
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
+    };
+  }, [callMenuOpen]);
 
   return (
     <>
-      {/* ── Floating bar ── */}
-      <div className="floating-cta-bar" id="floating-cta-bar">
-        <a href="tel:18008433333" className="floating-cta-btn floating-cta-call" aria-label="Call Now">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span>Call Now</span>
-        </a>
+      {/* ── Bottom-right floating call button ── */}
+      <div
+        ref={callMenuRef}
+        style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 9998, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}
+      >
+        {callMenuOpen && (
+          <div style={{
+            background: ink,
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '14px',
+            padding: '14px 16px',
+            boxShadow: '0 16px 48px rgba(0,0,0,0.45)',
+            minWidth: '220px',
+            animation: 'callPopIn 0.2s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
+            <div style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: amber, marginBottom: '10px' }}>
+              Call Us Directly
+            </div>
+            <a
+              href="tel:18008433333"
+              style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                padding: '10px 12px', borderRadius: '8px',
+                background: 'rgba(22,163,74,0.12)', border: '1px solid rgba(22,163,74,0.25)',
+                color: '#4ade80', textDecoration: 'none', marginBottom: '8px',
+                fontSize: '14px', fontWeight: 700, fontFamily: "'Rajdhani', sans-serif",
+                transition: 'background 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(22,163,74,0.22)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(22,163,74,0.12)'; }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              1800 843 3333
+            </a>
+            <a
+              href="tel:03340063942"
+              style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                padding: '10px 12px', borderRadius: '8px',
+                background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.25)',
+                color: amber, textDecoration: 'none',
+                fontSize: '14px', fontWeight: 700, fontFamily: "'Rajdhani', sans-serif",
+                transition: 'background 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(228,137,21,0.2)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(228,137,21,0.1)'; }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              (033) 4006 3942
+            </a>
+          </div>
+        )}
 
-        <button onClick={() => setOpen(true)} className="floating-cta-btn floating-cta-enquire" aria-label="Enquire Now">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span>Enquire Now</span>
-        </button>
+        <div style={{ position: 'relative', width: '56px', height: '56px' }}>
+          {/* Ripple rings — only animate when menu is closed */}
+          {!callMenuOpen && (
+            <>
+              <span className="call-fab-ring call-fab-ring-1" />
+              <span className="call-fab-ring call-fab-ring-2" />
+              <span className="call-fab-ring call-fab-ring-3" />
+            </>
+          )}
+          <button
+            onClick={() => setCallMenuOpen(v => !v)}
+            aria-label="Call us"
+            className={callMenuOpen ? 'call-fab call-fab--open' : 'call-fab'}
+          >
+            <svg
+              width="22" height="22" viewBox="0 0 24 24" fill="none"
+              className={callMenuOpen ? '' : 'call-fab-icon'}
+            >
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* ── Modal overlay ── */}
-      {open && (
-        <div
-          onClick={close}
-          style={{ position: 'fixed', inset: 0, background: 'rgba(8,15,24,0.72)', zIndex: 9999, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '0 0 80px' }}
-        >
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{ background: ink, borderRadius: '20px', padding: '32px 28px 28px', width: '100%', maxWidth: '400px', boxShadow: '0 32px 80px rgba(0,0,0,0.45)', position: 'relative', border: '1px solid rgba(255,255,255,0.08)' }}
-          >
-            {/* Close */}
-            <button
-              onClick={close}
-              style={{ position: 'absolute', top: '14px', right: '16px', background: 'rgba(255,255,255,0.07)', border: 'none', borderRadius: '50%', width: '30px', height: '30px', cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              ×
-            </button>
+      <style>{`
+        @keyframes callPopIn {
+          from { opacity: 0; transform: translateY(10px) scale(0.95); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
 
-            {submitStatus === 'success' ? (
-              <div style={{ textAlign: 'center', padding: '20px 0 10px' }}>
-                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(74,222,128,0.12)', border: '2px solid rgba(74,222,128,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#4ade80', fontSize: '24px' }}>
-                  <i className="fa-solid fa-check" />
-                </div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '22px', fontWeight: 900, color: cream, textTransform: 'uppercase', marginBottom: '8px' }}>Got it!</div>
-                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', margin: '0 0 20px' }}>Our team will call you shortly.</p>
-                <button onClick={close} style={{ background: amber, color: cream, border: 'none', borderRadius: '8px', padding: '11px 28px', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }}>
-                  Close
-                </button>
-              </div>
-            ) : (
-              <>
-                <div style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '2.5px', textTransform: 'uppercase', color: amber, marginBottom: '6px' }}>Quick Enquiry</div>
-                <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '24px', fontWeight: 900, color: cream, textTransform: 'uppercase', lineHeight: 1.05, margin: '0 0 22px' }}>
-                  We'll Call You Back
-                </h3>
+        /* Ripple rings */
+        .call-fab-ring {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background: rgba(22, 163, 74, 0.35);
+          pointer-events: none;
+        }
+        .call-fab-ring-1 { animation: fabRipple 2.4s ease-out infinite; }
+        .call-fab-ring-2 { animation: fabRipple 2.4s ease-out infinite 0.8s; }
+        .call-fab-ring-3 { animation: fabRipple 2.4s ease-out infinite 1.6s; }
 
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="text"
-                    placeholder="Full Name *"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    required
-                    style={{ width: '100%', boxSizing: 'border-box', padding: '13px 15px', background: 'rgba(255,255,255,0.06)', border: '1.5px solid rgba(255,255,255,0.12)', borderRadius: '9px', fontSize: '14px', color: cream, outline: 'none', marginBottom: '10px', display: 'block' }}
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone Number *"
-                    value={phone}
-                    onChange={e => setPhone(e.target.value)}
-                    required
-                    style={{ width: '100%', boxSizing: 'border-box', padding: '13px 15px', background: 'rgba(255,255,255,0.06)', border: '1.5px solid rgba(255,255,255,0.12)', borderRadius: '9px', fontSize: '14px', color: cream, outline: 'none', marginBottom: error ? '10px' : '16px', display: 'block' }}
-                  />
+        @keyframes fabRipple {
+          0%   { transform: scale(1);   opacity: 0.7; }
+          100% { transform: scale(2.6); opacity: 0;   }
+        }
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    onClick={handleSubmit}
-                    style={{ width: '100%', padding: '14px', background: isSubmitting ? 'rgba(228,137,21,0.55)' : amber, color: cream, border: 'none', borderRadius: '9px', fontSize: '14px', fontWeight: 800, cursor: isSubmitting ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '9px', boxShadow: '0 6px 20px rgba(228,137,21,0.28)' }}
-                  >
-                    {isSubmitting ? 'Sending...' : <><i className="fa-solid fa-phone" /> Request a Callback</>}
-                  </button>
-                  {submitStatus === 'success' && (
-                    <p style={{ color: '#22c55e', marginTop: '8px', fontFamily: 'var(--font-body)' }}>
-                      ✅ Thank you! Our team will contact you shortly.
-                    </p>
-                  )}
-                  {submitStatus === 'error' && (
-                    <p style={{ color: '#ef4444', marginTop: '8px', fontFamily: 'var(--font-body)' }}>
-                      ❌ Something went wrong. Please call us directly.
-                    </p>
-                  )}
-                </form>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+        /* FAB button base */
+        .call-fab {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #16a34a, #15803d);
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 6px 20px rgba(22,163,74,0.45);
+          transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+          animation: fabFloat 3s ease-in-out infinite;
+        }
+        .call-fab:hover {
+          background: linear-gradient(135deg, #22c55e, #16a34a);
+          box-shadow: 0 10px 30px rgba(22,163,74,0.6);
+          transform: scale(1.1);
+          animation: none;
+        }
+        .call-fab--open {
+          background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+          box-shadow: 0 8px 28px rgba(22,163,74,0.55) !important;
+          transform: scale(1.08) rotate(15deg) !important;
+          animation: none !important;
+        }
+
+        /* Gentle float */
+        @keyframes fabFloat {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50%       { transform: translateY(-4px) scale(1.03); }
+        }
+
+        /* Phone shake / ring */
+        .call-fab-icon {
+          animation: phoneRing 4s ease-in-out infinite;
+          transform-origin: center;
+        }
+        @keyframes phoneRing {
+          0%, 60%, 100% { transform: rotate(0deg); }
+          62%  { transform: rotate(-18deg); }
+          64%  { transform: rotate(18deg); }
+          66%  { transform: rotate(-14deg); }
+          68%  { transform: rotate(14deg); }
+          70%  { transform: rotate(-8deg); }
+          72%  { transform: rotate(8deg); }
+          74%  { transform: rotate(0deg); }
+        }
+      `}</style>
     </>
   );
 }
