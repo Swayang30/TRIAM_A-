@@ -187,21 +187,21 @@ export default function Home() {
 
   const testimonials = [
     {
-      name: 'Bikash Debnath',
-      role: 'Dealer',
-      feedback: 'My association with TRIAM TMT has been long-standing, and with every passing day, my business continues to grow steadily. The consistent quality of products and the strong support from the TRIAM TMT marketing team have played a crucial role in my success.',
+      name: 'Mr S. Saha',
+      role: 'Former Executive Engineer (Civil) & Consultant, WBMSCL',
+      feedback: 'We have procured approximately 2,000 MT of TRIAM A+ TMT bars to date. All supplies have conformed to the relevant BIS standards, with testing conducted by NABL-accredited third-party laboratories including National Test House and Jadavpur University, Kolkata. The overall performance has been consistently satisfactory. I wish the company continued success.',
       image: 'https://wheat-termite-712594.hostingersite.com/storage/media/yEHtlWy7XwdC5RZhWjG4EUIMxwNzQPZKkC49yENG.jpg'
     },
     {
-      name: 'Shuvendu Mahato',
-      role: 'Business Owner',
-      feedback: 'Working with TRIAM TMT has been a truly rewarding experience. Their product quality is consistently reliable, and the support from their team has helped me expand my business with confidence.',
+      name: 'Mr Manish Vyas',
+      role: 'Manager – Manufacturing & Logistics Supply Chain, Gainwell Engineering',
+      feedback: 'Amit Metaliks meets the stringent quality and safety parameters we require for mining operations — and they deliver on it consistently. We are getting exactly what we need, and we look forward to building a long-term business partnership with Amit Metaliks and the TRIAM brand.',
       image: 'https://wheat-termite-712594.hostingersite.com/storage/media/C4vxD6udwxZBSzbHAITc8VMHos50w2brwiydxIxJ.jpg'
     },
     {
-      name: 'Pabitra Mahato',
-      role: 'Volunteer',
-      feedback: 'My journey with TRIAM TMT has been excellent so far. Their strong market presence and continuous guidance from the support team have significantly contributed to the growth of my business.',
+      name: 'Mr Bidyut Dey',
+      role: 'Consultant, JMS Mining and former GM of Coal India Ltd.',
+      feedback: 'M/s Amit Metaliks have supplied various sizes of TRIAM A+ brand steel reinforcement bars for construction of 1.8 Mtpa coking coal washery at Urtan. The materials supplied fulfill all the standards. The results of various tests carried out at site are found to meet the desired standards and quality of the bars is upto full of our satisfaction. We desire a longterm association with TRIAM brand TMT bars.',
       image: 'https://wheat-termite-712594.hostingersite.com/storage/media/iD6Ycynw9mC169q78v1O9ekRTnaLCNs34fOpZKol.jpg'
     }
   ];
@@ -226,7 +226,7 @@ export default function Home() {
     {
       num: '03',
       title: 'German Thermex Process',
-      desc: 'Our Thermex quenching system creates a hardened martensite outer shell over a ductile ferritic-pearlitic core — strength and flexibility in one bar.',
+      desc: 'Our Thermex quenching system creates a hardened and tempered martensite outer shell over a ductile ferritic-pearlitic core — perfect match of strength and flexibility in one bar.',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2v6m0 0l3-3m-3 3L9 5M12 22a7 7 0 0 0 7-7c0-3.87-7-13-7-13S5 11.13 5 15a7 7 0 0 0 7 7z"/></svg>
       )
@@ -234,7 +234,7 @@ export default function Home() {
     {
       num: '04',
       title: 'NABL Lab Precision',
-      desc: 'In-house NABL-accredited laboratory with Universal Testing Machines and spectrometers delivers real-time results — corrections made before any issue ships.',
+      desc: 'In-house NABL-accredited laboratory with Universal Testing Machines, spectrometers and other modern equipments delivers real-time results — for pre dispatch inspection and corrective measures if any.',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 9H17v1.5c0 .83.67 1.5 1.5 1.5"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8H3.5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/></svg>
       )
@@ -376,8 +376,8 @@ export default function Home() {
                         {f.icon}
                       </div>
                       <div>
-                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '16px', fontWeight: 800, color: 'rgba(255,255,255,0.88)', textTransform: 'uppercase', letterSpacing: '0.5px', lineHeight: 1.2, marginBottom: '4px' }}>{f.title}</div>
-                        <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.65, fontFamily: "'DM Sans', sans-serif" }}>{f.sub}</div>
+                        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '19px', fontWeight: 800, color: '#C8102E', textTransform: 'uppercase', letterSpacing: '0.5px', lineHeight: 1.2, marginBottom: '4px' }}>{f.title}</div>
+                        <div style={{ fontSize: '15px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.65, fontFamily: "'DM Sans', sans-serif" }}>{f.sub}</div>
                       </div>
                     </div>
                   ))}
@@ -637,7 +637,6 @@ export default function Home() {
                   <span className="tmt-testimonial-quote">"</span>
                   <p className="tmt-testimonial-text">"{t.feedback}"</p>
                   <div className="tmt-testimonial-author">
-                    <img src={t.image} alt={t.name} />
                     <div>
                       <span className="tmt-testimonial-name">{t.name}</span>
                       <span className="tmt-testimonial-role">{t.role}</span>

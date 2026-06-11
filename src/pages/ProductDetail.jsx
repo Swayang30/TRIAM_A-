@@ -105,8 +105,8 @@ export default function ProductDetail() {
     { label: 'Elongation',        unit: '%',      std: '14.5',   triam: '17+' },
     { label: 'Elongation at Max. Force', unit: '%', std: '5',   triam: '7+' },
     { label: 'TS / YS Ratio',    unit: '',        std: '1.08',   triam: '1.15' },
-    { label: 'Bend',              unit: '',        std: '4D–5D',  triam: '3D–4D' },
-    { label: 'Rebend',            unit: '',        std: '6D–7D',  triam: '5D–6D' },
+    { label: 'Bend',              unit: '',        std: '4D–5D',  triam: 'As per BIS Spec' },
+    { label: 'Rebend',            unit: '',        std: '6D–7D',  triam: 'As per BIS Spec' },
   ];
 
   const chemRows = [

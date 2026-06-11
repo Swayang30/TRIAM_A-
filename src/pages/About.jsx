@@ -32,22 +32,22 @@ export default function About() {
 
   const partners = [
     {
-      name: "Bikash Debnath",
-      role: "Dealer Partner",
-      feedback: "My association with TRIAM TMT has been long-standing, and with every passing day, my business continues to grow steadily. The consistent quality of products and the strong support from the TRIAM TMT marketing team have played a crucial role in my success.",
-      image: "https://wheat-termite-712594.hostingersite.com/storage/media/FWAOjow7VqalY3PKMzh9jADzYRqw2U2mb6DZVLAn.jpg"
+      name: "Mr S. Saha",
+      role: "Former Executive Engineer (Civil) & Consultant, WBMSCL",
+      feedback: "We have procured approximately 2,000 MT of TRIAM A+ TMT bars to date. All supplies have conformed to the relevant BIS standards, with testing conducted by NABL-accredited third-party laboratories including National Test House and Jadavpur University, Kolkata. The overall performance has been consistently satisfactory. I wish the company continued success.",
+      image: ""
     },
     {
-      name: "Shuvendu Mahato",
-      role: "Business Owner",
-      feedback: "Working with TRIAM TMT has been a truly rewarding experience. Their product quality is consistently reliable, and the support from their team has helped me expand my business with confidence.",
-      image: "https://wheat-termite-712594.hostingersite.com/storage/media/iD6Ycynw9mC169q78v1O9ekRTnaLCNs34fOpZKol.jpg"
+      name: "Mr Manish Vyas",
+      role: "Manager – Manufacturing & Logistics Supply Chain, Gainwell Engineering",
+      feedback: "Amit Metaliks meets the stringent quality and safety parameters we require for mining operations — and they deliver on it consistently. We are getting exactly what we need, and we look forward to building a long-term business partnership with Amit Metaliks and the TRIAM brand.",
+      image: ""
     },
     {
-      name: "Pabitra Mahato",
-      role: "Volunteer / Partner",
-      feedback: "My journey with TRIAM TMT has been excellent so far. Their strong market presence and continuous guidance from the support team have significantly contributed to the growth of my business.",
-      image: "https://wheat-termite-712594.hostingersite.com/storage/media/C4vxD6udwxZBSzbHAITc8VMHos50w2brwiydxIxJ.jpg"
+      name: "Mr Bidyut Dey",
+      role: "Consultant, JMS Mining and former GM of Coal India Ltd.",
+      feedback: "M/s Amit Metaliks have supplied various sizes of TRIAM A+ brand steel reinforcement bars for construction of 1.8 Mtpa coking coal washery at Urtan. The materials supplied fulfill all the standards. The results of various tests carried out at site are found to meet the desired standards and quality of the bars is upto full of our satisfaction. We desire a longterm association with TRIAM brand TMT bars.",
+      image: ""
     }
   ];
 
@@ -76,7 +76,7 @@ export default function About() {
             <span className="about-hero-accent">India.</span>
           </h1>
           <p className="about-hero-sub">
-            New-age FE 550D rebar, rolled on German Thermex technology — from our own billet to your building, furnace to foundation.
+            New-age FE 550D rebar, rolled on German Thermex technology — from our own billet to your foundation & construction.
           </p>
 
           <div className="about-hero-stats">
@@ -100,49 +100,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── Group Introduction ── */}
-      <section className="about-group-section">
-        <div className="container">
-          <div className="about-group-grid">
-
-            <div className="about-group-visual">
-              <div className="about-group-img-frame">
-                <img
-                  src="/amitalliance1.png"
-                  alt="Amit Alliance Plant"
-                  className="about-group-img"
-                />
-                <div className="about-group-img-badge">
-                  <span className="about-group-badge-num">Rs. 2,000 Cr+</span>
-                  <span className="about-group-badge-label">Group Turnover</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="about-group-content">
-              <div className="tmt-eyebrow">About Us</div>
-              <h2 className="section-title" style={{ marginBottom: 0 }}>AMIT ALLIANCE<br />Group</h2>
-              <div className="about-group-rule" />
-              <p className="about-group-text">
-                Amit Alliance is one of India's fastest-growing groups in steel, mining, and infrastructure. Since 2004,
-                four verticals — <strong>Amit Metaliks Limited, Amit Mines Private Limited, Nakshit Iron &amp; Steel Pvt. Ltd.,
-                and Takshvi Infra Private Limited</strong> — have built the group into a Rs. 2,000-crore powerhouse,
-                delivering steel, mining services, and infrastructure projects across the country.
-              </p>
-              <p className="about-group-text">
-                At the helm is <strong>Mr. Amit Kumar Singh</strong>, an IIT Kanpur alumnus and first-generation entrepreneur
-                whose two decades of leadership continue to drive the group's dominance in steel and infrastructure.
-              </p>
-              <div className="about-group-pillars">
-                {['Amit Metaliks', 'Amit Mines', 'Nakshit Iron & Steel', 'Takshvi Infra'].map((p, i) => (
-                  <ShinyText key={i} className="about-group-pillar" speed={2.4 + i * 0.4}>{p}</ShinyText>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* ── CMD's Message ── */}
       <section className="about-cmd-section">
@@ -202,26 +159,32 @@ export default function About() {
               <div className="tmt-eyebrow">Manufacturing</div>
               <h2 className="section-title" style={{ marginBottom: 0 }}>Block Mill<br />Technology</h2>
               <div className="about-group-rule" />
-              <p className="about-group-text">
-                Every Triam A+ bar starts as sponge iron in our own Steel Melting Shop and moves through one fully integrated,
-                in-house line — Ladle Refining Furnace, Continuous Casting Machine, the rolling, intermediate and finishing
-                block mills, the Thermex quenching plant, and the cooling bed. Nothing is outsourced. Nothing is left to chance.
-              </p>
-              <p className="about-group-text" style={{ fontStyle: 'italic', color: 'var(--c-amber)', fontWeight: 600 }}>
-                That control is why block mills are the standard in modern steel plants — and why every Triam A+ bar holds
-                true, bend after bend, from the fabrication yard to the final pour.
+              <p className="about-group-text" style={{ color: '#000000' }}>
+                Block Mill - TMT (Thermo-Mechanically Treated) is a high-speed, compact finishing unit designed for precision rolling, particularly for small-diameter bars (8mm–16mm). Our Block Mill typically has a no-twist, 45° configuration with 6 stands, enabling high-speed production while maintaining tight dimensional tolerances, excellent surface quality, and uniform mechanical properties.
               </p>
 
               <div className="about-mill-features">
-                {millBenefits.map((b, i) => (
-                  <div key={i} className="about-mill-feature">
-                    <span className="about-mill-feature-label">{b.label}</span>
-                    <ul>
-                      {b.items.map((item, j) => <li key={j}>{item}</li>)}
-                    </ul>
-                  </div>
-                ))}
+                <div className="about-mill-feature">
+                  <span className="about-mill-feature-label">Block mills are engineered for</span>
+                  <ul>
+                    <li>High-speed rolling</li>
+                    <li>Precision sizing</li>
+                    <li>Superior metallurgical properties</li>
+                  </ul>
+                </div>
+                <div className="about-mill-feature">
+                  <span className="about-mill-feature-label">Using tungsten carbide rolls in block mills achieve</span>
+                  <ul>
+                    <li>Higher productivity</li>
+                    <li>Excellent surface finish</li>
+                    <li>Precise dimensional control of final products during rolling</li>
+                  </ul>
+                </div>
               </div>
+
+              <p className="about-group-text" style={{ marginTop: '24px', fontStyle: 'italic', color: 'var(--c-amber)', fontWeight: 600 }}>
+                This combination makes block mills the ideal choice for modern steel plants focused on quality and operational efficiency.
+              </p>
             </div>
 
             <div className="about-mill-img-wrap">
@@ -351,7 +314,6 @@ export default function About() {
                   </div>
                   <p className="about-testimonial-text">"{p.feedback}"</p>
                   <div className="about-testimonial-author">
-                    <img src={p.image} alt={p.name} className="about-testimonial-avatar" />
                     <div>
                       <div className="about-testimonial-name">{p.name}</div>
                       <div className="about-testimonial-role">{p.role}</div>

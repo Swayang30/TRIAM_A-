@@ -1602,8 +1602,8 @@ a {
 }
 .gt-content-text p {
   font-family: var(--font-body);
-  font-size: 14.5px;
-  color: var(--c-muted);
+  font-size: 16px;
+  color: #000000;
   line-height: 1.82;
   margin-bottom: 16px;
 }
@@ -1693,7 +1693,7 @@ a {
 
 .tmt-testimonial-text {
   font-size: 14px;
-  color: var(--c-muted);
+  color: #000000;
   line-height: 1.8;
   margin-bottom: 22px;
   font-style: italic;
@@ -2623,7 +2623,7 @@ a {
 .pv2-card:hover .pv2-bar-img { transform: scale(1.04); }
 
 .pv2-desc-text {
-  font-size: 12.5px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--c-muted);
   line-height: 1.7;
@@ -3177,9 +3177,9 @@ a {
 /* ── Title ── */
 .wc-title {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-size: 22px;
   font-weight: 800;
-  color: var(--c-white);
+  color: #F47C20;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   margin: 0 0 14px;
@@ -3189,15 +3189,15 @@ a {
 
 /* ── Description ── */
 .wc-desc {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.42);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.88;
   margin: 0;
   flex: 1;
   transition: color 0.4s ease;
 }
 
-.wc-card:hover .wc-desc { color: rgba(255, 255, 255, 0.64); }
+.wc-card:hover .wc-desc { color: #ffffff; }
 
 /* ── Bottom accent ── */
 .wc-bottom-line {
@@ -3936,7 +3936,7 @@ a {
 
 .about-group-text {
   font-family: var(--font-body);
-  font-size: 15.5px;
+  font-size: 17px;
   color: var(--c-muted);
   line-height: 1.88;
   margin-bottom: 16px;
@@ -4152,7 +4152,7 @@ a {
 
 .about-mill-feature-label {
   font-family: var(--font-body);
-  font-size: 10.5px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -4169,7 +4169,7 @@ a {
 
 .about-mill-feature ul li {
   font-family: var(--font-body);
-  font-size: 13.5px;
+  font-size: 15.5px;
   color: var(--c-ink);
   padding: 4px 0;
   display: flex;

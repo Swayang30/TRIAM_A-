@@ -43,9 +43,9 @@ function BenefitsPanel({ benefits }) {
   const [displayText, setDisplayText] = useState('');
   const [showDesc,    setShowDesc]    = useState(false);
 
-  const TYPING_SPEED  = 52;
-  const DELETING_SPEED = 24;
-  const PAUSE_MS      = 2600;
+  const TYPING_SPEED  = 90;
+  const DELETING_SPEED = 42;
+  const PAUSE_MS      = 3800;
   const FADE_MS       = 380;
   const amber = '#e48915';
   const cream = '#ffffff';
@@ -109,7 +109,7 @@ function BenefitsPanel({ benefits }) {
           {displayText}
           <span style={{ display: 'inline-block', width: '2px', height: '1em', background: amber, marginLeft: '3px', verticalAlign: 'middle', animation: 'oaf-cursor 0.85s step-end infinite' }} />
         </div>
-        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, marginTop: '10px', minHeight: '42px', opacity: showDesc ? 1 : 0, transition: `opacity ${FADE_MS}ms ease` }}>
+        <div style={{ fontSize: '16px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.65, marginTop: '10px', minHeight: '42px', opacity: showDesc ? 1 : 0, transition: `opacity ${FADE_MS}ms ease` }}>
           {benefits[idx].desc}
         </div>
       </div>

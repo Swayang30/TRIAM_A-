@@ -24,14 +24,14 @@ export default function GermanTechnology() {
   const descriptions = {
     tab1: (
       <>
-        <p>Our TMT bars are made on Thermax technology from HSE, Germany. The controlled heat-treatment process gives each bar a soft ferrite-pearlite core inside a tough tempered martensite outer ring, with the transformation running evenly through the cross-section.</p>
-        <p>That uniformity is what prevents the internal stresses that weaken ordinary rebar and accelerate corrosion from within. With no stress concentrations or micro-cracks for moisture and chlorides to exploit, the bar holds up well in coastal air, monsoon humidity, and aggressive soils.</p>
+        <p>Our TMT bars are made from tested billets using Thermax technology from HSE, Germany. The controlled heat-treatment process gives each bar a soft ferrite-pearlite core inside a tough tempered martensite outer ring, with the transformation running evenly through the cross-section.</p>
+        <p>That uniformity is what prevents the internal stresses that weaken ordinary rebar and accelerate corrosion from within. With no stress concentrations or micro-cracks for moisture and chlorides to exploit, the bar holds up well in coastal areas, monsoon humidity, and aggressive soils.</p>
         <p>The result is a structure that stays sound for decades, with low maintenance and a real working life behind every bar.</p>
       </>
     ),
     tab2: (
       <>
-        <p>Quality control runs through every stage of our TMT production, from the first melt to the final rolled bar. Steel chemistry is checked at the furnace, the billet is tested before rolling, and finished bars are sampled for yield, tensile strength, and bend before despatch.</p>
+        <p>Quality control runs through every stage of our TMT production, from the first melt to the final rolled bar. Steel chemistry is checked at the furnace, the billet is tested before rolling, and finished bars are sampled for yield, tensile strength, elongation and bendability before despatch.</p>
         <p>The manufacturing system carries three international certifications: ISO 9001 for quality management, ISO 14001 for environmental practice, and ISO 45001 for occupational health and safety.</p>
         <p>What that adds up to is a bar built with the kind of process discipline you want behind a structure meant to last fifty years.</p>
       </>

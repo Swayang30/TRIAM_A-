@@ -73,7 +73,7 @@ export default function HeroSlider() {
                 {slide.badge.split('·').map((item, i) => (
                   <React.Fragment key={i}>
                     {i > 0 && <span style={{ color: 'rgba(228,137,21,0.5)', fontSize: '14px' }}>·</span>}
-                    <span style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915', background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.25)', borderRadius: '50px', padding: '5px 14px' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 800, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#e48915', background: 'rgba(228,137,21,0.1)', border: '1px solid rgba(228,137,21,0.25)', borderRadius: '50px', padding: '5px 14px' }}>
                       {item.trim()}
                     </span>
                   </React.Fragment>
