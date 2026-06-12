@@ -2401,8 +2401,6 @@ a {
 }
 
 /* TextType paragraphs */
-.cp-typed-wrap { }
-
 .cp-para {
   font-size: 18px;
   color: rgba(255,255,255,0.58);
