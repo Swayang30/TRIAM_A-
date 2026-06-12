@@ -36,7 +36,7 @@ function App() {
             
             {/* Hardcoded product paths */}
             <Route path="/Fe-500D-Grade-TMT-8mm-12mm" element={<ProductDetail />} />
-            <Route path="/Fe-550D-Grade-TMT-16mm-20mm" element={<ProductDetail />} />
+            <Route path="/Fe-550D-Grade-TMT-6mm-32mm" element={<ProductDetail />} />
             <Route path="/Fe-550D-Grade-TMT-25mm-32mm" element={<ProductDetail />} />
             
             {/* Dynamic fallback product slug */}

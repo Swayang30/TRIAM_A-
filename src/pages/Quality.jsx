@@ -84,8 +84,8 @@ function QualityTypePanel({ features }) {
   const [phase,     setPhase]       = useState('typing'); // 'typing' | 'holding' | 'fading' | 'deleting'
   const [subOn,     setSubOn]       = useState(false);
 
-  const SPEED_TYPE = 42;
-  const SPEED_DEL  = 20;
+  const SPEED_TYPE = 90;
+  const SPEED_DEL  = 40;
   const HOLD_MS    = 2600;
   const FADE_MS    = 320;
 
@@ -154,7 +154,7 @@ function QualityTypePanel({ features }) {
         </div>
 
         {/* Subtitle (fades in after title complete) */}
-        <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, minHeight: '44px', marginTop: '10px', opacity: subOn ? 1 : 0, transform: subOn ? 'translateY(0)' : 'translateY(6px)', transition: `opacity ${FADE_MS}ms ease, transform ${FADE_MS}ms ease` }}>
+        <div style={{ fontSize: '16px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, minHeight: '44px', marginTop: '10px', opacity: subOn ? 1 : 0, transform: subOn ? 'translateY(0)' : 'translateY(6px)', transition: `opacity ${FADE_MS}ms ease, transform ${FADE_MS}ms ease` }}>
           {current.sub}
         </div>
 
@@ -186,6 +186,98 @@ function QualityTypePanel({ features }) {
   );
 }
 
+/* ── ProcessStepCard — card with scroll-triggered typewriter on description ── */
+function ProcessStepCard({ step }) {
+  const [ref, visible] = useInView(0.25);
+  const [displayed, setDisplayed]   = useState('');
+  const [started,   setStarted]     = useState(false);
+
+  const amber  = '#e48915';
+  const accent = '#c8401a';
+  const cream  = '#fff';
+
+  useEffect(() => {
+    if (visible && !started) setStarted(true);
+  }, [visible, started]);
+
+  useEffect(() => {
+    if (!started) return;
+    if (displayed.length >= step.desc.length) return;
+    const t = setTimeout(() => {
+      setDisplayed(step.desc.slice(0, displayed.length + 1));
+    }, 28);
+    return () => clearTimeout(t);
+  }, [started, displayed, step.desc]);
+
+  const typing = started && displayed.length < step.desc.length;
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(228,137,21,0.18)',
+        borderRadius: '16px',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(228,137,21,0.45)'; e.currentTarget.style.background = 'rgba(228,137,21,0.06)'; e.currentTarget.style.transform = 'translateY(-5px)'; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(228,137,21,0.18)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+    >
+      {/* Amber accent top bar */}
+      <div style={{ height: '3px', background: `linear-gradient(90deg, ${amber}, ${accent})` }} />
+
+      <div style={{ padding: '28px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Icon + step badge row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+          <div style={{
+            width: '52px', height: '52px', borderRadius: '12px',
+            background: 'rgba(228,137,21,0.12)', border: '1.5px solid rgba(228,137,21,0.25)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '22px', color: amber, flexShrink: 0,
+          }}>
+            <i className={`fa-solid ${step.icon}`} />
+          </div>
+          <span style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: '11px', fontWeight: 800, letterSpacing: '2.5px',
+            color: 'rgba(228,137,21,0.65)', textTransform: 'uppercase',
+          }}>
+            STEP {step.num}
+          </span>
+        </div>
+
+        {/* Title */}
+        <div style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: '26px', fontWeight: 900, color: cream,
+          textTransform: 'uppercase', letterSpacing: '0.5px',
+          marginBottom: '12px', lineHeight: 1.05,
+        }}>
+          {step.title}
+        </div>
+
+        {/* Amber rule */}
+        <div style={{ width: '32px', height: '2px', background: amber, borderRadius: '1px', marginBottom: '16px', opacity: 0.55 }} />
+
+        {/* Typewriter description */}
+        <p style={{
+          fontSize: '15px', color: 'rgba(255,255,255,0.52)', lineHeight: 1.8,
+          margin: 0, flex: 1,
+        }}>
+          {displayed}
+          <span style={{
+            animation: 'tt-cursor-blink 0.65s step-end infinite',
+            color: typing ? amber : 'rgba(228,137,21,0.25)',
+          }}>|</span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
 /* ── Animated counter ── */
 function Counter({ target, suffix = '', duration = 1400 }) {
   const [ref, visible] = useInView(0.3);
@@ -210,7 +302,6 @@ function Counter({ target, suffix = '', duration = 1400 }) {
 export default function Quality() {
   const [heroIn, setHeroIn] = useState(false);
   const [certHover, setCertHover] = useState(null);
-  const [stepHover, setStepHover] = useState(null);
   const [advantageHover, setAdvantageHover] = useState(null);
 
   useEffect(() => { const t = setTimeout(() => setHeroIn(true), 80); return () => clearTimeout(t); }, []);
@@ -418,43 +509,10 @@ export default function Quality() {
             </p>
           </div>
 
-          {/* Steps row */}
-          <div className="quality-process-grid" style={{ gap: '0', position: 'relative' }}>
-            {/* Connector line */}
-            <div style={{ position: 'absolute', top: '36px', left: '10%', right: '10%', height: '2px', background: 'rgba(228,137,21,0.18)', zIndex: 0 }} />
-
+          {/* Step cards */}
+          <div className="quality-process-grid" style={{ gap: '16px' }}>
             {processSteps.map((s, i) => (
-              <div
-                key={i}
-                style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 8px', cursor: 'default' }}
-                onMouseEnter={() => setStepHover(i)}
-                onMouseLeave={() => setStepHover(null)}
-              >
-                {/* Icon circle */}
-                <div style={{
-                  width: '72px', height: '72px', borderRadius: '50%', marginBottom: '24px',
-                  background: stepHover === i ? amber : 'rgba(228,137,21,0.12)',
-                  border: `2px solid ${stepHover === i ? amber : 'rgba(228,137,21,0.3)'}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '26px', color: stepHover === i ? cream : amber,
-                  transition: 'all 0.3s ease',
-                  boxShadow: stepHover === i ? `0 8px 28px rgba(228,137,21,0.3)` : 'none',
-                }}>
-                  <i className={`fa-solid ${s.icon}`} />
-                </div>
-                {/* Step number */}
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', fontWeight: 800, letterSpacing: '2px', color: stepHover === i ? amber : 'rgba(255,255,255,0.22)', marginBottom: '8px' }}>
-                  STEP {s.num}
-                </div>
-                {/* Title */}
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '18px', fontWeight: 800, color: cream, textTransform: 'uppercase', textAlign: 'center', marginBottom: '10px', letterSpacing: '0.3px' }}>
-                  {s.title}
-                </div>
-                {/* Desc */}
-                <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, textAlign: 'center', margin: 0, transition: 'color 0.3s', ...(stepHover === i ? { color: 'rgba(255,255,255,0.65)' } : {}) }}>
-                  {s.desc}
-                </p>
-              </div>
+              <ProcessStepCard key={i} step={s} index={i} />
             ))}
           </div>
 
@@ -816,7 +874,7 @@ export default function Quality() {
                 Contact Our Team
                 <i className="fa-solid fa-arrow-right" style={{ fontSize: '12px' }} />
               </Link>
-              <Link to="/Fe-550D-Grade-TMT-16mm-20mm" style={{
+              <Link to="/Fe-550D-Grade-TMT-6mm-32mm" style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
                 background: 'transparent', color: 'rgba(255,255,255,0.7)',
                 padding: '14px 28px', borderRadius: '8px',

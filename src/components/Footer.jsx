@@ -56,7 +56,7 @@ export default function Footer() {
               <span className="tmt-footer-heading">Useful Links</span>
               <ul className="tmt-footer-links">
                 <li><Link to="/about">About Us</Link></li>
-                <li><Link to="/Fe-550D-Grade-TMT-16mm-20mm">Products</Link></li>
+                <li><Link to="/Fe-550D-Grade-TMT-6mm-32mm">Products</Link></li>
                 <li><Link to="/quality">Quality Checks</Link></li>
                 <li><Link to="/price">Price List</Link></li>
                 <li><Link to="/blog">Blog &amp; Updates</Link></li>

@@ -20,9 +20,84 @@ function useCountUp(target, duration = 1200, start = false) {
   return val;
 }
 
+function useInView(threshold = 0.2) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return [ref, visible];
+}
+
+function AboutTerminal({ grade }) {
+  const para1 = `For close to two decades, Amit Metaliks Ltd. has built its name in the metallurgical sector on one principle: no shortcuts. Every TRIAM A+ ${grade} rebar is forged on the patented Thermax technology from HSE, Germany, then carried through a refined process that pairs high strength with high ductility at every stage.`;
+  const para2 = `Pick up an ISI-certified bar and the A+ quality shows along its full length — in every millimetre of steel, in every test certificate, in every structure it supports.`;
+  const fullText = para1 + '\n\n' + para2;
+
+  const [ref, visible] = useInView(0.2);
+  const [displayed, setDisplayed] = useState('');
+  const [started,   setStarted]   = useState(false);
+
+  useEffect(() => {
+    if (visible && !started) setStarted(true);
+  }, [visible, started]);
+
+  useEffect(() => {
+    if (!started) return;
+    if (displayed.length >= fullText.length) return;
+    const t = setTimeout(() => {
+      setDisplayed(fullText.slice(0, displayed.length + 1));
+    }, 18);
+    return () => clearTimeout(t);
+  }, [started, displayed, fullText]);
+
+  const chunks = displayed.split('\n\n');
+  const amber  = '#e48915';
+
+  return (
+    <div ref={ref} className="about-terminal" style={{
+      borderRadius:'14px', overflow:'hidden',
+      boxShadow:'0 16px 48px rgba(27,42,58,0.16)',
+      marginBottom:'28px',
+      aspectRatio:'1 / 1',
+      maxWidth:'480px',
+      display:'flex', flexDirection:'column',
+    }}>
+      {/* Terminal chrome bar */}
+      <div style={{ background:'#0a1520', padding:'10px 18px', display:'flex', alignItems:'center', gap:'10px', borderBottom:'1px solid rgba(255,255,255,0.06)', flexShrink:0 }}>
+        <div style={{ display:'flex', gap:'5px' }}>
+          {['#ff5f57','#ffbe2e','#28c840'].map((c, i) => (
+            <div key={i} style={{ width:'9px', height:'9px', borderRadius:'50%', background:c, opacity:0.85 }} />
+          ))}
+        </div>
+        <div style={{ flex:1, textAlign:'center', fontSize:'10px', fontWeight:700, letterSpacing:'2px', textTransform:'uppercase', color:'rgba(255,255,255,0.22)' }}>
+          about.txt — TRIAM A+
+        </div>
+        <div style={{ width:'7px', height:'7px', borderRadius:'50%', background:'#28c840', boxShadow:'0 0 5px #28c840' }} />
+      </div>
+      {/* Typing area */}
+      <div style={{ background:'#0d1621', padding:'22px 26px', flex:1, overflow:'hidden' }}>
+        {chunks.map((chunk, i) => (
+          <p key={i} style={{ color:'rgba(255,255,255,0.72)', fontSize:'14px', lineHeight:1.8, margin: i < chunks.length - 1 ? '0 0 14px' : '0' }}>
+            {chunk}
+            {i === chunks.length - 1 && (
+              <span style={{ animation:'pd-cursor-blink 0.65s step-end infinite', color:amber }}>|</span>
+            )}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ProductDetail() {
   const { slug } = useParams();
-  const currentSlug = slug || window.location.pathname.replace('/', '') || 'Fe-550D-Grade-TMT-16mm-20mm';
+  const currentSlug = slug || window.location.pathname.replace('/', '') || 'Fe-550D-Grade-TMT-6mm-32mm';
 
   const products = {
     'Fe-500D-Grade-TMT-8mm-12mm': {
@@ -37,9 +112,9 @@ export default function ProductDetail() {
       applications: ['Stirrups', 'Slabs', 'Staircases', 'Beams', 'Columns', 'Residential'],
       accentGradient: 'linear-gradient(135deg, #718096 0%, #4a5568 100%)',
     },
-    'Fe-550D-Grade-TMT-16mm-20mm': {
+    'Fe-550D-Grade-TMT-6mm-32mm': {
       title: 'Fe 550D Grade TMT',
-      size: '16mm – 20mm',
+      size: '6mm – 32mm',
       grade: 'Fe 550D',
       yieldStrength: '550',
       tensile: '600',
@@ -63,7 +138,7 @@ export default function ProductDetail() {
     },
   };
 
-  const p = products[currentSlug] || products['Fe-550D-Grade-TMT-16mm-20mm'];
+  const p = products[currentSlug] || products['Fe-550D-Grade-TMT-6mm-32mm'];
   const [activeFaq, setActiveFaq] = useState(0);
   const [heroVisible, setHeroVisible] = useState(false);
   const [videoHover, setVideoHover] = useState(false);
@@ -119,6 +194,8 @@ export default function ProductDetail() {
   return (
     <main className="pd-page">
       <style>{`
+        @keyframes pd-cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
         /* ─── Base ─── */
         .pd-page { background: #f4f3ee; min-height: 100vh; }
 
@@ -293,19 +370,59 @@ export default function ProductDetail() {
         }
         .pd-tag:hover { border-color: #e48915; color: #e48915; }
 
-        /* ─── CROSS SECTION ─── */
-        .pd-cross {
-          margin-bottom: 52px; border-radius: 16px; overflow: hidden;
-          border: 1px solid #ddd8cf; background: #fff;
-          box-shadow: 0 8px 32px rgba(27,42,58,0.07);
+        /* ─── A+ FEATURES GRID ─── */
+        .pd-feat-card {
+          position: relative;
+          background: #1b2a3a;
+          border: 1px solid rgba(228,137,21,0.18);
+          border-radius: 16px;
+          overflow: hidden;
+          aspect-ratio: 1 / 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+          text-align: center;
+          transition: all 0.25s ease;
+          cursor: default;
         }
-        .pd-cross img { width: 100%; height: auto; display: block; max-width: 100%; }
-        .pd-cross-cap {
-          padding: 14px 22px; background: #1b2a3a;
-          display: flex; align-items: center; gap: 12px;
+        .pd-feat-card::before {
+          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+          background: linear-gradient(90deg, #e48915, #c8401a);
         }
-        .pd-cross-bar { width: 3px; height: 22px; background: #e48915; border-radius: 2px; flex-shrink: 0; }
-        .pd-cross-txt { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.52); letter-spacing: 0.3px; line-height: 1.6; }
+        .pd-feat-card:hover {
+          border-color: rgba(228,137,21,0.5);
+          transform: translateY(-5px);
+          box-shadow: 0 14px 36px rgba(0,0,0,0.28), 0 0 0 1px rgba(228,137,21,0.22);
+        }
+        .pd-feat-img-wrap {
+          width: 70px; height: 70px; margin: 0 auto 12px;
+          background: rgba(228,137,21,0.08);
+          border: 1.5px solid rgba(228,137,21,0.2);
+          border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          overflow: hidden;
+          flex-shrink: 0;
+        }
+        .pd-feat-img-wrap img { width: 82%; height: 82%; object-fit: contain; }
+        .pd-feat-label {
+          font-family: 'Barlow Condensed', sans-serif;
+          font-size: 13px; font-weight: 800;
+          color: #fff; text-transform: uppercase;
+          letter-spacing: 0.3px; line-height: 1.2;
+        }
+
+        @media (max-width: 768px) {
+          .pd-feat-img-wrap { width: 52px; height: 52px; margin-bottom: 8px; }
+          .pd-feat-label { font-size: 11px; }
+          .pd-feat-card { padding: 10px 8px; }
+        }
+        @media (max-width: 480px) {
+          .pd-feat-img-wrap { width: 44px; height: 44px; margin-bottom: 6px; }
+          .pd-feat-label { font-size: 10px; letter-spacing: 0; }
+          .pd-feat-card { padding: 8px 6px; border-radius: 12px; }
+        }
 
         /* ─── METRIC CARDS ─── */
         .pd-metrics {
@@ -328,6 +445,7 @@ export default function ProductDetail() {
           overflow-x: auto; -webkit-overflow-scrolling: touch;
           border-radius: 16px; box-shadow: 0 6px 24px rgba(27,42,58,0.07);
           margin-bottom: 0;
+          max-width: 100%; /* contain table min-width within the column — table scrolls inside this box, never stretches the page */
         }
         .pd-tbl {
           width: 100%; min-width: 500px; border-collapse: collapse;
@@ -406,13 +524,29 @@ export default function ProductDetail() {
         .pd-nav-link:hover { color: #c8401a; border-left-color: #e48915; padding-left: 28px; background: rgba(228,137,21,0.04); }
         .pd-cta-card { border-radius: 16px; overflow: hidden; position: relative; text-align: center; padding: 44px 28px; }
         .pd-dl-card  { background: #fff; border: 1px solid #ddd8cf; border-radius: 16px; overflow: hidden; }
-        .pd-dl-item  { display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; background: #f9fafb; border: 1px solid #ddd8cf; border-radius: 10px; text-decoration: none; transition: all 0.2s; }
+        .pd-dl-item  { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 13px 16px; background: #f9fafb; border: 1px solid #ddd8cf; border-radius: 10px; text-decoration: none; transition: all 0.2s; }
         .pd-dl-item:hover { border-color: #e48915; background: #fffaf4; }
         .pd-card-hdr { padding: 16px 24px; border-bottom: 1px solid #ddd8cf; display: flex; align-items: center; gap: 12px; }
         .pd-card-hdr-bar { width: 3px; height: 18px; background: #e48915; border-radius: 2px; }
         .pd-card-hdr-title { margin: 0; font-size: 14px; font-weight: 800; color: #1b2a3a; }
         .pd-quote-btn { display: block; text-align: center; background: #e48915; color: #fff; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; transition: background 0.2s; }
         .pd-quote-btn:hover { background: #f5a520; }
+
+        /* ─── About grid: terminal + features side by side on desktop ─── */
+        .pd-about-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 24px;
+          align-items: start;
+        }
+        .pd-feat-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        @media (min-width: 1200px) {
+          .pd-about-grid { grid-template-columns: 1fr 300px; gap: 32px; }
+        }
 
         /* ════════════════ RESPONSIVE ════════════════ */
 
@@ -440,7 +574,7 @@ export default function ProductDetail() {
           .pd-hero { padding-top: 72px; }
           /* padding-bottom 100px clears the 80px diagonal cut so stat cards are never hidden */
           .pd-hero-grid { grid-template-columns: 1fr; padding: 0 16px 100px; gap: 24px; }
-          .pd-hero-right { flex-direction: row; overflow-x: auto; scrollbar-width: none; gap: 12px; padding-bottom: 4px; }
+          .pd-hero-right { flex-direction: row; overflow-x: auto; scrollbar-width: none; gap: 12px; padding-bottom: 4px; max-width: 100%; }
           .pd-hero-right::-webkit-scrollbar { display: none; }
           .pd-stat-card { min-width: 148px; padding: 16px 18px; flex-shrink: 0; }
           .pd-stat-value { font-size: 36px; }
@@ -478,14 +612,10 @@ export default function ProductDetail() {
 
           .pd-corrosion-box { padding: 20px 16px; }
 
-          /* ── About section + cross-section image ── */
           .pd-sec { margin-bottom: 44px; }
           .pd-txt { font-size: 14px; line-height: 1.75; }
-          .pd-cross { margin-bottom: 36px; border-radius: 12px; }
-          .pd-cross img { min-height: 160px; object-fit: contain; }
-          .pd-cross-cap { padding: 12px 16px; align-items: flex-start; gap: 10px; }
-          .pd-cross-bar { margin-top: 2px; }
-          .pd-cross-txt { font-size: 11px; }
+          .about-terminal { aspect-ratio: unset !important; min-height: 280px !important; max-width: 100% !important; }
+          .pd-feat-wrap { max-width: 100% !important; }
         }
 
         /* Small mobile ≤ 480px */
@@ -514,10 +644,6 @@ export default function ProductDetail() {
           .pd-icard { padding: 18px; gap: 12px; }
           .pd-sec { margin-bottom: 36px; }
           .pd-txt { font-size: 13.5px; }
-          .pd-cross { margin-bottom: 28px; }
-          .pd-cross img { min-height: 140px; }
-          .pd-cross-cap { padding: 10px 12px; gap: 8px; }
-          .pd-cross-txt { font-size: 11px; }
         }
 
         /* Extra small ≤ 360px */
@@ -538,9 +664,6 @@ export default function ProductDetail() {
           .pd-strip-item { padding: 10px; gap: 6px; }
           .pd-sec { margin-bottom: 30px; }
           .pd-txt { font-size: 13px; }
-          .pd-cross img { min-height: 120px; }
-          .pd-cross-cap { padding: 8px 10px; gap: 6px; }
-          .pd-cross-txt { font-size: 10.5px; }
         }
       `}</style>
 
@@ -645,25 +768,42 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* About */}
+              {/* About + Features */}
               <div className="pd-sec" id="future">
                 <div className="pd-eyebrow"><span className="pd-eline" />About this Product</div>
                 <h2 className="pd-h2">A+ All the Way</h2>
-                <p className="pd-txt" style={{ marginBottom:'16px' }}>
-                  For close to two decades, Amit Metaliks Ltd. has built its name in the metallurgical sector on one principle: no shortcuts.
-                  Every TRIAM A+ {p.grade} rebar is forged on the patented Thermax technology from HSE, Germany, then carried through a refined process that pairs high strength with high ductility at every stage.
-                </p>
-                <p className="pd-txt">
-                  Pick up an ISI-certified bar and the A+ quality shows along its full length — in every millimetre of steel, in every test certificate, in every structure it supports.
-                </p>
-              </div>
-
-              {/* Cross Section */}
-              <div className="pd-cross" style={{ marginBottom:'52px' }}>
-                <img src="https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/jCZ08YrDJXpXR5kGRDQkxxNKubNLMIuVUAHYDsjR.png" alt="Rebar Cross Section" />
-                <div className="pd-cross-cap">
-                  <div className="pd-cross-bar" />
-                  <span className="pd-cross-txt">Cross-section showing the dual-layer Thermax structure — hardened martensitic rim + ductile ferrite-pearlite core</span>
+                <div className="pd-about-grid">
+                  <AboutTerminal grade={p.grade} />
+                  {(() => {
+                    const features = [
+                      { label: 'A+ Physical Strength',        image: '/A+Physical.png' },
+                      { label: 'A+ High Dimension Tolerance', image: '/HighDimensionTolerance.png' },
+                      { label: 'A+ Bonding Strength',         image: '/bonding_Strength.png' },
+                      { label: 'A+ Corrosion Resistance',     image: '/Corrosion_Resistance.png' },
+                      { label: 'A+ Weldability',              image: '/A+weldibility.png' },
+                      { label: 'A+ Bendability',              image: '/A+Bendability.png' },
+                      { label: 'A+ Fire Resistance',          image: '/fire_resistance.png' },
+                      { label: 'A+ Earthquake Resistance',    image: '/icon_04_Eathquake.png' },
+                    ];
+                    const grid2x2 = (items, keyOffset) => (
+                      <div style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px' }}>
+                        {items.map((f, i) => (
+                          <div key={keyOffset + i} className="pd-feat-card">
+                            <div className="pd-feat-img-wrap">
+                              <img src={f.image} alt={f.label} />
+                            </div>
+                            <div className="pd-feat-label">{f.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                    return (
+                      <div className="pd-feat-wrap">
+                        {grid2x2(features.slice(0, 4), 0)}
+                        {grid2x2(features.slice(4, 8), 4)}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -1046,15 +1186,18 @@ export default function ProductDetail() {
                 </div>
                 <div style={{ padding:'16px' }}>
                   {[
-                    { label:'Annual Report 2023–24',  href:'#', icon:'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/4NSVYaCAgXI7UtbnT7PxM7sxvprmuMQi0qU17bt4.svg', dl:'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/ovuRLvRf5RkMi3bS1ydqp7kg4wLQLhwYH4DyyOCT.svg' },
-                    { label:'Product Brochure PDF', href:'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/YTJbUO6ba8jZmZkQGeBPNe7jSbwTNOCMnho0fwyN.pdf', icon:'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/6Q7yVj27cqGpULJ5epH2FCbLwmJben64aHPjl9Rs.svg', dl:'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/tEhKHbW2Dukw07Kv0cTUQmwWWBSwjwUgaZaRrnK3.svg' },
+                    { label:'Annual Report 2023–24',  href:'#',                                                                                                                           iconClass:'ri-article-line' },
+                    { label:'Product Brochure PDF',   href:'https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/YTJbUO6ba8jZmZkQGeBPNe7jSbwTNOCMnho0fwyN.pdf',               iconClass:'ri-file-pdf-line' },
                   ].map((item, i) => (
                     <a key={i} href={item.href} target={item.href!=='#'?'_blank':undefined} rel="noreferrer" className="pd-dl-item" style={{ marginBottom: i===0?'8px':0 }}>
-                      <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
-                        <img src={item.icon} alt="" width="20" />
-                        <span style={{ fontSize:'13px', fontWeight:600, color:'#1b2a3a' }}>{item.label}</span>
+                      <div style={{ display:'flex', alignItems:'center', gap:'10px', minWidth:0, flex:1 }}>
+                        <i className={item.iconClass} style={{ fontSize:'18px', color:'#e48915', flexShrink:0 }} />
+                        <span style={{ fontSize:'13px', fontWeight:600, color:'#1b2a3a', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{item.label}</span>
                       </div>
-                      <img src={item.dl} alt="Download" width="16" />
+                      <span style={{ display:'inline-flex', alignItems:'center', gap:'3px', fontSize:'11px', fontWeight:700, color:'#e48915', flexShrink:0, whiteSpace:'nowrap', marginLeft:'8px' }}>
+                        <i className="ri-download-2-line" style={{ fontSize:'13px' }} />
+                        Download
+                      </span>
                     </a>
                   ))}
                 </div>

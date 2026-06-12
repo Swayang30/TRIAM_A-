@@ -143,7 +143,7 @@ export default function Home() {
       sub: '(22)*',
       desc: 'The structural backbone — beams, columns and high-load slabs. Higher ductility and a tighter rib pattern give it real crack resistance and endurance under continuous load.',
       note: '* 22 mm: roof-bolt application for the mining industry.',
-      url: '/Fe-550D-Grade-TMT-16mm-20mm'
+      url: '/Fe-550D-Grade-TMT-6mm-32mm'
     },
     {
       size: '25 – 32 mm',
@@ -182,7 +182,17 @@ export default function Home() {
     'https://wheat-termite-712594.hostingersite.com/storage/media/WehXb3MJxx0Hoo6KrCnbSANmilPVJcKykPz04Ain.jpg',
     'https://wheat-termite-712594.hostingersite.com/storage/media/lShpqyy6zHog8ABHZi28WX368TXA1JVlzgizYUar.jpg',
     'https://wheat-termite-712594.hostingersite.com/storage/media/lyOzIgcYU68Ro1HPFL0mOklAGP0jcBXBQc1AANfe.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/HR6nXqom91VARhUhYV4Gy77YGz7TYtXBPZCEFSuX.jpg'
+    'https://wheat-termite-712594.hostingersite.com/storage/media/HR6nXqom91VARhUhYV4Gy77YGz7TYtXBPZCEFSuX.jpg',
+    '/ptcpl.png',
+    '/the preserve.png',
+    '/sugam.png',
+    '/nirvana.png',
+    '/npr.png',
+    '/shaft.png',
+    '/jms.png',
+    '/merlin.png',
+    '/eden realty.png',
+    '/gainwell.png',
   ];
 
   const testimonials = [
@@ -210,7 +220,7 @@ export default function Home() {
     {
       num: '01',
       title: '100% Tested Billets',
-      desc: 'Every bar begins with spectrometer-verified billets, cross-checked through wet chemical analysis before a single rod is rolled.',
+      desc: 'We conduct advanced spectrometer testing on billet samples before rolling. This ensures 100% precise chemistry for superior TMT bars.',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
       )
@@ -218,7 +228,7 @@ export default function Home() {
     {
       num: '02',
       title: 'SAIL Authorised Agent',
-      desc: 'As an official SAIL conversion partner, we access premium steel grades with guaranteed metallurgical pedigree — quality that begins before our plant.',
+      desc: 'As an Authorized SAIL Conversion Partner for more than 10 years, we strictly follow SAIL protocols. Our decade-long commitment ensures the delivery of superior, high-quality products.',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
       )

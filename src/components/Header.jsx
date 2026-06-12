@@ -9,7 +9,7 @@ export default function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 100);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -27,7 +27,7 @@ export default function Header() {
   const navLinks = [
     { to: '/', label: 'Home', end: true },
     { to: '/about', label: 'About' },
-    { to: '/Fe-550D-Grade-TMT-16mm-20mm', label: 'Product' },
+    { to: '/Fe-550D-Grade-TMT-6mm-32mm', label: 'Product' },
     { to: '/quality', label: 'Quality' },
     { to: '/price', label: 'Price' },
     { to: '/blog', label: 'Blog' },

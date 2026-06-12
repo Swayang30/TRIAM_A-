@@ -130,16 +130,15 @@ export default function About() {
               <div className="about-cmd-quote-mark">"</div>
               <blockquote className="about-cmd-quote">
                 <TextType
-                  text="Heartiest greetings and warmest regards to all. As Amit Alliance continues to strengthen its presence across steel, mining, and construction, I extend my sincere appreciation for your trust and collaboration. The past year has reinforced the importance of reliability, responsible growth, and long-term value creation — principles that remain at the core of our organisation."
+                  text="Our journey — from a modest beginning to a ₹2,000+ crore group — has been built on one principle: keep our word. As we grow across steel, civil construction, mining and trading, that promise to our customers, partners and people stays the same."
                   typingSpeed={28}
                   loop={false}
                   showCursor={true}
                 />
               </blockquote>
               <p className="about-cmd-text">
-                Our focus ahead is clear: to enhance operational excellence, adopt forward-looking practices, and build
-                stronger partnerships that contribute to sustainable industry progress. We remain committed to delivering
-                quality, ensuring transparency, and upholding the standards that our stakeholders expect from Amit Alliance.
+                Our focus for the year ahead is clear: sharpen operational excellence, invest in forward-looking practices,
+                and build partnerships that last. We remain committed to quality, transparency and the standards that earned your trust.
               </p>
               <p className="about-cmd-text" style={{ marginTop: '16px', color: 'rgba(255,255,255,0.28)' }}>
                 Thank you for your continued support. Together, we look forward to another year of meaningful growth and shared success.
