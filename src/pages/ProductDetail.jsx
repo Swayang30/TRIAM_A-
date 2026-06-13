@@ -981,13 +981,21 @@ export default function ProductDetail() {
                 </p>
                 <div className="pd-chem-grid">
                   {[
-                    { dark:false, sub:'Standard Grade',    title:`TRIAM A+ ${p.grade}`,    vals: chemRows.map(c=>c.triam) },
-                    { dark:true,  sub:'Low Alloy Variant', title:`TRIAM A+ ${p.grade} LA`, vals: chemRows.map(c=>c.triamLA) },
+                    { dark:false, sub:'Standard Grade',    title:`TRIAM A+ ${p.grade}`,         hdr2:'As per BIS', hdr3:'TRIAM A+',                       mid: chemRows.map(c=>c.std),                      vals: chemRows.map(c=>c.triam) },
+                    { dark:true,  sub:'Low Alloy Variant', title:`TRIAM A+ ${p.grade} Low Alloy`, hdr2:'IS 1786:2008 | Clause 4.2 | Note 3', hdr3:'TRIAM A+ Fe550D Low Alloy', mid:['0.15','Not Specified','0.12','Not Specified'], vals:['0.14','0.040','0.090','0.130'] },
                   ].map((card, ci) => (
                     <div key={ci} className="pd-chem-card">
                       <div style={{ background: card.dark ? '#0a1222' : '#15294D', padding:'18px 20px' }}>
                         <div style={{ fontSize:'9px', fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#F47C20', marginBottom:'4px', fontFamily:"'Montserrat', sans-serif" }}>{card.sub}</div>
                         <div style={{ fontSize:'14px', fontWeight:700, color:'#fff' }}>{card.title}</div>
+                      </div>
+                      <div style={{ padding:'10px 18px', borderBottom:'1px solid #F0F2F5', background:'#FAFAFA', display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'12px' }}>
+                        <div style={{ flex:'0 0 auto' }} />
+                        <div style={{ display:'flex', gap:'10px', alignItems:'flex-start', justifyContent:'flex-end', flex:'1 1 auto', minWidth:0 }}>
+                          <span style={{ flex:'1 1 0', minWidth:0, textAlign:'right', fontSize:'10px', fontWeight:700, color:'#9CA3AF', lineHeight:1.35 }}>{card.hdr2}</span>
+                          <span style={{ flex:'0 0 auto', fontSize:'11px', color:'transparent' }}>→</span>
+                          <span style={{ flex:'1 1 0', minWidth:0, textAlign:'right', fontSize:'10px', fontWeight:700, color:'#d4621a', lineHeight:1.35 }}>{card.hdr3}</span>
+                        </div>
                       </div>
                       {chemRows.map((c, i) => (
                         <div key={i} style={{ padding:'12px 18px', borderBottom: i<3?'1px solid #F0F2F5':'none', background: i%2===0?'#fff':'#FAFAFA', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
@@ -996,7 +1004,7 @@ export default function ProductDetail() {
                             <div style={{ fontSize:'10px', color:'#9CA3AF' }}>{c.unit}</div>
                           </div>
                           <div style={{ display:'flex', gap:'10px', alignItems:'center' }}>
-                            <span style={{ fontSize:'12px', color:'#9CA3AF' }}>{c.std}</span>
+                            <span style={{ fontSize:'12px', color:'#9CA3AF' }}>{card.mid[i]}</span>
                             <span style={{ fontSize:'11px', color:'#E4E7EC' }}>→</span>
                             <span style={{ fontSize:'13px', fontWeight:700, color:'#d4621a', background:'rgba(212,98,26,0.07)', padding:'2px 9px', borderRadius:'5px' }}>{card.vals[i]}</span>
                           </div>
