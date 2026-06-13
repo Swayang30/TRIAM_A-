@@ -158,7 +158,7 @@ export default function OnsiteAdviceForm({ source = 'onsite-advice' }) {
     setIsSubmitting(true);
     setSubmitStatus(null);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/leads`, {
+      const res = await fetch('/api/leads', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
