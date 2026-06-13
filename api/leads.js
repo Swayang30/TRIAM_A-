@@ -1,8 +1,7 @@
-// Vercel Serverless Function — CommonJS
-const nodemailer = require('nodemailer');
-const { google } = require('googleapis');
+import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -72,7 +71,7 @@ module.exports = async function handler(req, res) {
       error: 'Submission failed. Please try again.',
     });
   }
-};
+}
 
 async function sendLeadEmail(leadData) {
   const transporter = nodemailer.createTransport({
