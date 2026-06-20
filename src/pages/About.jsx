@@ -63,7 +63,7 @@ export default function About() {
       <section className="about-hero">
         <div
           className="about-hero-bg"
-          style={{ backgroundImage: "url(https://wheat-termite-712594.hostingersite.com/storage/media/30vceXluvGFCaJhyNbUp3ScDrWdfN9EqgTEPntjk.png)" }}
+          style={{ backgroundImage: "url(/aboutHero.png)" }}
         />
         <div className="about-hero-overlay" />
         <div className="about-hero-grid" aria-hidden="true" />

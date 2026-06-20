@@ -768,7 +768,7 @@ export default function ProductDetail() {
       {/* ══════════ HERO ══════════ */}
       <section className="pd-hero" ref={heroRef}>
         <div className="pd-hero-accent-bar" />
-        <div style={{ position:'absolute',inset:0, backgroundImage:`url(${p.breadcrumbBg})`, backgroundSize:'cover', backgroundPosition:'center', opacity:0.05 }} />
+        <div style={{ position:'absolute',inset:0, backgroundImage:`url(/aboutHero.png)`, backgroundSize:'cover', backgroundPosition:'center', opacity:0.22 }} />
         <div style={{ position:'absolute', top:'-120px', right:'0', width:'600px', height:'600px', background:'radial-gradient(circle, rgba(244,124,32,0.11) 0%, transparent 65%)', pointerEvents:'none' }} />
         <div style={{ position:'absolute', bottom:0, left:'-80px', width:'400px', height:'400px', background:'radial-gradient(circle, rgba(244,124,32,0.06) 0%, transparent 65%)', pointerEvents:'none' }} />
         <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle, rgba(255,255,255,0.015) 1px, transparent 1px)', backgroundSize:'32px 32px', pointerEvents:'none' }} />
@@ -1123,7 +1123,7 @@ export default function ProductDetail() {
 
               {/* Video */}
               <div className="pd-video">
-                <div style={{ position:'absolute', inset:0, backgroundImage:'url(https://enquiry.triamtmt.com/images/tab-img6.jpg)', backgroundSize:'cover', backgroundPosition:'center' }} />
+                <div style={{ position:'absolute', inset:0, backgroundImage:'url(/quality_tmt_M.jpg)', backgroundSize:'cover', backgroundPosition:'center' }} />
                 <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(10,18,34,0.9) 0%, rgba(10,18,34,0.5) 100%)' }} />
                 <div style={{ position:'absolute', inset:0, zIndex:2, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
                   <div style={{ fontFamily:"'Montserrat', sans-serif", fontSize:'10px', fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(255,255,255,0.4)', marginBottom:'22px' }}>Watch the manufacturing process</div>

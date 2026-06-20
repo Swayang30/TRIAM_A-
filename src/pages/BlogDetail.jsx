@@ -8,6 +8,9 @@ export default function BlogDetail() {
   const post = blogData.find(p => p.slug === slug);
   const recentPosts = blogData.filter(p => p.slug !== slug).slice(0, 3);
 
+  // Posts whose banner image should be shown in full (uncropped) instead of cover-cropped.
+  const showFullImage = slug === 'aliquam-officiis-sae';
+
   if (!post) {
     return (
       <main className="py-5 text-center">
@@ -73,8 +76,25 @@ export default function BlogDetail() {
                 </div>
 
                 {/* Banner Thumbnail */}
-                <div className="mb-5 blog-detail-img-wrap" style={{ height: '380px', overflow: 'hidden', borderRadius: '8px' }}>
-                  <img src={post.thumbnail} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div
+                  className="mb-5 blog-detail-img-wrap"
+                  style={{
+                    height: showFullImage ? 'auto' : '380px',
+                    overflow: 'hidden',
+                    borderRadius: '8px',
+                    backgroundColor: '#f4f4f4'
+                  }}
+                >
+                  <img
+                    src={post.thumbnail}
+                    alt={post.title}
+                    style={{
+                      width: '100%',
+                      height: showFullImage ? 'auto' : '100%',
+                      objectFit: showFullImage ? 'contain' : 'cover',
+                      display: 'block'
+                    }}
+                  />
                 </div>
 
                 {/* Article Body */}
@@ -133,7 +153,7 @@ export default function BlogDetail() {
 
                 {/* Dealership Banner */}
                 <div className="p-4 text-center text-white" style={{ backgroundColor: '#191919', borderRadius: '12px', position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://phpstack-715630-6150587.cloudwaysapps.com/storage/media/5ed2PbhFs4YyBh8d3SVZEQO6x8lUeKsJxY22nHCt.jpg)', backgroundSize: 'cover', opacity: 0.15 }}></div>
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(/product1.png)', backgroundSize: 'cover', opacity: 0.15 }}></div>
                   <div style={{ position: 'relative', zIndex: 2 }}>
                     <h4 style={{ fontWeight: 800, marginBottom: '10px' }}>Become a Dealer</h4>
                     <p style={{ fontSize: '13px', color: '#ccc' }}>Grow your business across West Bengal with premium Triam A+ TMT bars.</p>

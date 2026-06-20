@@ -307,14 +307,15 @@ export default function Quality() {
   useEffect(() => { const t = setTimeout(() => setHeroIn(true), 80); return () => clearTimeout(t); }, []);
 
   const certifications = [
-    'https://wheat-termite-712594.hostingersite.com/storage/media/KlZZTDdsjummMCRDBG8TXUVJaJJtDqEl5ejEVbRX.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/jsEYi4HQoIZU2d6LKFIX5K4nAzkPSQ4EJPcpOK8U.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/QpBCUGQj0QvFYinGerJLpIVxsk6wpatWfFAN2Jqe.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/XRCjFFwOAWf7QhMIKut3LezllcGyfB65wOfgcfbG.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/5VBFXqisljIRMhrzfbMez9JqQtAKNghzZObcVbig.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/qvcm6uHwnczqVdUxXtXvZRF3v6sQWiJBUWtauX7E.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/NDYqNSH3oOT6BJA5LFd4AInjX371uqqf37NhDezy.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/0GgyB0Du1tT4477aaY5rivHNEBRu6wOOOWNufG75.jpg',
+    '/certificate_001.jpg.jpeg',
+    '/certificate_002.jpg.jpeg',
+    '/certificate_003.jpg.jpeg',
+    '/certificate_004.jpg.jpeg',
+    '/certificate_005.jpg.jpeg',
+    '/certificate_006.jpg.jpeg',
+    '/certificate_007.jpg.jpeg',
+    '/certificate_008.jpg.jpeg',
+    '/certificate_009.jpg.jpeg',
   ];
 
   const processSteps = [

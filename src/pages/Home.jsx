@@ -103,14 +103,15 @@ export default function Home() {
   const CERT_GROUPS = 3;
 
   const certifications = [
-    'https://wheat-termite-712594.hostingersite.com/storage/media/KlZZTDdsjummMCRDBG8TXUVJaJJtDqEl5ejEVbRX.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/jsEYi4HQoIZU2d6LKFIX5K4nAzkPSQ4EJPcpOK8U.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/QpBCUGQj0QvFYinGerJLpIVxsk6wpatWfFAN2Jqe.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/XRCjFFwOAWf7QhMIKut3LezllcGyfB65wOfgcfbG.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/5VBFXqisljIRMhrzfbMez9JqQtAKNghzZObcVbig.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/qvcm6uHwnczqVdUxXtXvZRF3v6sQWiJBUWtauX7E.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/NDYqNSH3oOT6BJA5LFd4AInjX371uqqf37NhDezy.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/0GgyB0Du1tT4477aaY5rivHNEBRu6wOOOWNufG75.jpg',
+    '/certificate_001.jpg.jpeg',
+    '/certificate_002.jpg.jpeg',
+    '/certificate_003.jpg.jpeg',
+    '/certificate_004.jpg.jpeg',
+    '/certificate_005.jpg.jpeg',
+    '/certificate_006.jpg.jpeg',
+    '/certificate_007.jpg.jpeg',
+    '/certificate_008.jpg.jpeg',
+    '/certificate_009.jpg.jpeg',
   ];
 
   const startCertTimer = React.useCallback(() => {
@@ -133,9 +134,9 @@ export default function Home() {
   const popularProducts = [
     {
       size: '8 – 12 mm',
-      grade: 'Fe 500D',
+      grade: 'Fe 550D',
       desc: 'The everyday workhorse — stirrups, slabs, staircases, beams and columns in homes and low-rise builds. Bends easily, works fast, and balances cost with long-term life. Available in customised TDC (Technical Delivery Conditions).',
-      url: '/Fe-500D-Grade-TMT-8mm-12mm'
+      url: '/Fe-550D-Grade-TMT-8mm-12mm'
     },
     {
       size: '16 – 20 mm',
@@ -157,32 +158,32 @@ export default function Home() {
     {
       name: 'Highway Connector',
       text: 'Our rebars help distribute heavy loads evenly, making them the smart choice for high-traffic structures like bridges, flyovers, and highway connectors.',
-      image: 'https://wheat-termite-712594.hostingersite.com/storage/media/vEiHaErFtCmTeBCGBgC62Br6giC8GkgmVDztBBb0.jpg'
+      image: '/highwayc.jpg'
     },
     {
       name: 'Stadium',
       text: 'Built for massive super-structures. With a minimum flexibility (elongation) of 17%, our bars offer extra safety for large-scale projects like stadiums and housing complexes.',
-      image: 'https://wheat-termite-712594.hostingersite.com/storage/media/9nN7L14i7BwqhbnwqonKJDXmtEPsrqLm84PCLOek.avif'
+      image: '/Stadium.jpg'
     },
     {
       name: 'Power House',
       text: 'Triam A+ Fe 550D delivers the consistent high strength needed for critical infrastructure like power plants and dams, where there is no room for error.',
-      image: 'https://wheat-termite-712594.hostingersite.com/storage/media/IujJkesLsAOqOTmEjjYggwL98vV6THMyvRS2Se1q.webp'
+      image: '/powerhouse.jpg'
     },
     {
       name: 'Highrise Building',
       text: 'Triam A+ Fe 550D is designed for superior ductility as demanded by elevated heights. With a minimum 17% elongation, our rebars absorb seismic energy and wind pressure.',
-      image: 'https://wheat-termite-712594.hostingersite.com/storage/media/vEiHaErFtCmTeBCGBgC62Br6giC8GkgmVDztBBb0.jpg'
+      image: '/highrisebuilding.jpg'
     }
   ];
 
   const clientLogos = [
-    'https://wheat-termite-712594.hostingersite.com/storage/media/QUa1eQ9hGaHlZHO2gXZHP9cpO4EotyHWWCVp2LL8.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/jB4NG15IoNJcrAGIyrBbqxp2lO0SUtrNkQ8rKehM.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/WehXb3MJxx0Hoo6KrCnbSANmilPVJcKykPz04Ain.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/lShpqyy6zHog8ABHZi28WX368TXA1JVlzgizYUar.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/lyOzIgcYU68Ro1HPFL0mOklAGP0jcBXBQc1AANfe.jpg',
-    'https://wheat-termite-712594.hostingersite.com/storage/media/HR6nXqom91VARhUhYV4Gy77YGz7TYtXBPZCEFSuX.jpg',
+    '/mani.png',
+    '/gggroup.png',
+    '/RI.png',
+    '/HCL.png',
+    '/DMRCL.png',
+    '/ECL.png',
     '/ptcpl.png',
     '/the preserve.png',
     '/sugam.png',
@@ -266,7 +267,7 @@ export default function Home() {
       excerpt: 'High strength, ductility, and corrosion resistance make Fe550D the ideal choice for residential builds across India.',
       category: 'TMT Bars',
       date: 'Nov 23, 2025',
-      image: 'https://wheat-termite-712594.hostingersite.com/storage/media/5N3G6TsaVsCrUKGWqNMA6mPcxCGuyBYkKVh95FEU.webp'
+      image: '/house building.png'
     },
     {
       slug: 'greening-our-cities-with-urban-gardens',
@@ -274,7 +275,7 @@ export default function Home() {
       excerpt: 'Check brand reputation, manufacturing parameters, and consult a structural engineer before selecting.',
       category: 'TMT Bars',
       date: 'Oct 21, 2025',
-      image: 'https://wheat-termite-712594.hostingersite.com/storage/media/Be9jnHP4SIO7kjtn5tiBighGwpNQBuPiAorI8fqp.webp'
+      image: 'BLOG_02.png'
     },
     {
       slug: 'eco-friendly-products-for-a-sustainable-lifestyle',
@@ -282,7 +283,7 @@ export default function Home() {
       excerpt: 'When the ground trembles, concrete alone cannot ensure safety. Learn how to pick seismic-grade bars.',
       category: 'Seismic Grade',
       date: 'Oct 21, 2025',
-      image: 'https://wheat-termite-712594.hostingersite.com/storage/media/XTngJABQQFC9kzLTcPGeTJkx05woTO5G42zd3hPl.avif'
+      image: 'earthquakeR_003.png'
     }
   ];
 
@@ -534,7 +535,7 @@ export default function Home() {
         {/* Photo — displayed after the headline, not as background */}
         <div className="strength-banner-photo-wrap">
           <img
-            src="https://wheat-termite-712594.hostingersite.com/storage/media/uadDVvZP3T4rAjuh8rM1fxK22cxlIoXny2mVqqhW.webp"
+            src="/homepage.png"
             alt="High Strength TMT Deformed Bars"
             className="strength-banner-photo"
           />
@@ -675,7 +676,7 @@ export default function Home() {
 
           <div className="hub-grid">
             <Link to={`/blog/${blogs[0].slug}`} className="hub-featured">
-              <div className="hub-featured-bg" style={{ backgroundImage: `url(${blogs[0].image})` }} />
+              <div className="hub-featured-bg" style={{ backgroundImage: `url("${blogs[0].image}")` }} />
               <div className="hub-featured-overlay" />
               <div className="hub-featured-content">
                 <span className="hub-tag">{blogs[0].category}</span>

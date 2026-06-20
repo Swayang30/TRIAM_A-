@@ -61,7 +61,7 @@ export default function Header() {
           <div className="tmt-main-header-inner">
             {/* Logo */}
             <Link className="tmt-logo" to="/">
-              <img src="https://wheat-termite-712594.hostingersite.com/storage/media/nCS4zfNIkPQagMi24GBWRCD7t6qUQDETrC39U7S5.png" alt="Triam TMT" />
+              <img src="/triam2.png" alt="Triam TMT" />
             </Link>
 
             {/* Desktop Nav */}
@@ -135,7 +135,7 @@ export default function Header() {
 
         <div className="tmt-sidebar-logo">
           <Link to="/" onClick={() => setSidebarOpen(false)}>
-            <img src="https://wheat-termite-712594.hostingersite.com/storage/media/nCS4zfNIkPQagMi24GBWRCD7t6qUQDETrC39U7S5.png" alt="Triam TMT" />
+            <img src="/triam2.png" alt="Triam TMT" />
           </Link>
         </div>
 

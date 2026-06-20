@@ -6,7 +6,7 @@ export const blogData = [
     date: 'Nov 23, 2025',
     category: 'TMT Bars',
     author: 'Admin',
-    thumbnail: 'https://wheat-termite-712594.hostingersite.com/storage/media/5N3G6TsaVsCrUKGWqNMA6mPcxCGuyBYkKVh95FEU.webp',
+    thumbnail: '/house building.png',
     summary: 'High strength, ductility, and corrosion resistance make Fe550D the ideal choice for builds in India.',
     content: `
       <p>TMT Fe550D (Thermo Mechanically Treated Fe550D) is a type of high-strength reinforcement steel used in construction in India. Here are some reasons why TMT Fe550D is considered best for house building in India:</p>
@@ -24,7 +24,7 @@ export const blogData = [
       <p>TMT Fe550D is also known for its good weldability, which makes it easier to use in construction projects that require the welding of steel reinforcement bars. This allows for greater flexibility and ease of construction, ensuring faster and more efficient construction processes.</p>
       
       <p class="my-4 text-center">
-        <img src="https://triamtmt.com/wp-content/uploads/2023/04/new-construction-site-with-tower-crane-1024x683.webp" alt="Construction Site" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;" />
+        <img src="/Blog_construction.png" alt="Construction Site" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;" />
       </p>
       
       <h3>5. Longevity</h3>
@@ -44,7 +44,7 @@ export const blogData = [
     date: 'Oct 21, 2025',
     category: 'TMT Bars',
     author: 'Admin',
-    thumbnail: 'https://wheat-termite-712594.hostingersite.com/storage/media/Be9jnHP4SIO7kjtn5tiBighGwpNQBuPiAorI8fqp.webp',
+    thumbnail: '/BLOG_02.png',
     summary: 'Check brand reputation, manufacturing parameters, and consult a structural engineer.',
     content: `
       <p>Choosing the best TMT (Thermo-Mechanically Treated) bar for your house is crucial as it determines the strength and durability of the structure. Here are some factors to consider when selecting the best TMT bars for your house:</p>
@@ -59,7 +59,7 @@ export const blogData = [
       <p>TMT bars are produced using different manufacturing processes like Tempcore, Quenching & Self Tempering (QST), etc. Each process has its own advantages, so research and choose the one that suits your requirements.</p>
       
       <p class="my-4 text-center">
-        <img src="https://triamtmt.com/wp-content/uploads/2023/04/new-construction-site-with-tower-crane-1024x683.webp" alt="Construction Site" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;" />
+        <img src="/Blog_construction.png" alt="Construction Site" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;" />
       </p>
       
       <h3>Size and weight of TMT bars</h3>
@@ -82,7 +82,7 @@ export const blogData = [
     date: 'Oct 21, 2025',
     category: 'Seismic Grade',
     author: 'Admin',
-    thumbnail: 'https://wheat-termite-712594.hostingersite.com/storage/media/XTngJABQQFC9kzLTcPGeTJkx05woTO5G42zd3hPl.avif',
+    thumbnail: '/earthquakeR_003.png',
     summary: 'When the ground trembles, concrete and bricks alone cannot ensure safety. Learn how to pick seismic bars.',
     content: `
       <p>When the ground trembles, concrete and bricks alone cannot ensure the safety of a structure. The real strength lies in its internal reinforcement. Choosing the best quality TMT bars in India becomes a responsibility, especially in a country where many regions fall under moderate to high seismic zones.</p>
@@ -111,7 +111,7 @@ export const blogData = [
     date: 'Oct 19, 2025',
     category: 'Dealership',
     author: 'Admin',
-    thumbnail: 'https://wheat-termite-712594.hostingersite.com/storage/media/0oxfAUTdxHMF9AHPpYlUSzLJL8gCKWuQWhjXdfwU.jpg',
+    thumbnail: '/Blogs_dealer.png',
     summary: 'Partnering with TRIAM ensures that distributors and dealers receive premium 550D TMT bars.',
     content: `
       <p>Entrepreneurs in the steel industry are presented with immense opportunities due to the rapid growth of the construction sector in West Bengal. However, choosing the right TMT dealership in West Bengal is essential to ensure access to high-quality products and dependable services. Partnering with TRIAM ensures that distributors and dealers receive premium 550D TMT bars, strong technical support, and a reliable brand presence in the construction sector.</p>
