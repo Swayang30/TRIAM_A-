@@ -133,10 +133,10 @@ export default function Home() {
 
   const popularProducts = [
     {
-      size: '8 – 12 mm',
+      size: '6 – 12 mm',
       grade: 'Fe 550D',
       desc: 'The everyday workhorse — stirrups, slabs, staircases, beams and columns in homes and low-rise builds. Bends easily, works fast, and balances cost with long-term life. Available in customised TDC (Technical Delivery Conditions).',
-      url: '/Fe-550D-Grade-TMT-8mm-12mm'
+      url: '/Fe-550D-Grade-TMT-6mm-12mm'
     },
     {
       size: '16 – 20 mm',
@@ -376,7 +376,7 @@ export default function Home() {
                     },
                     {
                       title: 'STRENGTH MEETS FLEXIBILITY',
-                      sub: 'Built to bend, but never break under pressure.',
+                      sub: 'Built to bend, but yet strong.',
                       icon: (
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e48915" strokeWidth="2"><path d="M3 12h18M17 8l4 4-4 4"/><path d="M5 5v14"/></svg>
                       ),
