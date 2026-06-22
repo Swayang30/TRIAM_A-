@@ -375,8 +375,8 @@ export default function Home() {
                       ),
                     },
                     {
-                      title: 'Lighter & Longer',
-                      sub: 'More metre per kilo than ordinary bars.',
+                      title: 'STRENGTH MEETS FLEXIBILITY',
+                      sub: 'Built to bend, but never break under pressure.',
                       icon: (
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e48915" strokeWidth="2"><path d="M3 12h18M17 8l4 4-4 4"/><path d="M5 5v14"/></svg>
                       ),
