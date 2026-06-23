@@ -1,37 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-/* ── Ticker: scrolling price strip ── */
-function PriceTicker() {
-  const items = [
-    '6mm · ₹242', '8mm · ₹402', '10mm · ₹614', '12mm · ₹883',
-    '16mm · ₹1,568', '20mm · ₹2,460', '25mm · ₹3,875',
-    'FE 550D · ISI Certified', 'Updated June 2026',
-    '6mm · ₹242', '8mm · ₹402', '10mm · ₹614', '12mm · ₹883',
-    '16mm · ₹1,568', '20mm · ₹2,460', '25mm · ₹3,875',
-    'FE 550D · ISI Certified', 'Updated June 2026',
-  ];
-  return (
-    <div style={{ background: '#e48915', overflow: 'hidden', padding: '10px 0', position: 'relative', zIndex: 5 }}>
-      <style>{`
-        @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-        .ticker-track { display:flex; gap:0; width:max-content; animation:ticker 28s linear infinite; }
-        .ticker-item { display:inline-flex; align-items:center; gap:14px; padding:0 28px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:700; color:#1b2a3a; white-space:nowrap; letter-spacing:0.3px; }
-        .ticker-item::after { content:''; width:4px; height:4px; border-radius:50%; background:rgba(27,42,58,0.35); }
-        select.pd-select { appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e48915' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
-        .pd-select:focus { outline:none; border-color:#e48915 !important; box-shadow:0 0 0 3px rgba(228,137,21,0.12) !important; }
-        .price-row:hover td { background:rgba(228,137,21,0.04) !important; }
-        .info-card:hover { transform:translateY(-4px); box-shadow:0 16px 48px rgba(27,42,58,0.1) !important; border-color:#e2dcd0 !important; }
-      `}</style>
-      <div className="ticker-track">
-        {items.map((item, i) => (
-          <span key={i} className="ticker-item">{item}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ── CountUp — ReactBits-compatible (no gsap/motion dep) ── */
 function CountUp({
   from      = 0,
@@ -177,6 +146,10 @@ export default function Price() {
   return (
     <main style={{ backgroundColor: smoke }}>
       <style>{`
+        select.pd-select { appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e48915' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
+        .pd-select:focus { outline:none; border-color:#e48915 !important; box-shadow:0 0 0 3px rgba(228,137,21,0.12) !important; }
+        .price-row:hover td { background:rgba(228,137,21,0.04) !important; }
+        .info-card:hover { transform:translateY(-4px); box-shadow:0 16px 48px rgba(27,42,58,0.1) !important; border-color:#e2dcd0 !important; }
         @media (max-width: 900px) {
           .price-hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .price-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -378,9 +351,6 @@ export default function Price() {
             </div>
           </div>
         </div>
-
-        {/* Ticker strip */}
-        <PriceTicker />
       </section>
 
       {/* ══════════════════════════════════

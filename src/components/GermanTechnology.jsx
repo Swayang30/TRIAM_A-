@@ -13,12 +13,12 @@ export default function GermanTechnology() {
   ];
 
   const images = {
-    tab1: 'https://wheat-termite-712594.hostingersite.com/storage/media/LsNAs8sCE4kgGANm6MFcxqikeSmUcAVlY9YpppQg.png',
-    tab2: 'https://wheat-termite-712594.hostingersite.com/storage/media/bypyrIxVAU8w8mv8ymn0wEybAVvr7rGSr1KKfMBh.png',
-    tab3: 'https://wheat-termite-712594.hostingersite.com/storage/media/tKpy70npEIciTrjxH5kGb7M7Tf4BphjBSMrOjmsn.png',
-    tab4: 'https://wheat-termite-712594.hostingersite.com/storage/media/ubzBVIN0OWDAkiCmc1hlIez0QOI0US14OrpxLmIl.png',
-    tab5: 'https://wheat-termite-712594.hostingersite.com/storage/media/af3qI4Dlqkv3gxeNTKFzwTlo3DJDxVI0ACCbBwXX.png',
-    tab6: 'https://wheat-termite-712594.hostingersite.com/storage/media/T3Zg9h4l7uZQEv3XRqIJRc866vkEDcY544jpiI8x.png',
+    tab1: '/002_Rust and Corrosion Resistance Technology.png',
+    tab2: '/003_Manufactured for Excellence.png',
+    tab3: '/004_Fire Resistance Quality.png',
+    tab4: '/001_Acclaimed German Technology.png',
+    tab5: '/005_Scientific Rib Design.png',
+    tab6: '/006_Made From Quality Billets.png',
   };
 
   const descriptions = {

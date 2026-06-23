@@ -3,6 +3,26 @@ import { Link } from 'react-router-dom';
 import HeroSlider from '../components/HeroSlider';
 import GermanTechnology from '../components/GermanTechnology';
 import OnsiteAdviceForm from '../components/OnsiteAdviceForm';
+import LogoLoop from '../components/LogoLoop';
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * OUR PROJECTS — marquee images
+ *
+ * ➜ DROP YOUR IMAGES HERE:  src/assets/projects/
+ *    Name them exactly:     project-1.png ... project-10.png
+ *    (already wired below — replace the files to swap images, no code change)
+ *
+ * ➜ EDIT THE PROJECT NAMES in the `projects` array further down (the `name`
+ *    field). Order matches project-1 → project-10.
+ * ────────────────────────────────────────────────────────────────────────── */
+const projectImages = import.meta.glob('../assets/projects/project-*.png', {
+  eager: true,
+  import: 'default',
+});
+
+// Resolve glob into an ordered array: project-1 … project-10
+const getProjectImage = (n) =>
+  projectImages[`../assets/projects/project-${n}.png`];
 
 /* ── ReactBits-style TextType: types a long string character-by-character ── */
 function TextType({ text, typingSpeed = 70 }) {
@@ -154,28 +174,34 @@ export default function Home() {
     }
   ];
 
+  /* ➜ EDIT PROJECT NAMES HERE (order matches project-1.png … project-10.png) */
   const projects = [
-    {
-      name: 'Highway Connector',
-      text: 'Our rebars help distribute heavy loads evenly, making them the smart choice for high-traffic structures like bridges, flyovers, and highway connectors.',
-      image: '/highwayc.jpg'
-    },
-    {
-      name: 'Stadium',
-      text: 'Built for massive super-structures. With a minimum flexibility (elongation) of 17%, our bars offer extra safety for large-scale projects like stadiums and housing complexes.',
-      image: '/Stadium.jpg'
-    },
-    {
-      name: 'Power House',
-      text: 'Triam A+ Fe 550D delivers the consistent high strength needed for critical infrastructure like power plants and dams, where there is no room for error.',
-      image: '/powerhouse.jpg'
-    },
-    {
-      name: 'Highrise Building',
-      text: 'Triam A+ Fe 550D is designed for superior ductility as demanded by elevated heights. With a minimum 17% elongation, our rebars absorb seismic energy and wind pressure.',
-      image: '/highrisebuilding.jpg'
-    }
+    { name: 'Binoy Chowdhury Memorial Health & Research Institute',   image: getProjectImage(1)  },
+    { name: 'City Hospital',       image: getProjectImage(2)  },
+    { name: 'Krishnanagar Inst. of Medical Science', image: getProjectImage(3) },
+    { name: 'MANI IQ City Hospital',      image: getProjectImage(4)  },
+    { name: 'Jhargram Medical College & Hospital',         image: getProjectImage(5)  },
+    { name: 'Ganguly Evera',  image: getProjectImage(6)  },
+    { name: 'Eden Solaris, Shalimar',       image: getProjectImage(7)  },
+    { name: 'Sri Ramkrishna Institute of Medical College & Sanaka Hospital',     image: getProjectImage(8)  },
+    { name: 'Mani Anantmani, Kakurgachi',     image: getProjectImage(9)  },
+    { name: 'Sugam Morya',         image: getProjectImage(10) },
   ];
+
+  /* Build the marquee logo nodes — each is an image card with a hover-reveal name */
+  const projectLogos = projects.map((proj) => ({
+    title: proj.name,
+    ariaLabel: proj.name,
+    node: (
+      <figure className="proj-card">
+        <img className="proj-card__img" src={proj.image} alt={proj.name} loading="lazy" />
+        <figcaption className="proj-card__overlay">
+          <span className="proj-card__tag">View</span>
+          <span className="proj-card__name">{proj.name}</span>
+        </figcaption>
+      </figure>
+    ),
+  }));
 
   const clientLogos = [
     '/mani.png',
@@ -542,35 +568,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Projects Showcase ── */}
-      <section style={{ padding: '90px 0', backgroundColor: 'var(--c-smoke)' }}>
+      {/* ── Projects Showcase — infinite marquee (LogoLoop) ── */}
+      <section className="proj-section">
         <div className="container">
-          <div className="text-center mb-5">
+          <div className="text-center proj-section__head">
             <div className="tmt-eyebrow" style={{ justifyContent: 'center' }}>Our Projects</div>
-            <h2 className="section-title">Built with Triam A+</h2>
-            <p style={{ fontSize: '15px', color: 'var(--c-muted)', maxWidth: '520px', margin: '12px auto 0' }}>
+            <h2 className="section-title proj-section__title">Built with Triam A+</h2>
+            <p className="proj-section__subtitle">
               <strong>Homes, hospitals, warehouses, dams, high-rises — every one gets the same A+ grade.</strong>
             </p>
           </div>
-          <div className="row g-4">
-            {projects.map((proj, idx) => (
-              <div key={idx} className="col-lg-3 col-md-6">
-                <div className="tmt-project-card">
-                  <img
-                    src={`https://wheat-termite-712594.hostingersite.com${proj.image}`}
-                    alt={proj.name}
-                    onError={e => { e.target.src = proj.image; }}
-                  />
-                  <div className="tmt-project-overlay" />
-                  <div className="tmt-project-content">
-                    <span className="tmt-project-tag">Structure</span>
-                    <div className="tmt-project-name">{proj.name}</div>
-                    <p className="tmt-project-text">{proj.text}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        </div>
+
+        {/* Full-bleed marquee — only this strip scrolls, never the page */}
+        <div className="proj-marquee">
+          <LogoLoop
+            logos={projectLogos}
+            speed={60}
+            direction="left"
+            logoHeight={220}
+            gap={40}
+            pauseOnHover={true}
+            fadeOut={true}
+            fadeOutColor="#15294D"
+            scaleOnHover={false}
+            ariaLabel="TRIAM A+ Projects"
+          />
         </div>
       </section>
 
