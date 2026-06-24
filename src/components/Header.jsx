@@ -61,7 +61,7 @@ export default function Header() {
           <div className="tmt-main-header-inner">
             {/* Logo */}
             <Link className="tmt-logo" to="/">
-              <img src="/public/2 (1).png" alt="Triam TMT" />
+              <img src="/2 (1).png" alt="Triam TMT" />
             </Link>
 
             {/* Desktop Nav */}
@@ -135,7 +135,7 @@ export default function Header() {
 
         <div className="tmt-sidebar-logo">
           <Link to="/" onClick={() => setSidebarOpen(false)}>
-            <img src="/public/2 (1).png" alt="Triam TMT" />
+            <img src="/2 (1).png" alt="Triam TMT" />
           </Link>
         </div>
 
