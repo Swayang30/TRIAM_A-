@@ -156,7 +156,7 @@ export default function About() {
 
             <div className="about-mill-content">
               <div className="tmt-eyebrow">Manufacturing</div>
-              <h2 className="section-title" style={{ marginBottom: 0 }}>Block Mill<br />Technology</h2>
+              <h2 className="section-title" style={{ marginBottom: 0 }}>THE Block Mill<br />Advantage</h2>
               <div className="about-group-rule" />
               <p className="about-group-text" style={{ color: '#000000' }}>
                 Block Mill - TMT (Thermo-Mechanically Treated) is a high-speed, compact finishing unit designed for precision rolling, particularly for small-diameter bars (8mm–16mm). Our Block Mill typically has a no-twist, 45° configuration with 6 stands, enabling high-speed production while maintaining tight dimensional tolerances, excellent surface quality, and uniform mechanical properties.

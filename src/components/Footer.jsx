@@ -42,7 +42,7 @@ export default function Footer() {
             <div className="col-lg-4 col-md-6">
               <div className="tmt-footer-logo">
                 <img
-                  src="/triam2.png"
+                  src="/2 (1).png"
                   alt="Triam TMT"
                 />
               </div>
